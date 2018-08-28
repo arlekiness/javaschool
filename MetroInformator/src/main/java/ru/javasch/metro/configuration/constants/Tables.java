@@ -1,4 +1,5 @@
 package ru.javasch.metro.configuration.constants;
 
-public class Tables {
+public final class Tables {
+    public static final String STATION_TABLE = "station";
 }
