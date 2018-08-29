@@ -4,6 +4,8 @@ package ru.javasch.metro.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javasch.metro.configuration.constants.URLS;
 import ru.javasch.metro.configuration.constants.Views;
@@ -18,7 +20,7 @@ public class ViewController {
     @Autowired
     StationService service;
 
-    @RequestMapping(value = URLS.INITIAL_PAGE)
+    @RequestMapping(value =URLS.INITIAL_PAGE)
     public String login() {
         return Views.WELCOME;
     }
@@ -34,4 +36,6 @@ public class ViewController {
         model.addAttribute("station", station);
         return "stations";
     }
+
+
 }

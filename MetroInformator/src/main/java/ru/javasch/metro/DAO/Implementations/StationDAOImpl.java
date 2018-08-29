@@ -21,4 +21,5 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
 }

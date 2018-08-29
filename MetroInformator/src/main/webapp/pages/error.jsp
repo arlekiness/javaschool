@@ -26,7 +26,7 @@ background-size: cover">
 <button style="display: block;
   margin-left: 3%;"
         class="btn btn-outline-light text-light"
-        onclick="location.href='http://localhost:8000/home'">Back
+        onclick="location.href='http://localhost:8080/home'">Back
 </button>
 </body>
 </html>

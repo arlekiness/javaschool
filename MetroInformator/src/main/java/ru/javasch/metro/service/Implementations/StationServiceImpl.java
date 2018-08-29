@@ -20,4 +20,18 @@ public class StationServiceImpl implements StationService {
     public List<Station> getAllStations() {
         return stationDAO.getAll();
     }
+
+    @Override
+    @Transactional
+    public void add(Station station) {
+        stationDAO.add(station);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String name) {
+        System.out.println("Here " + name);
+        Station station = stationDAO.findByName(name);
+        stationDAO.delete(station);
+    }
 }

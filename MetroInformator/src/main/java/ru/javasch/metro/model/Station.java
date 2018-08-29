@@ -5,24 +5,43 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.javasch.metro.configuration.constants.Tables;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+
 @Entity
-@Table(name = Tables.STATION_TABLE)
+@Table(name = "stations")
 public class Station {
+    private Long id;
+    private String name;
+    private String color;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Column(name = "name")
-    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Column(name = "color")
-    private String color;
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+
 }

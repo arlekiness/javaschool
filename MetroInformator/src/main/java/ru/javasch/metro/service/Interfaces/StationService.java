@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface StationService {
     List<Station> getAllStations();
+    public void add(Station station);
+    public void delete(String name);
 }
