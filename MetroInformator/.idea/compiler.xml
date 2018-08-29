@@ -9,8 +9,5 @@
         <module name="MetroInformator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="MetroInformator" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
