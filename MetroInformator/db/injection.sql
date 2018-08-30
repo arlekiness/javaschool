@@ -28,8 +28,8 @@ INSERT INTO testbase.roles (id, type) VALUES (1, 'ADMIN');
 INSERT INTO testbase.roles (id, type) VALUES (2, 'MANAGER');
 INSERT INTO testbase.roles (id, type) VALUES (3, 'USER');
 
-INSERT INTO testbase.users (id, firstName, lastName, login, password, birthDay, sex) VALUES (1, 'Alexey', 'Bystrov', 'volpert13@gmail.com', 'mementomori', '1990-12-18', 'male');
-INSERT INTO testbase.users (id, firstName, lastName, login, password, birthDay, sex) VALUES (2, 'Irina', 'Pozhidaeva', 'cat163@yandex.ru', 'kozlina', '1990-03-127', 'female');
+INSERT INTO testbase.users (id, firstName, lastName, login, password, birthDay, sex) VALUES (1, 'Alexey', 'Bystrov', 'volpert13@gmail.com', '$2a$04$bmOSGNvNnOANFWcBOQnRwO7OcQyQsbR4FhGjjisDI0FWGZ2xG5iGa', '1990-12-18', 'male');
+INSERT INTO testbase.users (id, firstName, lastName, login, password, birthDay, sex) VALUES (2, 'Irina', 'Pozhidaeva', 'cat163@yandex.ru', '$2a$04$bmOSGNvNnOANFWcBOQnRwO7OcQyQsbR4FhGjjisDI0FWGZ2xG5iGa', '1990-03-127', 'female');
 
 INSERT INTO testbase.user_roles (user_id, role_id) VALUES (1, 1);
 INSERT INTO testbase.user_roles (user_id, role_id) VALUES (2, 3);

@@ -2,6 +2,7 @@ package ru.javasch.metro.service.Interfaces;
 
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.DTO.UserDTO;
+import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.model.User;
 
 import javax.mail.MessagingException;
@@ -26,7 +27,7 @@ public interface UserService {
 
     void update(User user);
 
-    void updateProfile(UserDTO userDTO);
+    void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException;
 
-    void registration(UserDTO userDTO);
+    void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException;
 }

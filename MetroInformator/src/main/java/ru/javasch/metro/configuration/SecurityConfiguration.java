@@ -18,6 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.javasch.metro.service.Implementations.UserDetailServiceImpl;
 
 import java.util.Collections;
 
@@ -72,21 +73,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(URLs.REGISTRATION,
-                        URLs.LOGIN,
+                .antMatchers("/registration",
+                        "/login",
                         "/static/**",
-                        "/",
-                        URLs.GET_SCHEDULES_FOR_BOARD,
-                        URLs.STATIONS_FOR_BOARD,
-                        URLs.GET_BY_ID_FOR_BOARD)
+                        "/"
+                        )
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage(URLs.LOGIN)
+                .loginPage("/login")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl(URLs.WELCOME)
+                .defaultSuccessUrl("/welcome")
                 .failureUrl("/login?error=true")
                 .and()
                 .cors()

@@ -1,13 +1,17 @@
 package ru.javasch.metro.service.Implementations;
 
-import lombok.extern.log4j.Log4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.DAO.Interfaces.UserDAO;
 import ru.javasch.metro.DTO.UserDTO;
+import ru.javasch.metro.exception.BusinessLogicException;
+import ru.javasch.metro.exception.ErrorCode;
+import ru.javasch.metro.model.Role;
 import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.Interfaces.RoleService;
 import ru.javasch.metro.service.Interfaces.UserService;
@@ -16,6 +20,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -86,7 +91,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException {
         User user = findAuthenticatedUser();
-        Date birthDay = Utils.parseToDate(userDTO.getBirthDay());
+        Date birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(userDTO.getBirthDay());
 
         if (!birthDay.before(new Date()))
             throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
@@ -118,10 +123,8 @@ public class UserServiceImpl implements UserService {
         user.setLogin(userDTO.getLogin());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setPassword(Utils.encodePassword(userDTO.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
         user.setRoles(roleSet);
-        Message message = Message.createWelcomeMessage(userDTO.getLogin());
-        mailService.sendMimeMessage(message);
         add(user);
     }
 }
