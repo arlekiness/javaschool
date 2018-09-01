@@ -41,11 +41,18 @@ public class Station {
 
     @NotNull
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "station_branch", joinColumns = {
+    @JoinTable(name = "station_branches", joinColumns = {
             @JoinColumn(name = "station_id")},
             inverseJoinColumns = {
                     @JoinColumn(name = "branch_id")
             })
     public Set<Branch> getBranches() { return branches; }
     public void setBranches(Set<Branch> branch) { this.branches = branches; }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

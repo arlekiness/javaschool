@@ -15,6 +15,18 @@ Welcome to hell
     <sec:authorize access="hasRole('ROLE_ADMIN')">
         Adminishka
     </sec:authorize> </br>
-<p class="message">Not registered? <a href="/logout">Log Out</a></p>
+    <a href="/logout">Log Out</a></p>
+
+    <form action="/stationList" method="GET">
+        <select name="stationSelect">
+            <option value="Technologicheskii institut">Technologicheskii institut</option>
+            <option value="Baltiiskaya">Baltiiskaya</option>
+            <option value="Frunzenskaya">Frunzenskaya</option>
+            <option value="Sennaya ploschad">Sennaya ploschad</option>
+            <option value="Pushkinskaya">Pushkinskaya</option>
+        </select>
+        <input type="submit" value="Search" />
+    </form>
+
 </body>
 </html>

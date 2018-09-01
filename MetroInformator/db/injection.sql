@@ -23,8 +23,8 @@ INSERT INTO testbase.station_branches(station_id, branch_id, station_on_branch_i
 INSERT INTO testbase.station_branches(station_id, branch_id, station_on_branch_id) values (5, 1, 1);
 
 
-INSERT INTO testbase.trains (id, name, status_id) VALUES (1, 'T1000', 1);
-INSERT INTO testbase.trains (id, name, status_id) VALUES (2, 'T666', 1);
+INSERT INTO testbase.trains (id, trainName, status_id) VALUES (1, 'T1000', 1);
+INSERT INTO testbase.trains (id, trainName, status_id) VALUES (2, 'T666', 1);
 
 INSERT INTO testbase.seats (id, seat, train_id) VALUES (1, 1, 1);
 INSERT INTO testbase.seats (id, seat, train_id) VALUES (2, 2, 1);

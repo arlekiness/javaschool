@@ -60,4 +60,15 @@ public class Schedule {
     @OneToOne
     public Station getEndPointStation() { return endPointStation; }
     public void setEndPointStation(Station endPointStation) { this.endPointStation = endPointStation; }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "dateDeparture=" + dateDeparture +
+                ", dateArrival=" + dateArrival +
+                ", train=" + train +
+                ", station=" + station +
+                ", endPointStation=" + endPointStation +
+                '}';
+    }
 }

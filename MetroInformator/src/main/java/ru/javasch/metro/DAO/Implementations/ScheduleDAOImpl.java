@@ -2,6 +2,7 @@ package ru.javasch.metro.DAO.Implementations;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.ScheduleDAO;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
@@ -9,6 +10,7 @@ import ru.javasch.metro.model.Station;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> implements ScheduleDAO<E> {
     @Autowired
     private SessionFactory sessionFactory;

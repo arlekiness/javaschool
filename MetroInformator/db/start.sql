@@ -66,7 +66,7 @@ create table trains
 (
 	id int auto_increment
 		primary key,
-	name varchar(100) null,
+	trainName varchar(100) null,
   status_id int null,
 	constraint train_id_uindex
 		unique (id),
