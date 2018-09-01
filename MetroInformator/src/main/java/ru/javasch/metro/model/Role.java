@@ -3,7 +3,7 @@ package ru.javasch.metro.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="roles")
+@Table(name="role")
 public class Role {
     private Long id;
     private String type;

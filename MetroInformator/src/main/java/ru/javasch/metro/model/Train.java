@@ -9,6 +9,8 @@ public class Train {
     private Long id;
     private String trainName;
     private Set<Seat> seats;
+    private Status status;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,4 +37,8 @@ public class Train {
     public void setSeats(Set<Seat> seats) {
         this.seats = seats;
     }
+
+    @OneToOne
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }

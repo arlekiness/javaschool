@@ -17,22 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class SecureService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    public UsernamePasswordAuthenticationToken authenticate(UserDTO userDTO) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getLogin());
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDTO.getPassword(), userDetails.getAuthorities());
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-        return usernamePasswordAuthenticationToken;
-    }
-
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }

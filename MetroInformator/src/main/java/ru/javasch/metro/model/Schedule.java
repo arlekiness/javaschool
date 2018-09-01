@@ -11,6 +11,7 @@ public class Schedule {
     private Date dateArrival;
     private Train train;
     private Station station;
+    private Station endPointStation;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,4 +56,8 @@ public class Schedule {
     public void setStation(Station station) {
         this.station = station;
     }
+
+    @OneToOne
+    public Station getEndPointStation() { return endPointStation; }
+    public void setEndPointStation(Station endPointStation) { this.endPointStation = endPointStation; }
 }

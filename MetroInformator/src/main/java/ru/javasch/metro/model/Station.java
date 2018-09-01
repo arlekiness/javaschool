@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -16,7 +17,8 @@ import java.util.Objects;
 public class Station {
     private Long id;
     private String name;
-    private String color;
+    private Set<Branch> branches;
+    private Status status;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,12 +38,20 @@ public class Station {
         this.name = name;
     }
 
-    @Column(name = "color")
-    public String getColor() {
-        return color;
-    }
-    public void setColor(String color) {
-        this.color = color;
-    }
 
+    @OneToOne
+    @NotNull
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
+
+
+    @NotNull
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "station_branch", joinColumns = {
+            @JoinColumn(name = "station_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "branch_id")
+            })
+    public Set<Branch> getBranches() { return branches; }
+    public void setBranches(Set<Branch> branch) { this.branches = branches; }
 }

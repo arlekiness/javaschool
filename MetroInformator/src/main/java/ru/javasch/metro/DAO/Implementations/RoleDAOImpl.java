@@ -15,7 +15,7 @@ public class RoleDAOImpl implements RoleDAO {
     public Role getRole() {
         return (Role) sessionFactory.getCurrentSession()
                 .createQuery("FROM Role where type = :ROLE")
-                .setParameter("ROLE", "USER")
+                .setParameter("ROLE", "ROLE_USER")
                 .uniqueResult();
     }
 }

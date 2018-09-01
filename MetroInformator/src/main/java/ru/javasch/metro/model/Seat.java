@@ -27,7 +27,7 @@ public class Seat {
         this.seat = seat;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "train_id", nullable = false)
     public Train getTrain() {
         return train;

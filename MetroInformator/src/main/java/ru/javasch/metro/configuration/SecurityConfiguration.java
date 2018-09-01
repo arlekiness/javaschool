@@ -18,24 +18,25 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.javasch.metro.service.Implementations.UserDetailServiceImpl;
+import ru.javasch.metro.service.Implementations.UserDetailsServiceImpl;
+
 
 import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@ComponentScan(basePackageClasses = UserDetailServiceImpl.class)
+@ComponentScan(basePackageClasses = UserDetailsServiceImpl.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
+                .userDetailsService(userDetailService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
@@ -85,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/welcome")
+                .defaultSuccessUrl("/home")
                 .failureUrl("/login?error=true")
                 .and()
                 .cors()

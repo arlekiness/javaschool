@@ -12,11 +12,7 @@ public class User {
     private String lastName;
     private String login;
     private String password;
-    private String birthDay;
-    private String sex;
     private Set<Role> roles;
-    @Transient
-    private String confirmPassword;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,29 +55,6 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    @Column(name = "birthDay")
-    public String getBirthDay() {
-        return birthDay;
-    }
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    @Column(name = "sex")
-    public String getSex() {
-        return sex;
-    }
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     @NotNull

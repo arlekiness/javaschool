@@ -27,7 +27,7 @@ public interface UserService {
 
     void update(User user);
 
-    void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException;
+//    void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException;
 
-    void registration(UserDTO userDTO) throws IOException, BusinessLogicException, MessagingException;
+    void registration(String firstName, String lastName, String login, String password) throws IOException, BusinessLogicException, MessagingException;
 }

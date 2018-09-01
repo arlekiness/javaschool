@@ -24,38 +24,6 @@ public class ViewController {
     @Autowired
     StationService service;
 
-    @RequestMapping(value ="/")
-    public String welcome() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/home")
-    public String home() {
-        return "home";
-    }
-
-    @RequestMapping(value = "/login")
-    public String login() { return "login"; }
-
-    @GetMapping("/registration")
-    public String registration(Model model) {
-        UserDTO userDto = new UserDTO();
-        model.addAttribute("user", userDto);
-        return "registration";
-    }
-
-    @RequestMapping(value = URLS.STATION_PAGE)
-    public String listStations(ModelMap model) {
-        List<Station> station = service.getAllStations();
-        model.addAttribute("station", station);
-        return "stations";
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/usermap")
-    public String showUsersMap() {
-        return "usermap";
-    }
 
 
 }

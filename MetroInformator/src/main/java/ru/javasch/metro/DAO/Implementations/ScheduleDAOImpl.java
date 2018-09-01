@@ -14,29 +14,13 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
     private SessionFactory sessionFactory;
 
     @Override
-    public List getByDate(Date date) {
+    public List getByStation(Station station) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
-                        "where date(dateArrival) = :date " +
-                        "order by dateArrival desc ")
-                .setParameter("date", date)
+                        "where station = :station " +
+                        "order by dateArrival asc ")
+                .setParameter("station", station)
                 .getResultList();
     }
 
-    @Override
-    public List getByStation(Station station) {
-        return null;
-    }
-
-    @Override
-    public List getByStationAndDate(Schedule schedule) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Schedule where " +
-                        "station = :station and "  +
-                        "date(dateArrival) = :date " +
-                        "order by dateDeparture desc ")
-                .setParameter("stationArrival", schedule.getDateArrival())
-                .setParameter("date", schedule.getDateDeparture())
-                .getResultList();
-    }
 }

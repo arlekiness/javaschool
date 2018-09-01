@@ -15,22 +15,21 @@ public class UserDAOImpl<E extends User> extends GenericDAOImpl<E> implements Us
     @Override
     public void updateProfile(User user) {
         sessionFactory.getCurrentSession().createQuery("UPDATE User SET " +
-                "firstName = :firstName, lastName = :lastName, login = :login, birthDay = :birthday, sex = :sex where id =: id")
+                "firstName = :firstName, lastName = :lastName, login = :login, where id =: id")
                 .setParameter("firstName", user.getFirstName())
                 .setParameter("lastName", user.getLastName())
                 .setParameter("login", user.getLogin())
-                .setParameter("birthday", user.getBirthDay())
-                .setParameter("sex", user.getSex())
                 .setParameter("id", user.getId())
                 .executeUpdate();
     }
 
     @Override
     public User findUserByEmail(String login) {
-        return (User) sessionFactory.getCurrentSession()
+        User user = (User) sessionFactory.getCurrentSession()
                 .createQuery("FROM User u where login = :login")
                 .setParameter("login", login)
                 .uniqueResult();
+        return user;
     }
 
 }
