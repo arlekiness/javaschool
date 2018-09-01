@@ -30,7 +30,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findUserByEmail(username);
-        System.out.println("loadUserByUsername");
         if (user != null) {
             Collection<GrantedAuthority> authorities = user.getRoles()
                     .stream()

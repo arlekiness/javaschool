@@ -41,9 +41,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SecureService secureService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @Override
     @Transactional
     public void add(User user) {
@@ -64,17 +61,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO findAuthenticatedUserDTO() {
-        System.out.println("findAuthenticatedUserDTO");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userDAO.findUserByEmail(userName);
-        System.out.println(user);
-        return modelMapper.map(user, UserDTO.class);
-    }
-
-    @Override
-    @Transactional
     public User findAuthenticatedUser() {
         String login = secureService.getAuthentication().getName();
         return userDAO.findUserByEmail(login);
@@ -91,26 +77,6 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         userDAO.update(user);
     }
-
-//    @Override
-//    @Transactional
-//    public void updateProfile(UserDTO userDTO) throws ParseException, BusinessLogicException {
-//        User user = findAuthenticatedUser();
-//        Date birthDay = Utils.parseToDate(userDTO.getBirthDay());
-//
-//        if (!birthDay.before(new Date()))
-//            throw new BusinessLogicException(ErrorCode.WRONG_BIRTHDAY.getMessage());
-//
-//        if (findUserByEmail(userDTO.getLogin()) != null && !findUserByEmail(userDTO.getLogin()).getLogin().equals(user.getLogin()))
-//            throw new BusinessLogicException(ErrorCode.WRONG_LOGIN.getMessage());
-//
-//        user.setFirstName(userDTO.getFirstName());
-//        user.setLastName(userDTO.getLastName());
-//        user.setLogin(userDTO.getLogin());
-//        user.setBirthDay(userDTO.getBirthDay());
-//        user.setSex(userDTO.getSex());
-//        userDAO.updateProfile(user);
-//    }
 
     @Override
     @Transactional

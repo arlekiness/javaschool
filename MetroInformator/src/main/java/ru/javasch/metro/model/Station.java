@@ -1,14 +1,8 @@
 package ru.javasch.metro.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import ru.javasch.metro.configuration.constants.Tables;
-
 import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.Set;
 
 

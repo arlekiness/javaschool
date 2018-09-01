@@ -7,9 +7,6 @@ import ru.javasch.metro.service.Interfaces.StationService;
 
 @Controller
 public class ScheduleController {
-    @Autowired
-    ScheduleService scheduleService;
-
 
 
 }
