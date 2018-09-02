@@ -3,11 +3,12 @@ package ru.javasch.metro.model;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Set;
 
 
 @Entity
-@Table(name = "stations")
+@Table(name = "station")
 public class Station {
     private Long id;
     private String name;
@@ -41,7 +42,7 @@ public class Station {
 
     @NotNull
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "station_branches", joinColumns = {
+    @JoinTable(name = "station_branch", joinColumns = {
             @JoinColumn(name = "station_id")},
             inverseJoinColumns = {
                     @JoinColumn(name = "branch_id")
@@ -54,5 +55,18 @@ public class Station {
         return "Station{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Station station = (Station) o;
+        return Objects.equals(id, station.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, branches, status);
     }
 }

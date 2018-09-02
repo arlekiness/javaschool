@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="branches")
+@Table(name="branch")
 public class Branch {
     private long id;
     private String branchColor;

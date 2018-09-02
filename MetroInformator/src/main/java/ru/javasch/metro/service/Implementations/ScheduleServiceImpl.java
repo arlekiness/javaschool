@@ -26,7 +26,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleDTO> getAllTrainsOnStation (String stationName) {
         Station station = stationDAO.findByName(stationName);
         List<Schedule> schedule = scheduleDAO.getByStation(station);
-        System.out.println(schedule.size());
         List<ScheduleDTO> scheduleList = new ArrayList<>();
         for (Schedule sch : schedule) {
             ScheduleDTO schDTO = new ScheduleDTO();
@@ -37,7 +36,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             schDTO.setTrainName(sch.getTrain().getTrainName());
             scheduleList.add(schDTO);
         }
-        System.out.println(scheduleList.size());
         return scheduleList;
     }
 }

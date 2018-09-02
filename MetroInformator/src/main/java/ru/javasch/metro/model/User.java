@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 public class User {
     private Long id;
     private String firstName;
@@ -59,7 +59,7 @@ public class User {
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = {
+    @JoinTable(name = "user_role", joinColumns = {
             @JoinColumn(name = "user_id")},
             inverseJoinColumns = {
                     @JoinColumn(name = "role_id")

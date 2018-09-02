@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="trains")
+@Table(name="train")
 public class Train {
     private Long id;
     private String trainName;
-    private Set<Seat> seats;
+    private Integer capacity;
     private Status status;
 
 
@@ -30,17 +30,13 @@ public class Train {
         this.trainName = trainName;
     }
 
-    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL)
-    public Set<Seat> getSeats() {
-        return seats;
-    }
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
-    }
-
     @OneToOne
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+
+    @Column(name = "capacity")
+    public Integer getCapacity() { return capacity; }
+    public void setCapacity(Integer capacity) { this.capacity = capacity; }
 
     @Override
     public String toString() {

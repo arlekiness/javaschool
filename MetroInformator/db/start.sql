@@ -10,7 +10,7 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table branches
+create table branch
 (
 	id int auto_increment
 		primary key,
@@ -34,7 +34,7 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table users
+create table user
 (
 	id int auto_increment
 		primary key,
@@ -49,7 +49,7 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table stations
+create table station
 (
 	id int auto_increment
 		primary key,
@@ -62,11 +62,12 @@ create table stations
 );
 -- =====================================
 -- =====================================
-create table trains
+create table train
 (
 	id int auto_increment
 		primary key,
 	trainName varchar(100) null,
+	capacity int not null,
   status_id int null,
 	constraint train_id_uindex
 		unique (id),
@@ -75,19 +76,7 @@ create table trains
 );
 -- =====================================
 -- =====================================
-create table seats
-(
-	id int auto_increment
-		primary key,
-	seat int null,
-	train_id int null,
-	constraint seat_id_uindex
-		unique (id),
-	constraint seat_train_id_fk
-		foreign key (train_id) references trains (id)
-)
-engine=InnoDB
-;
+
 -- =====================================
 -- =====================================
 create table schedule
@@ -102,28 +91,22 @@ create table schedule
 	constraint schedule_id_uindex
 		unique (id),
 	constraint schedule_station_id_fk
-		foreign key (station_id) references stations (id),
+		foreign key (station_id) references station(id),
 	constraint schedule_train_id_fk
-		foreign key (train_id) references trains (id),
+		foreign key (train_id) references train(id),
 	constraint schedule_endPointStation_id_fk
-		foreign key (endPointStation_id) references stations (id)
+		foreign key (endPointStation_id) references station(id)
 )
 engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-
--- =====================================
--- =====================================
-
--- =====================================
--- =====================================
-create table user_roles
+create table user_role
 (
   user_id int null,
   role_id int null,
   constraint user_role_id_fk
-		foreign key (user_id) references users (id),
+		foreign key (user_id) references user(id),
 	constraint role_role_id_fk
 		foreign key (role_id) references role (id)
 )
@@ -131,16 +114,44 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table station_branches
+create table station_branch
 (
   station_id int null,
   branch_id int null,
-  station_on_branch_id int null,
+  station_on_branch_id int not null,
   constraint station_station_id_fk
-		foreign key (station_id) references stations (id),
+		foreign key (station_id) references station(id),
 	constraint branch_station_id_fk
-		foreign key (branch_id) references branches (id)
+		foreign key (branch_id) references branch(id)
 )
 engine=InnoDB
 ;
-
+--
+-- =====================================
+-- =====================================
+create table ticket
+(
+	id int auto_increment
+		primary key,
+	user_id int not null,
+	train_id int not null,
+	stationBegin_id int not null,
+	stationEnd_id int not null,
+	ticketDate timestamp null,
+	price int null,
+	branch_id int not null,
+	constraint ticket_id_uindex
+		unique (id),
+	constraint ticket_train_id_fk
+		foreign key (train_id) references train(id),
+	constraint ticket_user_id_fk
+		foreign key (user_id) references user(id),
+	constraint station_begin_fk
+		foreign key (stationBegin_id) references station(id),
+  constraint station_end_id_fk
+		foreign key (stationEnd_id) references station(id),
+	constraint ticket_branch_id_fk
+		foreign key (branch_id) references branch(id)
+)
+engine=InnoDB
+;
