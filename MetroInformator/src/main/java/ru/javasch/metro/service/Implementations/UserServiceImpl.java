@@ -68,6 +68,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public String getUserId() {
+        String login = secureService.getAuthentication().getName();
+        User user = userDAO.findUserByEmail(login);
+        return user.getId().toString();
+    }
+
+    @Override
+    @Transactional
     public User findUserByEmail(String email) {
         return userDAO.findUserByEmail(email);
     }

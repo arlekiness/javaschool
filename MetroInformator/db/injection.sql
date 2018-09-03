@@ -9,18 +9,15 @@ INSERT INTO testbase.role (id, type) VALUES (3, 'ROLE_USER');
 INSERT INTO testbase.branch (id, branchColor) VALUES (1, 'RED');
 INSERT INTO testbase.branch (id, branchColor) VALUES (2, 'BLUE');
 
-INSERT INTO testbase.station (id, name, status_id) VALUES (1, 'Sennaya ploschad', 1);
-INSERT INTO testbase.station (id, name, status_id) VALUES (2, 'Technologicheskii institut', 1);
-INSERT INTO testbase.station (id, name, status_id) VALUES (3, 'Frunzenskaya', 1);
-INSERT INTO testbase.station (id, name, status_id) VALUES (4, 'Pushkinskaya', 1);
-INSERT INTO testbase.station (id, name, status_id) VALUES (5, 'Baltiiskaya', 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (1, 'Sennaya ploschad', 2, 1, 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (2, 'Technologicheskii institut - 2', 2, 2, 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (3, 'Frunzenskaya', 2, 3, 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (4, 'Pushkinskaya', 1, 1, 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (5, 'Technologicheskii institut - 1', 1, 2, 1);
+INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (6, 'Baltiiskaya', 1, 3, 1);
 
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (1, 2, 1);
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (2, 2, 2);
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (3, 2, 3);
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (4, 1, 1);
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (2, 1, 2);
-INSERT INTO testbase.station_branch(station_id, branch_id, station_on_branch_id) values (5, 1, 3);
+INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (2, 5);
+INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (5, 2);
 
 
 INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T1000', 4, 1);
@@ -30,9 +27,12 @@ INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (2, 'T666
   INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (1, '2018-07-20 06:45:00', '2018-07-20 06:50:00' , 1, 1, 3);
 INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (2, '2018-07-20 07:50:00', '2018-07-20 07:55:00' , 2, 1, 3);
 INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (3, '2018-07-20 08:55:00', '2018-07-20 09:00:00' , 3, 1, 3);
-  INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (4, '2018-07-20 06:45:00', '2018-07-20 06:50:00' , 4, 2, 5);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (5, '2018-07-20 07:50:00', '2018-07-20 07:55:00' , 2, 2, 5);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (6, '2018-07-20 08:55:00', '2018-07-20 09:00:00' , 5, 2, 5);
+  INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (4, '2018-07-20 06:45:00', '2018-07-20 06:50:00' , 3, 1, 1);
+INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (5, '2018-07-20 07:50:00', '2018-07-20 07:55:00' , 2, 1, 1);
+INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (6, '2018-07-20 08:55:00', '2018-07-20 09:00:00' , 1, 1, 1);
+  INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (7, '2018-07-20 06:45:00', '2018-07-20 06:50:00' , 4, 2, 5);
+INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (8, '2018-07-20 07:50:00', '2018-07-20 07:55:00' , 5, 2, 5);
+INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (9, '2018-07-20 08:55:00', '2018-07-20 09:00:00' , 6, 2, 5);
 
 
 

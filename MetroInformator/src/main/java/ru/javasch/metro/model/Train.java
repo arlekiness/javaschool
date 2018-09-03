@@ -1,6 +1,7 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -43,5 +44,21 @@ public class Train {
         return "Train{" +
                 "trainName='" + trainName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Train train = (Train) o;
+        return Objects.equals(id, train.id) &&
+                Objects.equals(trainName, train.trainName) &&
+                Objects.equals(capacity, train.capacity) &&
+                Objects.equals(status, train.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, trainName, capacity, status);
     }
 }

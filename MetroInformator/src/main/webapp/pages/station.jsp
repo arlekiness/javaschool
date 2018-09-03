@@ -19,9 +19,11 @@
             <th>Path</th>
         </tr>
             <c:forEach items="${scheduleList}" var="list">
-            <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td></tr>
+            <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td>
+                <td><a href="/buyTicket/${list.getStation()}/${list.dateDeparture}/${list.trainName}/${list.endPointStationName}/${login}">Buy Ticket</a></p></td>></tr>
             </c:forEach>
     </table><br/>
+
     <a href="/home">Back</a></p>
 </body>
 </html>

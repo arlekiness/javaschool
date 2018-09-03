@@ -50,4 +50,6 @@ public class Ticket {
     @OneToOne
     public Branch getBranch() { return branch; }
     public void setBranch(Branch branch) { this.branch = branch; }
+
+
 }

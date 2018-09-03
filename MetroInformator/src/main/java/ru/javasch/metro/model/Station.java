@@ -12,8 +12,10 @@ import java.util.Set;
 public class Station {
     private Long id;
     private String name;
-    private Set<Branch> branches;
     private Status status;
+    private Branch branch;
+    private Integer numberOnBranch;
+    private Set<Station> transitions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,16 +41,22 @@ public class Station {
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
 
+    @OneToOne
+    public Branch getBranch() { return branch; }
+    public void setBranch(Branch branch) { this.branch = branch; }
 
-    @NotNull
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "station_branch", joinColumns = {
-            @JoinColumn(name = "station_id")},
+    @Column(name = "numberOnBranch")
+    public Integer getNumberOnBranch() { return numberOnBranch; }
+    public void setNumberOnBranch(Integer numberOnBranch) { this.numberOnBranch = numberOnBranch; }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "transition_station", joinColumns = {
+            @JoinColumn(name = "station_id_from")},
             inverseJoinColumns = {
-                    @JoinColumn(name = "branch_id")
+                    @JoinColumn(name = "station_id_to")
             })
-    public Set<Branch> getBranches() { return branches; }
-    public void setBranches(Set<Branch> branch) { this.branches = branches; }
+    public Set<Station> getTransitions() { return transitions; }
+    public void setTransitions(Set<Station> transitions) { this.transitions = transitions; }
 
     @Override
     public String toString() {
@@ -67,6 +75,6 @@ public class Station {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, branches, status);
+        return Objects.hash(id);
     }
 }

@@ -27,4 +27,6 @@ public interface UserService {
 
 
     void registration(String firstName, String lastName, String login, String password) throws IOException, BusinessLogicException, MessagingException;
+
+    String getUserId();
 }

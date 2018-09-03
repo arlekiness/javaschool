@@ -8,6 +8,7 @@ import ru.javasch.metro.service.Interfaces.StationService;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StationServiceImpl implements StationService {
@@ -33,5 +34,20 @@ public class StationServiceImpl implements StationService {
         System.out.println("Here " + name);
         Station station = stationDAO.findByName(name);
         stationDAO.delete(station);
+    }
+    @Override
+    @Transactional
+    public Set<Station> getAllTransitionalByName(String name) {
+        Set<Station> sst = stationDAO.findByName(name).getTransitions();
+        return sst;
+    }
+
+    @Override
+    @Transactional
+    public List<Station> getAllStationsBeetweenTwoPoints(String beginName, String endName) {
+        Station beginStation = stationDAO.findByName(beginName);
+        Station endStation = stationDAO.findByName(endName);
+        List<Station> stations = stationDAO.findAllStationBetweenBeginAndEndPoint(beginStation, endStation);
+        return stations;
     }
 }

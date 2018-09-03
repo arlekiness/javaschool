@@ -54,9 +54,13 @@ create table station
 	id int auto_increment
 		primary key,
 	name varchar(100) null,
+	branch_id int not null,
+	numberOnBranch int not null,
 	status_id int null,
 	constraint station_id_uindex
 		unique (id),
+	constraint station_branch_id_fk
+		foreign key (branch_id) references branch (id),
 	constraint station_status_id_fk
 		foreign key (status_id) references status (id)
 );
@@ -114,19 +118,6 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table station_branch
-(
-  station_id int null,
-  branch_id int null,
-  station_on_branch_id int not null,
-  constraint station_station_id_fk
-		foreign key (station_id) references station(id),
-	constraint branch_station_id_fk
-		foreign key (branch_id) references branch(id)
-)
-engine=InnoDB
-;
---
 -- =====================================
 -- =====================================
 create table ticket
@@ -155,3 +146,14 @@ create table ticket
 )
 engine=InnoDB
 ;
+-- =====================================
+-- =====================================
+create table transition_station
+(
+  station_id_from int null,
+  station_id_to int null,
+  constraint station_from_id_fk
+		foreign key (station_id_from) references station(id),
+	constraint station_to_id_fk
+		foreign key (station_id_to) references station(id)
+)
