@@ -19,11 +19,13 @@ Welcome to hell
 
     <form action="/stationList" method="GET">
         <select name="stationSelect">
-            <option value="Technologicheskii institut">Technologicheskii institut</option>
-            <option value="Baltiiskaya">Baltiiskaya</option>
-            <option value="Frunzenskaya">Frunzenskaya</option>
             <option value="Sennaya ploschad">Sennaya ploschad</option>
+            <option value="Technologicheskii institut - 2">Technologicheskii institut - 2</option>
+            <option value="Frunzenskaya">Frunzenskaya</option>
+            <option value="Moskovskie Vorota">Moskovskie Vorota</option>
             <option value="Pushkinskaya">Pushkinskaya</option>
+            <option value="Technologicheskii institut - 1">Technologicheskii institut - 1</option>
+            <option value="Baltiiskaya">Baltiiskaya</option>
         </select>
         <input type="submit" value="Search" />
     </form>

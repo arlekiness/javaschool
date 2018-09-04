@@ -51,5 +51,4 @@ public class Ticket {
     public Branch getBranch() { return branch; }
     public void setBranch(Branch branch) { this.branch = branch; }
 
-
 }

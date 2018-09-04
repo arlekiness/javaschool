@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DAO.Interfaces.TicketDAO;
 import ru.javasch.metro.DTO.TicketDTO;
+import ru.javasch.metro.exception.BusinessLogicException;
+import ru.javasch.metro.model.Branch;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
@@ -37,17 +39,40 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
     }
 
     @Override
-    public List<Ticket> getByStationDateTrain (Station station, Date date, Train train) {
-        System.out.println(station);
-        System.out.println(date);
-        System.out.println(train);
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Ticket as t where :station.numberOnBranch between t.stationBegin.numberOnBranch and t.stationEnd.numberOnBranch" +
-                        "and year(ticketDate) = year(:date)" + "and month(ticketDate) = month(:date)" + "and day(ticketDate) = day(:date)" +
-                        "and Train = :train")
-                .setParameter("station", station)
-                .setParameter("date", date)
-                .setParameter("train", train)
-                .getResultList();
+    public List<Ticket> getByStationDateTrain (Station beginStation, Station endStation, Date date, Train train) throws BusinessLogicException {
+        Integer beginNumberOnBranch = beginStation.getNumberOnBranch();
+        Integer endNumberOnBranch = endStation.getNumberOnBranch();
+        System.out.println(beginNumberOnBranch + " " + endNumberOnBranch);
+
+        if (beginNumberOnBranch < endNumberOnBranch)
+            return sessionFactory.getCurrentSession()
+                    .createQuery("from Ticket where train = :train and " +
+                            "year(ticketDate) = year(:date) and " +
+                            "month(ticketDate) = month(:date) and " +
+                            "day(ticketDate) = day(:date) and " +
+                            "((:beginNumberOnBranch = stationBegin.numberOnBranch) or " +
+                            " (stationBegin.numberOnBranch < :beginNumberOnBranch and stationEnd.numberOnBranch > :beginNumberOnBranch) or " +
+                              "(stationBegin.numberOnBranch > :beginNumberOnBranch and stationBegin.numberOnBranch < :endNumberOnBranch))")
+                    .setParameter("train", train)
+                    .setParameter("date", date)
+                    .setParameter("beginNumberOnBranch", beginNumberOnBranch)
+                    .setParameter("endNumberOnBranch", endNumberOnBranch)
+                    .getResultList();
+        else if (beginNumberOnBranch > endNumberOnBranch)
+            return sessionFactory.getCurrentSession()
+                    .createQuery("from Ticket where train = :train and " +
+                            "year(ticketDate) = year(:date) and " +
+                            "month(ticketDate) = month(:date) and " +
+                            "day(ticketDate) = day(:date) and " +
+                            "((:beginNumberOnBranch = stationBegin.numberOnBranch) or " +
+                            " (stationBegin.numberOnBranch > :beginNumberOnBranch and stationEnd.numberOnBranch < :beginNumberOnBranch) or " +
+                            "(stationBegin.numberOnBranch < :beginNumberOnBranch and stationBegin.numberOnBranch > :endNumberOnBranch))")
+                    .setParameter("train", train)
+                    .setParameter("date", date)
+                    .setParameter("beginNumberOnBranch", beginNumberOnBranch)
+                    .setParameter("endNumberOnBranch", endNumberOnBranch)
+                    .getResultList();
+        else
+            throw new BusinessLogicException("You wanna buy zero ticket?");
     }
 }

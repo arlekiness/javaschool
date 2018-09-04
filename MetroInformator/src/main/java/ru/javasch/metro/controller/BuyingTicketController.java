@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DTO.TicketDTO;
 import ru.javasch.metro.model.Station;
+import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TicketService;
+import ru.javasch.metro.service.Interfaces.TrainService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +30,9 @@ public class BuyingTicketController {
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private TrainService trainService;
 
     @RequestMapping(value="/buyTicket/{station}/{dateDeparture}/{trainName}/{endPointStation}/{login}")
     public ModelAndView stationSchedule(@PathVariable(value="station") String stationName,
@@ -50,14 +55,20 @@ public class BuyingTicketController {
     }
 
     @RequestMapping(value="/buyTicketFinal/{station}")
-    public void buyingTicketFinal(@PathVariable(value="station") String endStation, HttpServletRequest request, HttpServletResponse response) {
+    public String buyingTicketFinal(@PathVariable(value="station") String endStation, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
         ticketDTO.setStationEnd(endStation);
-        System.out.println(ticketDTO);
         try {
-            ticketService.isFreeSeats(ticketDTO);
-        } catch (ParseException ex) {}
+            Train train = trainService.findByName(ticketDTO.getTrainName());
+            if (train.getCapacity() <= ticketService.occupiedSeats(ticketDTO))
+                System.out.println("You can't buy any more tickets");
+            else {
+                ticketService.addTicketInSystem(ticketDTO);
+                session.removeAttribute("ticketDTO");
+            }
+        } catch (Exception ex) {}
+        return "station";
     }
 
 }
