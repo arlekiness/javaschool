@@ -2,6 +2,7 @@ package ru.javasch.metro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,9 +19,7 @@ import ru.javasch.metro.service.Interfaces.TicketService;
 import ru.javasch.metro.service.Interfaces.UserService;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ScheduleController {
@@ -36,13 +35,14 @@ public class ScheduleController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value="/stationList")
+    @PostMapping("/stationList")
     public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName) {
+        System.out.println("Here");
         List<ScheduleDTO> sch = scheduleService.getAllTrainsOnStation(stationName);
-        ModelAndView model = new ModelAndView("station", "scheduleList", sch);
-        model.addObject("scheduleList", sch);
-        model.setViewName("station");
-        model.addObject("login", userService.getUserId());
-        return model;
+        System.out.println(sch.size());
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("showSchedule", "true");
+        modelMap.put("scheduleList", sch);
+        return new ModelAndView("stationscheme", "model", modelMap);
     }
 }

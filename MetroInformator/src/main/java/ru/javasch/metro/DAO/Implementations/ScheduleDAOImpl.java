@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.ScheduleDAO;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
+import ru.javasch.metro.model.Status;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
 
     @Override
     public List getByStation(Station station) {
+        System.out.println(station.getName());
         return sessionFactory.getCurrentSession()
                 .createQuery("from Schedule " +
                         "where station = :station " +

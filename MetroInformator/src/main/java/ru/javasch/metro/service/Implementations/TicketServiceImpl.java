@@ -57,7 +57,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
 
-
     @Override
     public TicketDTO formBeginTicketDTO(String stationName, String dateDeparture, String trainName, String endPointStation, String userId) {
         TicketDTO ticketDTO = new TicketDTO();

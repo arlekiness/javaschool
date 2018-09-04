@@ -59,7 +59,7 @@ public class UserController {
     public String loginRedirect() { return "login"; }
 
     @RequestMapping(value = "/home")
-    public String home() { return "home"; }
+    public String home() { return "stationscheme"; }
 
     @RequestMapping(value = "/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {

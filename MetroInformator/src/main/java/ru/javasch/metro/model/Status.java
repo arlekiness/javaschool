@@ -1,6 +1,7 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="status")
@@ -17,4 +18,17 @@ public class Status {
     @Column(name = "statusName")
     public String getStatusName() { return statusName; }
     public void setStatusName(String statusName) { this.statusName = statusName; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Status status = (Status) o;
+        return Objects.equals(statusName, status.statusName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(statusName);
+    }
 }
