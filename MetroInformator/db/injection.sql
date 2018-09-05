@@ -126,10 +126,10 @@ INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES 
 -- ===========================================
 -- ============TRAINS=========================
 -- ===========================================
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T2-20-37-num1', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (2, 'T2-37-20-num2', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (3, 'T2-20-37-num3', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (4, 'T2-37-20-num4', 6, 1);
+INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T2-Parnas-Kupchino-0645', 6, 1);
+INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (2, 'T2-Kupchino-Parnas-0645', 6, 1);
+INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (3, 'T2-Parnas-Kupchino-0830', 6, 1);
+INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (4, 'T2-Kupchino-Parnas-0830', 6, 1);
 -- ===========================================
 -- ============SCHEDULES======================
 -- ===========================================

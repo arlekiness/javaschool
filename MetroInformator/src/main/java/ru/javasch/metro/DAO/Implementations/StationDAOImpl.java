@@ -25,6 +25,15 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                 .uniqueResult();
     }
 
+    @Override
+    public List<Station> getAllStationOnBranch(Station station) {
+        Branch branch = station.getBranch();
+        return (List<Station>) sessionFactory.getCurrentSession()
+                .createQuery("from Station where branch = :branch")
+                .setParameter("branch", branch)
+                .getResultList();
+    }
+
 //    public Set<Station> getTransitionsOnName (String name) {
 //        return (Set<Station>) sessionFactory.getCurrentSession()
 //                .createQuery("from Station where name = :name")

@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 public interface StationService {
+    public Station findByName(String stationName);
     List<Station> getAllStations();
-    public void add(Station station);
-    public void delete(String name);
     public Set<Station> getAllTransitionalByName(String name);
     public List<Station> getAllStationsBeetweenTwoPoints(String beginName, String endName);
+    public List<Station> getAllStationOnBranch (String stationName);
+
+    public void closeStation (String stationName);
+    public void openStation (String stationName);
 }

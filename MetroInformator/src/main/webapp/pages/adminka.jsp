@@ -11,6 +11,11 @@
     <title>ADMIN KINGDOM</title>
 </head>
 <body>
-    WELCOME, ADMIN! NOW YOU CAN DO YOUR JOB!
+    WELCOME, ADMIN! NOW YOU CAN DO YOUR JOB!<br/><br/>
+    <a href="/createTrain">CREATE NEW TRAIN</a><br/>
+    <a href="/deleteTrain">DELETE EXIST TRAIN</a><br/>
+    <a href="/closeStation">Close Station</a><br/>
+    <a href="/openStation">Open Station</a><br/><br/>
+    <a href="/home">BACK</a><br/>
 </body>
 </html>

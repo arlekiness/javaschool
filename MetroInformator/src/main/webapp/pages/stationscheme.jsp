@@ -179,23 +179,26 @@
     <sec:authorize access="hasRole('ROLE_ADMIN')">
         <a href="/adminFunctions">ADMINKA</a>
     </sec:authorize>
-
-    <c:if test = "${not empty model.scheduleList}">
-        <table border="1" width="100%" cellpadding="5">
-            <tr>
-                <th>Station</th>
-                <th>Arrival Date</th>
-                <th>Departure Date</th>
-                <th>Train Number</th>
-                <th>End station</th>
-            </tr>
-            <c:forEach items="${model.scheduleList}" var="list">
-                <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td>
-                    <td><a href="/buyTicket/${list.getStation()}/${list.dateDeparture}/${list.trainName}/${list.endPointStationName}/${login}">Buy Ticket</a></p></td>></tr>
-            </c:forEach>
-        </table><br/>
+    <c:if test = "${empty model.closedStationStatus}">
+        <c:if test = "${not empty model.scheduleList}">
+            <table border="1" width="100%" cellpadding="5">
+                <tr>
+                    <th>Station</th>
+                    <th>Arrival Date</th>
+                    <th>Departure Date</th>
+                    <th>Train Number</th>
+                    <th>End station</th>
+                </tr>
+                <c:forEach items="${model.scheduleList}" var="list">
+                    <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td>
+                        <td><a href="/buyTicket/${list.getStation()}/${list.dateDeparture}/${list.trainName}/${list.endPointStationName}/${login}">Buy Ticket</a></p></td>></tr>
+                </c:forEach>
+            </table><br/>
+        </c:if>
     </c:if>
-
+    <c:if test = "${not empty model.closedStationStatus}">
+        <b>That station closed or destroyed by mutants, save Go our souls</b>
+    </c:if>
 </div>
 
 <script>

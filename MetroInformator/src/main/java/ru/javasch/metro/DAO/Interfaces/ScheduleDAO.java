@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ScheduleDAO<E extends Schedule> extends GenericDAO<E>  {
     public List<Schedule> getByStation(Station station);
+
 }

@@ -11,6 +11,7 @@ public class Train {
     private String trainName;
     private Integer capacity;
     private Status status;
+    private Set<Schedule> schedule;
 
 
     @Id
@@ -38,6 +39,10 @@ public class Train {
     @Column(name = "capacity")
     public Integer getCapacity() { return capacity; }
     public void setCapacity(Integer capacity) { this.capacity = capacity; }
+
+    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL)
+    public Set<Schedule> getSchedule() { return schedule; }
+    public void setSchedule(Set<Schedule> schedule) { this.schedule = schedule; }
 
     @Override
     public String toString() {

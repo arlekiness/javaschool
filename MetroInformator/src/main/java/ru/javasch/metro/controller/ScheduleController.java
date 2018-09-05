@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DAO.Interfaces.TicketDAO;
 import ru.javasch.metro.DTO.ScheduleDTO;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.User;
@@ -37,12 +38,16 @@ public class ScheduleController {
 
     @PostMapping("/stationList")
     public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName) {
-        System.out.println("Here");
-        List<ScheduleDTO> sch = scheduleService.getAllTrainsOnStation(stationName);
-        System.out.println(sch.size());
+
         Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("showSchedule", "true");
-        modelMap.put("scheduleList", sch);
-        return new ModelAndView("stationscheme", "model", modelMap);
+        try {
+            List<ScheduleDTO> sch = scheduleService.getAllTrainsOnStation(stationName);
+            modelMap.put("showSchedule", "true");
+            modelMap.put("scheduleList", sch);
+            return new ModelAndView("stationscheme", "model", modelMap);
+        } catch (RuntimeBusinessLogicException ex) {
+            modelMap.put("closedStationStatus", "true");
+            return new ModelAndView("stationscheme", "model", modelMap);
+        }
     }
 }

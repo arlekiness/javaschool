@@ -41,13 +41,10 @@ public class Schedule {
         this.dateDeparture = dateDeparture;
     }
 
-    @OneToOne
-    public Train getTrain() {
-        return train;
-    }
-    public void setTrain(Train train) {
-        this.train = train;
-    }
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "train_id", nullable = false)
+    public Train getTrain() { return train; }
+    public void setTrain(Train train) { this.train = train; }
 
     @OneToOne
     public Station getStation() {
