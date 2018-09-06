@@ -40,6 +40,7 @@ create table user
 		primary key,
 	firstName varchar(100) not null,
 	lastName varchar(100) not null,
+	birthDay varchar(100) not null,
 	login varchar(100) not null,
 	password varchar(100) not null,
 	constraint user_id_uindex
@@ -148,12 +149,40 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table transition_station
+create table transition
 (
-  station_id_from int null,
-  station_id_to int null,
+  id int auto_increment
+		primary key,
+  station_1_id int null,
+  station_2_id int null,
+  status_id int null,
+  constraint ticket_id_uindex
+		unique (id),
   constraint station_from_id_fk
-		foreign key (station_id_from) references station(id),
+		foreign key (station_1_id) references station(id),
 	constraint station_to_id_fk
-		foreign key (station_id_to) references station(id)
+		foreign key (station_2_id) references station(id),
+	constraint status_transition_to_id_fk
+		foreign key (status_id) references status(id)
 )
+engine=InnoDB
+;
+-- =====================================
+-- =====================================
+create table graph
+(
+  id int auto_increment
+		primary key,
+  stationFrom_id int null,
+  stationTo_id int null,
+  weight int null,
+  oldWeight int null,
+  constraint ticket_id_uindex
+		unique (id),
+  constraint station_from_graph_id_fk
+		foreign key (stationFrom_id) references station(id),
+	constraint station_to_graph_id_fk
+		foreign key (stationTo_id) references station(id)
+)
+engine=InnoDB
+;

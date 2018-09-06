@@ -99,30 +99,21 @@ INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VA
 -- ============TRANSITIONS====================
 -- ===========================================
 -- Nevskii-Gostinii
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (28, 42);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (42, 28);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (1, 28, 42, 1);
 -- Vosstaniya-Mayakovskaya
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (10, 43);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (43, 10);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (2, 10, 43, 1);
 -- Sennaya-Sadovaya-Spasskaya
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (29, 64);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (29, 50);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (50, 29);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (50, 64);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (64, 29);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (64, 50);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (3, 29, 64, 1);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (4, 29, 50, 1);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (5, 50, 64, 1);
 -- Vladimirskaya-Dostoyevskaya
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (11, 51);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (51, 11);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (6, 11, 51, 1);
 -- Alexandra Nevskogo 1/2
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (44, 53);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (53, 44);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (7, 44, 53, 1);
 -- Pushkinskaya-Zvenigorodskaya
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (12, 65);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (65, 12);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (8, 12, 65, 1);
 -- Technologka 1/2
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (13, 30);
-INSERT INTO testbase.transition_station (station_id_from, station_id_to) VALUES (30, 13);
+INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (9, 13, 30, 1);
 -- ===========================================
 -- ============TRAINS=========================
 -- ===========================================
@@ -212,12 +203,12 @@ INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, tra
 -- ===========================================
 -- ============USERS==========================
 -- ===========================================
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (1, 'Alexey', 'Bystrov', '13shut13@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (2, 'Irina', 'Pozhidaeva', 'cat163@yandex.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (3, 'Misha', 'Lisechkin', 'volpert13@gmail.com', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (4, 'Andrey', 'Fetisov', 'fetisbs@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (5, 'Kostya', 'Kashkin', 'kash@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
-INSERT INTO testbase.user (id, firstName, lastName, login, password) VALUES (6, 'aa', 'bb', 'aa@aa.ru', '$2a$10$yhFtlspzvWJHhoNAmAG8GeyTl.k3LvF95RPhKMsQA8KsS5/44wQq6');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (1, 'Alexey', 'Bystrov', '1990-12-18', '13shut13@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (2, 'Irina', 'Pozhidaeva', '1990-12-18', 'cat163@yandex.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (3, 'Misha', 'Lisechkin', '1990-12-18', 'volpert13@gmail.com', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (4, 'Andrey', 'Fetisov', '1990-12-18', 'fetisbs@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (5, 'Kostya', 'Kashkin', '1990-12-18', 'kash@mail.ru', '$2a$10$R4AIlHDefOTUd.iLCHhxvuW87qY4dpV3vk8YMISom.Ke1F.HBEeAO');
+INSERT INTO testbase.user (id, firstName, lastName, birthDay, login, password) VALUES (6, 'aa', 'bb', 'aa@aa.ru', '1990-12-18', '$2a$10$yhFtlspzvWJHhoNAmAG8GeyTl.k3LvF95RPhKMsQA8KsS5/44wQq6');
 -- ===========================================
 -- ============USER-ROLES=====================
 -- ===========================================

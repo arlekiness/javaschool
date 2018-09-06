@@ -10,6 +10,7 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    private String birthDay;
     private String login;
     private String password;
     private Set<Role> roles;
@@ -40,6 +41,10 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    @Column(name = "birthDay")
+    public String getBirthday() { return birthDay; }
+    public void setBirthday(String birthday) { this.birthDay = birthday; }
 
     @Column(name = "login")
     public String getLogin() {

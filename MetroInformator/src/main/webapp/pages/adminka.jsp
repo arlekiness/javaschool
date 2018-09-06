@@ -15,7 +15,8 @@
     <a href="/createTrain">CREATE NEW TRAIN</a><br/>
     <a href="/deleteTrain">DELETE EXIST TRAIN</a><br/>
     <a href="/closeStation">Close Station</a><br/>
-    <a href="/openStation">Open Station</a><br/><br/>
+    <a href="/openStation">Open Station</a><br/>
+    <a href="/pathTest">Path Test</a><br/><br/>
     <a href="/home">BACK</a><br/>
 </body>
 </html>

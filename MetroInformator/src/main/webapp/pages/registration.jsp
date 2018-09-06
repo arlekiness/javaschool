@@ -19,5 +19,6 @@
         <p>Password: </p><p> <input type= "password" name= "password"></p>
 
         <input type= "submit" value= "Отправить">
+    </form>
     </body>
 </html>

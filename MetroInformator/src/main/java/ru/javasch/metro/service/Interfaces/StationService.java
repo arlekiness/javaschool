@@ -7,8 +7,7 @@ import java.util.Set;
 
 public interface StationService {
     public Station findByName(String stationName);
-    List<Station> getAllStations();
-    public Set<Station> getAllTransitionalByName(String name);
+    List<Station> getAllStations();;
     public List<Station> getAllStationsBeetweenTwoPoints(String beginName, String endName);
     public List<Station> getAllStationOnBranch (String stationName);
 

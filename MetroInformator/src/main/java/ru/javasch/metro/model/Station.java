@@ -15,7 +15,6 @@ public class Station {
     private Status status;
     private Branch branch;
     private Integer numberOnBranch;
-    private Set<Station> transitions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,15 +48,7 @@ public class Station {
     public Integer getNumberOnBranch() { return numberOnBranch; }
     public void setNumberOnBranch(Integer numberOnBranch) { this.numberOnBranch = numberOnBranch; }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "transition_station", joinColumns = {
-            @JoinColumn(name = "station_id_from")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "station_id_to")
-            })
-    public Set<Station> getTransitions() { return transitions; }
-    public void setTransitions(Set<Station> transitions) { this.transitions = transitions; }
-
+    //============================
     @Override
     public String toString() {
         return "Station{" +

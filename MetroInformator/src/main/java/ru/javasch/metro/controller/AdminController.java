@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.service.Implementations.PathFinderServiceImpl;
+import ru.javasch.metro.service.Interfaces.PathFinderService;
 import ru.javasch.metro.service.Interfaces.ScheduleService;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TrainService;
@@ -25,6 +29,9 @@ public class AdminController {
 
     @Autowired
     StationService stationService;
+
+    @Autowired
+    PathFinderService pathService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/adminFunctions")
@@ -78,7 +85,7 @@ public class AdminController {
     @GetMapping("/closeStation")
     public String closeStation() {
         try {
-            stationService.closeStation("Parnas");
+            stationService.closeStation("Nevsky Prospekt");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -90,11 +97,25 @@ public class AdminController {
     @GetMapping("/openStation")
     public String openStation() {
         try {
-            stationService.openStation("Parnas");
+            stationService.openStation("Nevsky Prospekt");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
             return "adminka";
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/pathTest")
+    public String pathTest() {
+        return "selectStationsTest";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping ("/pathTest")
+    public String pathTestTheBest(@RequestParam(value = "station1") String station1,
+                           @RequestParam(value = "station2") String station2) {
+        pathService.findPathBeetweenTwoStations(station1, station2);
+        return "adminka";
     }
 }
