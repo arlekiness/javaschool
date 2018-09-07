@@ -21,4 +21,12 @@ public class GraphDAOImpl implements GraphDAO {
                 .setParameter("station", station)
                 .getResultList();
     }
+
+    @Override
+    public List<Graph> getAll () {
+        return (List<Graph>) sessionFactory.getCurrentSession()
+                .createQuery("from Graph" )
+                .getResultList();
+    }
+
 }

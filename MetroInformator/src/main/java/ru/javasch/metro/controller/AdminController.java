@@ -85,7 +85,8 @@ public class AdminController {
     @GetMapping("/closeStation")
     public String closeStation() {
         try {
-            stationService.closeStation("Nevsky Prospekt");
+            stationService.closeStation("Dostoyevskaya");
+            stationService.closeStation("Ploshchad Alexandra Nevskogo-2");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -97,7 +98,8 @@ public class AdminController {
     @GetMapping("/openStation")
     public String openStation() {
         try {
-            stationService.openStation("Nevsky Prospekt");
+            stationService.openStation("Dostoyevskaya");
+            stationService.openStation("Ploshchad Alexandra Nevskogo-2");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -115,7 +117,12 @@ public class AdminController {
     @PostMapping ("/pathTest")
     public String pathTestTheBest(@RequestParam(value = "station1") String station1,
                            @RequestParam(value = "station2") String station2) {
-        pathService.findPathBeetweenTwoStations(station1, station2);
+//        pathService.pathFinder("Parnas", "Moskovskaya");
+//        pathService.pathFinder("Komendantsky Prospekt", "Dostoyevskaya");
+//        pathService.pathFinder("Volkovskaya", "Elektrosila");
+//        pathService.pathFinder("Komendantsky Prospekt", "Vladimirskaya");
+//        pathService.pathFinder("Sadovaya", "Devyatkino");
+        pathService.pathFinder(station1, station2);
         return "adminka";
     }
 }

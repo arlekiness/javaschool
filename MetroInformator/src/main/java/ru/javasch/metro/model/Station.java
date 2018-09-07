@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "station")
 public class Station {
-    private Long id;
+    private Integer id;
     private String name;
     private Status status;
     private Branch branch;
@@ -19,10 +19,10 @@ public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

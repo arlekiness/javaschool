@@ -8,8 +8,8 @@ public class Graph {
     private Long id;
     private Station stationFrom;
     private Station stationTo;
-    private Long weight;
-    private Long oldWeight;
+    private Integer weight;
+    private Integer oldWeight;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +26,10 @@ public class Graph {
     public void setStationTo(Station stationTo) { this.stationTo = stationTo; }
 
     @Column(name="weight")
-    public Long getWeight() { return weight; }
-    public void setWeight(Long weight) { this.weight = weight; }
+    public Integer getWeight() { return weight; }
+    public void setWeight(Integer weight) { this.weight = weight; }
 
     @Column(name="oldWeight")
-    public Long getOldWeight() { return oldWeight; }
-    public void setOldWeight(Long oldWeight) { this.oldWeight = oldWeight; }
+    public Integer getOldWeight() { return oldWeight; }
+    public void setOldWeight(Integer oldWeight) { this.oldWeight = oldWeight; }
 }

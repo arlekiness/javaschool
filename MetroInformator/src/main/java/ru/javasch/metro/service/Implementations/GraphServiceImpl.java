@@ -26,13 +26,11 @@ public class GraphServiceImpl implements GraphService {
         Station station = stationService.findByName(stationName);
         Status status = station.getStatus();
         List<Graph> graph = graphDAO.getAllNodes(station);
-        for (Graph gr : graph)
-            if (status.getStatusName().equals("CLOSED")) {
-                gr.setOldWeight(gr.getWeight());
-                gr.setWeight(100000L);
-            } else {
-                gr.setWeight(gr.getOldWeight());
-                gr.setOldWeight(null);
+        for (Graph gr : graph) {
+                int weight = gr.getWeight();
+                int oldWeight = gr.getOldWeight();
+                gr.setOldWeight(weight);
+                gr.setWeight(oldWeight);
             }
     }
 }

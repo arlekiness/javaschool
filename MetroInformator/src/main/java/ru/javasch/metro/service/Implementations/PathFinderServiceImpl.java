@@ -1,10 +1,14 @@
 package ru.javasch.metro.service.Implementations;
 
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javasch.metro.DAO.Interfaces.GraphDAO;
+import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DAO.Interfaces.TransitionDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Branch;
+import ru.javasch.metro.model.Graph;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Transition;
 import ru.javasch.metro.service.Interfaces.PathFinderService;
@@ -25,140 +29,90 @@ public class PathFinderServiceImpl implements PathFinderService {
     @Autowired
     TransitionService transitionService;
 
-/***/
-    @Override
-    @Transactional
-    public Transition hasEqualElement (List<Transition> transition_1, List<Transition> transition_2) {
-        for (Transition t1 : transition_1)
-            for (Transition t2 : transition_2)
-                if (t1.equals(t2))
-                    return t1;
-        return null;
-    }
+    @Autowired
+    GraphDAO graphDAO;
 
-    /***/
+    @Autowired
+    StationDAO stationDAO;
+
+
     @Override
     @Transactional
-    public List<List<Station>> formPathForTwoStations (Station fromStation, Station toStation) {
-        List<List<Station>> listStation= new ArrayList<>();
-        List<Station> segment = new ArrayList<>();
-        segment.add(fromStation);
-        segment.add(toStation);
-        listStation.add(segment);
-        return listStation;
-    }
-    /***/
-    @Override
-    @Transactional
-    public List<List<Station>> formPathForThreeStations (Station fromStation, Transition cross, Station toStation) {
-        List<List<Station>> listStation= new ArrayList<>();
-        Station stationCross1 = cross.getStation_1();
-        Station stationCross2 = cross.getStation_2();
-        List<Station> segment1 = new ArrayList<>();
-        List<Station> segment2 = new ArrayList<>();
-        if (fromStation.getBranch().equals(stationCross1.getBranch())) {
-            segment1.add(fromStation);
-            segment1.add(stationCross1);
-            listStation.add(segment1);
-            segment2.add(stationCross2);
-            segment2.add(toStation);
-            listStation.add(segment2);
-        } else {
-            segment1.add(fromStation);
-            segment1.add(stationCross2);
-            listStation.add(segment1);
-            segment2.add(stationCross1);
-            segment2.add(toStation);
-            listStation.add(segment2);
+    public List<Station> pathFinder(String stationBegin, String stationEnd) {
+        int indexBeg = stationService.findByName(stationBegin).getId() - 1;
+        int indexEnd = stationService.findByName(stationEnd).getId() - 1;
+        System.out.println(indexBeg + " " + indexEnd);
+        int[][] graphArray = new int[69][69];
+        List<Integer> path = new ArrayList<>();
+        List<Graph> graph = graphDAO.getAll();
+        path.add(indexBeg);
+        int index = 0;
+        for (int i = 0; i < 69; i++) {
+            for (int j = 0; j < 69; j++) {
+                graphArray[i][j] = graph.get(index).getWeight();
+                index++;
+            }
         }
-        return listStation;
-    }
-    /***/
-    @Override
-    @Transactional
-    public List<Transition> transitionForBranch (String stationName, List<Transition> allTransition) {
-        Station station = stationService.findByName(stationName);
-        Branch branch = station.getBranch();
-        List<Transition> transition = new ArrayList<>();
-        for (Transition t : allTransition)
-            if (t.getStation_1().getBranch().getColor().equals(branch.getColor()) || t.getStation_2().getBranch().getColor().equals(branch.getColor()))
-                transition.add(t);
-        return transition;
-    }
-    /***/
-    @Override
-    @Transactional
-    public void findPathBeetweenTwoStations (String stationNameFrom, String stationNameTo) {
-        Station fromStation = stationService.findByName(stationNameFrom);
-        Station toStation = stationService.findByName(stationNameTo);
-        List<Station> branch1= stationService.getAllStationOnBranch(stationNameFrom);
-        List<Station> branch2= stationService.getAllStationOnBranch(stationNameTo);
-
-        List<List<Station>> listStation = new ArrayList<>();
-
-        if (fromStation.getBranch().equals(toStation.getBranch())) {
-            listStation.addAll(formPathForTwoStations (fromStation, toStation));
-
+        int transCount = 0;
+        int interIndex = indexBeg;
+        Pair<Integer, Integer> notIncluded = null;
+        if (graphArray[indexEnd][indexBeg] != 100000) {
+            path.add(indexEnd);
         } else {
-            List<Transition> transitions_1 = new ArrayList<>();
-            List<Transition> transitions_2 = new ArrayList<>();
+        /**               */
+//            if (indexBeg > indexEnd) {
+                while (true) {
+                    List<Integer> availTrans = new ArrayList<>();
+                    for (int i = 0; i < 69; i++) {
+                        if (graphArray[interIndex][i] != 100000)
+                            availTrans.add(i);
+                    }
+                    System.out.println(availTrans);
 
-            for (Station st : branch1) {
-                List<Transition> trProm = transitionService.getTransitionsByStationName(st.getName());
-                transitions_1.addAll(trProm);
-            }
-            for (Station st : branch2) {
-                List<Transition> trProm = transitionService.getTransitionsByStationName(st.getName());
-                transitions_2.addAll(trProm);
-            }
+                    List<Pair<Integer, Integer>> interSt = new ArrayList<>();
+//                    if (indexEnd > indexBeg) {
+                        for (int j = 0; j < availTrans.size() - 1; j++) {
+                            for (int k = 0; k < 69; k++) {
+                                int l = availTrans.get(j);
+                                if (graphArray[k][l] == 50)
+                                    interSt.add(new Pair<>(k, l));
+                            }
+                        }
+                        System.out.println(interSt);
+                        interSt.remove(notIncluded);
+                        int bestTransition = 10000;
+                        int endDest = 0;
+                        for (Pair<Integer, Integer> pair : interSt) {
+                            if (Math.abs(indexEnd - pair.getKey()) < Math.abs(indexEnd - bestTransition)) {
+                                notIncluded = pair;
+                                bestTransition = pair.getKey();
+                                endDest = pair.getValue();
+                            }
+                        }
+                        path.add(endDest);
+                        path.add(bestTransition);
+                        if (graphArray[bestTransition][indexEnd] != 100000)
+                            break;
+                        interIndex = bestTransition;
+//                    }
 
-            if(transitions_1.size() == 0 || transitions_2.size() == 0)
-                throw new RuntimeBusinessLogicException("Needed Transition Stations closed");
-
-            transitions_2.removeAll(transitions_1);
-            transitions_1.addAll(transitions_2);
-            List<Transition> transForFrom = this.transitionForBranch(stationNameFrom, transitions_1);
-            List<Transition> transForTo = this.transitionForBranch(stationNameTo, transitions_1);
-            //===================================
-
-            //====================================
-
-            Transition cross = this.hasEqualElement(transForFrom, transForTo);
-            if (cross != null) {
-                listStation.addAll(formPathForThreeStations(fromStation, cross, toStation));
-            } else {
-                if (Math.abs(fromStation.getNumberOnBranch() - branch1.size()) < branch1.size()/2)
-                    Collections.reverse(transForFrom);
-//                for (Transition t : transForFrom) {
-//                    System.out.println(t.getStation_1() + " " + t.getStation_2());
-//                }
-//                System.out.println("==============");
-//                for (Transition t : transForTo) {
-//                    System.out.println(t.getStation_1() + " " + t.getStation_2());
-//                }
-//                System.out.println("==============");
-                for (Transition t : transForFrom) {
-                    Station transition;
-                    if (t.getStation_1().getBranch().equals(fromStation.getBranch()))
-                        transition = t.getStation_1();
-                    else
-                        transition = t.getStation_2();
                 }
-
-            }
+                path.add(indexEnd);
+                /**  */
+//            } else {
         }
 
-        for (List<Station> st : listStation) {
-            for (Station s1 : st)
-                System.out.print(s1.getName() + " ");
-            System.out.println();
+        List<Station> stations = new ArrayList<>();
+        for (int id : path) {
+            Station st = stationDAO.findStationById(id + 1);
+            stations.add(st);
         }
-        System.out.println("*****************");
 
+        for (Station st : stations)
+            System.out.print(st.getName() + "-->");
 
+        System.out.println("**********");
 
-
+        return stations;
     }
-
-
 }

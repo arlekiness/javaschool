@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface GraphDAO {
     public List<Graph> getAllNodes (Station station);
+    public List<Graph> getAll ();
 }

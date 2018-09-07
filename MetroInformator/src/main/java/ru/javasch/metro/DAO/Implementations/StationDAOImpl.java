@@ -34,6 +34,14 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                 .getResultList();
     }
 
+    @Override
+    public Station findStationById(Integer id) {
+        return (Station) sessionFactory.getCurrentSession()
+                .createQuery("from Station where id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
+    }
+
 //    public Set<Station> getTransitionsOnName (String name) {
 //        return (Set<Station>) sessionFactory.getCurrentSession()
 //                .createQuery("from Station where name = :name")

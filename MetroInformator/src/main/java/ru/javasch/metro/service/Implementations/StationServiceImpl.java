@@ -65,23 +65,27 @@ public class StationServiceImpl implements StationService {
     @Transactional
     public void closeStation (String stationName) {
         Station station = stationDAO.findByName(stationName);
+        Status previousStatus = station.getStatus();
         Status status = statusDAO.getCloseStatus();
         station.setStatus(status);
         List<Transition> transition = transitionDAO.getTransitionsByStation(station);
         for (Transition t : transition)
             t.setStatus(status);
-        graphService.changeWeight(stationName);
+        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
+            graphService.changeWeight(stationName);
     }
 
     @Override
     @Transactional
     public void openStation (String stationName) {
         Station station = stationDAO.findByName(stationName);
+        Status previousStatus = station.getStatus();
         Status status = statusDAO.getWorkStatus();
         station.setStatus(status);
         List<Transition> transition = transitionDAO.getTransitionsByStation(station);
         for (Transition t : transition)
             t.setStatus(status);
-        graphService.changeWeight(stationName);
+        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
+            graphService.changeWeight(stationName);
     }
 }
