@@ -9,6 +9,7 @@ import ru.javasch.metro.DTO.ScheduleDTO;
 import ru.javasch.metro.configuration.constants.Utils;
 import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Branch;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
@@ -31,6 +32,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private TrainService trainService;
+
+    @Override
+    @Transactional
+    public Schedule findByTrainAndStation (Station station, Train train) {return scheduleDAO.findByTrainAndStation(train, station);}
 
     /**add one schedule */
     @Override
@@ -91,5 +96,17 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         return stations;
+    }
+
+    @Override
+    @Transactional
+    public List<Schedule> getAllSchedulesByStationDateAndPath (Station stationBegin, Station stationEnd, Date date, Date now) {
+        List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
+        Station endPointStation;
+        if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())
+            endPointStation = stations.get(stations.size() - 1);
+        else
+            endPointStation = stations.get(0);
+        return (List<Schedule>) scheduleDAO.getByStationsAndDate(stationBegin, endPointStation, date, now);
     }
 }

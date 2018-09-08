@@ -12,6 +12,9 @@ import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
 
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements TrainDAO<E> {
     @Autowired
@@ -30,6 +33,5 @@ public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements 
             throw new RuntimeBusinessLogicException("Such train doesn't exist");
         }
     }
-
 
 }

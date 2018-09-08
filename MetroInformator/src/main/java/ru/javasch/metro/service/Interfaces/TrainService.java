@@ -9,4 +9,5 @@ public interface TrainService {
     public Train findByName(String trainName);
     public void add (String trainName);
     public void delete (String trainName);
+    public String formTrainName (String stationName,  String dateTime);
 }

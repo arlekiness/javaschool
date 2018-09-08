@@ -13,5 +13,5 @@ import java.util.List;
 public interface TicketDAO<E extends Ticket> extends GenericDAO<E> {
     public List<Ticket> getByStationAndDate (Station station, Date date);
     public List<Ticket> getByStation(Station station);
-    public List<Ticket> getByStationDateTrain (Station beginStation, Station endStation, Date date, Train train) throws BusinessLogicException;
+    public List<Ticket> getByStationDateTrain (Station beginStation, Station endStation, Date date, Train train);
 }

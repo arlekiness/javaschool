@@ -17,6 +17,7 @@ import ru.javasch.metro.service.Interfaces.TransitionService;
 
 import javax.transaction.Transaction;
 import javax.transaction.Transactional;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +42,6 @@ public class PathFinderServiceImpl implements PathFinderService {
     public List<Station> pathFinder(String stationBegin, String stationEnd) {
         int indexBeg = stationService.findByName(stationBegin).getId() - 1;
         int indexEnd = stationService.findByName(stationEnd).getId() - 1;
-        System.out.println(indexBeg + " " + indexEnd);
         int[][] graphArray = new int[69][69];
         List<Integer> path = new ArrayList<>();
         List<Graph> graph = graphDAO.getAll();
@@ -59,47 +59,45 @@ public class PathFinderServiceImpl implements PathFinderService {
         if (graphArray[indexEnd][indexBeg] != 100000) {
             path.add(indexEnd);
         } else {
-        /**               */
-//            if (indexBeg > indexEnd) {
-                while (true) {
-                    List<Integer> availTrans = new ArrayList<>();
-                    for (int i = 0; i < 69; i++) {
-                        if (graphArray[interIndex][i] != 100000)
-                            availTrans.add(i);
-                    }
-                    System.out.println(availTrans);
+            /**               */
 
-                    List<Pair<Integer, Integer>> interSt = new ArrayList<>();
-//                    if (indexEnd > indexBeg) {
-                        for (int j = 0; j < availTrans.size() - 1; j++) {
-                            for (int k = 0; k < 69; k++) {
-                                int l = availTrans.get(j);
-                                if (graphArray[k][l] == 50)
-                                    interSt.add(new Pair<>(k, l));
-                            }
-                        }
-                        System.out.println(interSt);
-                        interSt.remove(notIncluded);
-                        int bestTransition = 10000;
-                        int endDest = 0;
-                        for (Pair<Integer, Integer> pair : interSt) {
-                            if (Math.abs(indexEnd - pair.getKey()) < Math.abs(indexEnd - bestTransition)) {
-                                notIncluded = pair;
-                                bestTransition = pair.getKey();
-                                endDest = pair.getValue();
-                            }
-                        }
-                        path.add(endDest);
-                        path.add(bestTransition);
-                        if (graphArray[bestTransition][indexEnd] != 100000)
-                            break;
-                        interIndex = bestTransition;
-//                    }
-
+            while (true) {
+                List<Integer> availTrans = new ArrayList<>();
+                for (int i = 0; i < 69; i++) {
+                    if (graphArray[interIndex][i] != 100000)
+                        availTrans.add(i);
                 }
-                path.add(indexEnd);
-                /**  */
-//            } else {
+
+                List<Pair<Integer, Integer>> interSt = new ArrayList<>();
+                for (int j = 0; j < availTrans.size() - 1; j++) {
+                    for (int k = 0; k < 69; k++) {
+                        int l = availTrans.get(j);
+                        if (graphArray[k][l] == 50)
+                            interSt.add(new Pair<>(k, l));
+                    }
+                }
+                interSt.remove(notIncluded);
+                int bestTransition = 10000;
+                int endDest = 0;
+                for (Pair<Integer, Integer> pair : interSt) {
+                    if (Math.abs(indexEnd - pair.getKey()) < Math.abs(indexEnd - bestTransition)) {
+                        notIncluded = pair;
+                        bestTransition = pair.getKey();
+                        endDest = pair.getValue();
+                    }
+                }
+                path.add(endDest);
+                path.add(bestTransition);
+                if (graphArray[bestTransition][indexEnd] != 100000)
+                    break;
+                interIndex = bestTransition;
+                transCount++;
+                if (transCount > 0)
+                    throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
+            }
+            path.add(indexEnd);
+            /**  */
+
         }
 
         List<Station> stations = new ArrayList<>();
@@ -108,10 +106,7 @@ public class PathFinderServiceImpl implements PathFinderService {
             stations.add(st);
         }
 
-        for (Station st : stations)
-            System.out.print(st.getName() + "-->");
 
-        System.out.println("**********");
 
         return stations;
     }

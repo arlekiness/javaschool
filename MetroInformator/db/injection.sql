@@ -117,89 +117,32 @@ INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALU
 -- ===========================================
 -- ============TRAINS=========================
 -- ===========================================
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T2-Parnas-Kupchino-0645', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (2, 'T2-Kupchino-Parnas-0645', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (3, 'T2-Parnas-Kupchino-0830', 6, 1);
-INSERT INTO testbase.train (id, trainName, capacity, status_id) VALUES (4, 'T2-Kupchino-Parnas-0830', 6, 1);
--- ===========================================
--- ============SCHEDULES======================
--- ===========================================
---
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (1, '2018-04-09 06:45:00', '2018-04-09 06:50:00' , 20, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (2, '2018-04-09 07:20:00', '2018-04-09 07:25:00' , 21, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (3, '2018-04-09 07:55:00', '2018-04-09 08:00:00' , 22, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (4, '2018-04-09 08:30:00', '2018-04-09 08:35:00' , 23, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (5, '2018-04-09 09:05:00', '2018-04-09 09:10:00' , 24, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (6, '2018-04-09 09:40:00', '2018-04-09 09:45:00' , 25, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (7, '2018-04-09 10:15:00', '2018-04-09 10:20:00' , 26, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (8, '2018-04-09 10:50:00', '2018-04-09 10:55:00' , 27, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (9, '2018-04-09 11:25:00', '2018-04-09 11:30:00' , 28, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (10, '2018-04-09 12:00:00', '2018-04-09 12:05:00' , 29, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (11, '2018-04-09 12:35:00', '2018-04-09 12:40:00' , 30, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (12, '2018-04-09 13:10:00', '2018-04-09 13:15:00' , 31, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (13, '2018-04-09 13:45:00', '2018-04-09 13:50:00' , 32, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (14, '2018-04-09 14:20:00', '2018-04-09 14:25:00' , 33, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (15, '2018-04-09 14:55:00', '2018-04-09 15:00:00' , 34, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (16, '2018-04-09 15:30:00', '2018-04-09 15:35:00' , 35, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (17, '2018-04-09 16:05:00', '2018-04-09 16:10:00' , 36, 1, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (18, '2018-04-09 16:40:00', '2018-04-09 16:45:00' , 37, 1, 37);
---
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (19, '2018-04-09 06:45:00', '2018-04-09 06:50:00' , 37, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (20, '2018-04-09 07:20:00', '2018-04-09 07:25:00' , 36, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (21, '2018-04-09 07:55:00', '2018-04-09 08:00:00' , 35, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (22, '2018-04-09 08:30:00', '2018-04-09 08:35:00' , 34, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (23, '2018-04-09 09:05:00', '2018-04-09 09:10:00' , 33, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (24, '2018-04-09 09:40:00', '2018-04-09 09:45:00' , 32, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (25, '2018-04-09 10:15:00', '2018-04-09 10:20:00' , 31, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (26, '2018-04-09 10:50:00', '2018-04-09 10:55:00' , 30, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (27, '2018-04-09 11:25:00', '2018-04-09 11:30:00' , 29, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (28, '2018-04-09 12:00:00', '2018-04-09 12:05:00' , 28, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (29, '2018-04-09 12:35:00', '2018-04-09 12:40:00' , 27, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (30, '2018-04-09 13:10:00', '2018-04-09 13:15:00' , 26, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (31, '2018-04-09 13:45:00', '2018-04-09 13:50:00' , 25, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (32, '2018-04-09 14:20:00', '2018-04-09 14:25:00' , 24, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (33, '2018-04-09 14:55:00', '2018-04-09 15:00:00' , 23, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (34, '2018-04-09 15:30:00', '2018-04-09 15:35:00' , 22, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (35, '2018-04-09 16:05:00', '2018-04-09 16:10:00' , 21, 2, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (36, '2018-04-09 16:40:00', '2018-04-09 16:45:00' , 20, 2, 20);
---
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (37, '2018-04-09 08:30:00', '2018-04-09 08:35:00' , 20, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (38, '2018-04-09 09:05:00', '2018-04-09 09:10:00' , 21, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (39, '2018-04-09 09:40:00', '2018-04-09 09:45:00' , 22, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (40, '2018-04-09 10:15:00', '2018-04-09 10:20:00' , 23, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (41, '2018-04-09 10:50:00', '2018-04-09 10:55:00' , 24, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (42, '2018-04-09 11:25:00', '2018-04-09 11:30:00' , 25, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (43, '2018-04-09 12:00:00', '2018-04-09 12:05:00' , 26, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (44, '2018-04-09 12:35:00', '2018-04-09 12:40:00' , 27, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (45, '2018-04-09 13:10:00', '2018-04-09 13:15:00' , 28, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (46, '2018-04-09 13:45:00', '2018-04-09 13:50:00' , 29, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (47, '2018-04-09 14:20:00', '2018-04-09 14:25:00' , 30, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (48, '2018-04-09 14:55:00', '2018-04-09 15:00:00' , 31, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (49, '2018-04-09 15:30:00', '2018-04-09 15:35:00' , 32, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (50, '2018-04-09 16:05:00', '2018-04-09 16:10:00' , 33, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (51, '2018-04-09 16:40:00', '2018-04-09 16:45:00' , 34, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (52, '2018-04-09 17:15:00', '2018-04-09 17:20:00' , 35, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (53, '2018-04-09 17:50:00', '2018-04-09 17:55:00' , 36, 3, 37);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (54, '2018-04-09 18:25:00', '2018-04-09 18:30:00' , 37, 3, 37);
---
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (55, '2018-04-09 08:30:00', '2018-04-09 08:35:00' , 37, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (56, '2018-04-09 09:05:00', '2018-04-09 09:10:00' , 36, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (57, '2018-04-09 09:40:00', '2018-04-09 09:45:00' , 35, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (58, '2018-04-09 10:15:00', '2018-04-09 10:20:00' , 34, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (59, '2018-04-09 10:50:00', '2018-04-09 10:55:00' , 33, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (60, '2018-04-09 11:25:00', '2018-04-09 11:30:00' , 32, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (61, '2018-04-09 12:00:00', '2018-04-09 12:05:00' , 31, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (62, '2018-04-09 12:35:00', '2018-04-09 12:40:00' , 30, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (63, '2018-04-09 13:10:00', '2018-04-09 13:15:00' , 29, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (64, '2018-04-09 13:45:00', '2018-04-09 13:50:00' , 28, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (65, '2018-04-09 14:20:00', '2018-04-09 14:25:00' , 27, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (66, '2018-04-09 14:55:00', '2018-04-09 15:00:00' , 26, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (67, '2018-04-09 15:30:00', '2018-04-09 15:35:00' , 25, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (68, '2018-04-09 16:05:00', '2018-04-09 16:10:00' , 24, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (69, '2018-04-09 16:40:00', '2018-04-09 16:45:00' , 23, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (70, '2018-04-09 17:15:00', '2018-04-09 17:20:00' , 22, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (71, '2018-04-09 17:50:00', '2018-04-09 17:55:00' , 21, 4, 20);
-INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (72, '2018-04-09 18:25:00', '2018-04-09 18:30:00' , 20, 4, 20);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T2-Parnas-20180909064500', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (2, 'T2-Parnas-20180909080000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (3, 'T2-Parnas-20180909090000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (4, 'T2-Parnas-20180909100000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (5, 'T2-Parnas-20180909110000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (6, 'T2-Parnas-20180909120000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (7, 'T1-Devyatkino-20180909064500', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (8, 'T1-Devyatkino-20180909080000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (9, 'T1-Devyatkino-20180909090000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (10, 'T1-Devyatkino-20180909100000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (11, 'T1-Devyatkino-20180909110000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (12, 'T1-Devyatkino-20180909120000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (13, 'T2-Kupchino-20180909064500', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (14, 'T2-Kupchino-20180909080000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (15, 'T2-Kupchino-20180909090000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (16, 'T2-Kupchino-20180909100000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (17, 'T2-Kupchino-20180909110000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (18, 'T2-Kupchino-20180909120000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (19, 'T1-Prospekt Veteranov-20180909064500', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (20, 'T1-Prospekt Veteranov-20180909080000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (21, 'T1-Prospekt Veteranov-20180909090000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (22, 'T1-Prospekt Veteranov-20180909100000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (23, 'T1-Prospekt Veteranov-20180909110000', 6, 1);
+INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (24, 'T1-Prospekt Veteranov-20180909120000', 6, 1);
+
+
 -- ===========================================
 -- ============USERS==========================
 -- ===========================================
@@ -221,13 +164,9 @@ INSERT INTO testbase.user_role (user_id, role_id) VALUES (6, 1);
 -- ===========================================
 -- ============TICKETS========================
 -- ===========================================
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (1, 1, 1, 29, 31, '2018-07-20', 200, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (2, 2, 1, 30, 31, '2018-07-20', 100, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (3, 4, 1, 29, 31, '2018-07-20', 200, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (4, 5, 1, 31, 32, '2018-07-20', 100, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (5, 5, 1, 30, 32, '2018-07-20', 200, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (6, 5, 1, 29, 32, '2018-07-20', 300, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (7, 5, 2, 31, 30, '2018-07-20', 300, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (8, 5, 2, 32, 29, '2018-07-20', 300, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (9, 5, 2, 31, 29, '2018-07-20', 300, 2);
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (10, 5, 2, 32, 31, '2018-07-20', 300, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (1, 1, 21, 19, 1, '2018-11-11', 200, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (2, 2, 21, 19, 1, '2018-11-11', 100, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (3, 4, 21, 19, 1, '2018-11-11', 200, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (4, 5, 21, 19, 1, '2018-11-11', 100, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (5, 5, 21, 19, 1, '2018-11-11', 200, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDate, price, branch_id) VALUES (6, 5, 21, 19, 1, '2018-11-11', 300, 2);

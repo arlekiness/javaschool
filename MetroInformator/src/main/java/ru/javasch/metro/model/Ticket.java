@@ -25,7 +25,8 @@ public class Ticket {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "train_id", nullable = false)
     public Train getTrain() { return train; }
     public void setTrain(Train train) { this.train = train; }
 

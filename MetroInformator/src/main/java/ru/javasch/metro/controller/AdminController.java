@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Station;
+import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.Implementations.PathFinderServiceImpl;
 import ru.javasch.metro.service.Interfaces.PathFinderService;
 import ru.javasch.metro.service.Interfaces.ScheduleService;
@@ -30,9 +32,6 @@ public class AdminController {
     @Autowired
     StationService stationService;
 
-    @Autowired
-    PathFinderService pathService;
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/adminFunctions")
     public String enteringIntoAdmin() {
@@ -40,40 +39,30 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/createTrain")
-    public ModelAndView creatingTrainForm() {
-        return new ModelAndView("redirect:/createTrainTest");
+    @GetMapping("/createTrain")
+    public String creatingTrainForm() {
+        return "createTrain";
     }
-
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @PostMapping("/createTrain")
-//    public String creatingTrain(@RequestParam(value="trainName") String trainName,
-//                                @RequestParam(value="stationBegin") String stationBegin,
-//                                @RequestParam(value="date") String date) {
-//        trainService.add("T981-P-18");
-//    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/createTrainTest")
-    public String creatingTrain() {
+    @PostMapping("/createTrain")
+    public String creatingTrainForm(@RequestParam(value="stationName") String stationName,
+                                    @RequestParam(value="datetime") String dateTime)
+    {
         try {
-            scheduleService.addNewSchedules("T1-Prospekt Veteranov-Devyatkino-0645", "Devyatkino", "2018-04-09 06:45:00");
-            scheduleService.addNewSchedules("T1-Devyatkino-Prospekt Veteranov-0645", "Prospekt Veteranov", "2018-04-09 06:45:00");
+            String trainName = trainService.formTrainName(stationName, dateTime);
+            scheduleService.addNewSchedules(trainName, stationName, dateTime);
             return "adminka";
-        } catch (RuntimeBusinessLogicException ex) {
-            System.out.println(ex.getError());
-            return "adminka";
-        } catch (ParseException ex) {
-            System.out.println("SmthWrong");return "adminka";}
-
+        } catch (Exception ex) {
+            System.out.println("Smth wrng");return "adminka";}
     }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/deleteTrain")
     public String deletingTrain() {
         try {
-            trainService.delete("T1-Devyatkino-Prospekt Veteranov-0645");
-            trainService.delete("T1-Prospekt Veteranov-Devyatkino-0645");
+//            List<Train> =
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -105,24 +94,5 @@ public class AdminController {
             System.out.println(ex.getError());
             return "adminka";
         }
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/pathTest")
-    public String pathTest() {
-        return "selectStationsTest";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping ("/pathTest")
-    public String pathTestTheBest(@RequestParam(value = "station1") String station1,
-                           @RequestParam(value = "station2") String station2) {
-//        pathService.pathFinder("Parnas", "Moskovskaya");
-//        pathService.pathFinder("Komendantsky Prospekt", "Dostoyevskaya");
-//        pathService.pathFinder("Volkovskaya", "Elektrosila");
-//        pathService.pathFinder("Komendantsky Prospekt", "Vladimirskaya");
-//        pathService.pathFinder("Sadovaya", "Devyatkino");
-        pathService.pathFinder(station1, station2);
-        return "adminka";
     }
 }

@@ -1,14 +1,19 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-
+<%--
+  Created by IntelliJ IDEA.
+  User: belo4ka_new
+  Date: 07.09.2018
+  Time: 18:45
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="static/js/jquery-1.11.2.js"></script>
     <script type="text/javascript" src="static/js/jcanvas.js"></script>
     <link href="static/css/main.css" rel="stylesheet" />
-    <title> METRO MAP </title>
+    <title> Метро СПб </title>
 </head>
 
 
@@ -18,10 +23,15 @@
 </div>
 <div id='content'>
     <div id='input_box'>
-        <form action="/stationList" method="POST">
-            <input type='text' placeholder='WATCH SCHEDULE' name='stationSelect' value='' autocomplete='off' list='stations_list' required id='station1'>
+        <form action="/giveOptions" method="POST">
+            <input type='text' placeholder='From' name='begin' value='' autocomplete='off' list='stations_list' required id='station1'>
+            <br> <br>
+            <input type='text' placeholder='To' name='end' value='' autocomplete='off' list='stations_list' required id='station2'>
+            <br> <br>
+            <input type="date" id="start" name="date" value="2018-11-11" min="2018-01-01" max="2018-12-31" />
             <br> <br>
             <datalist id='stations_list' class='options'>
+
                 <option> Avtovo </option>
                 <option> Admiralteyskaya </option>
                 <option> Akademicheskaya </option>
@@ -91,7 +101,7 @@
                 <option> Elektrosila </option>
 
             </datalist>
-            <input type='submit' value='Watch schedule' id='submit'>
+            <input type='submit' value='Показать маршрут' id='submit'>
             <br> <br>
             <div id='result'>
 
@@ -175,34 +185,11 @@
         <div id='stat_67'>Ulitsa Dybenko</div>
     </div>
 </div>
-<div id='schedule'>
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <a href="/adminFunctions">ADMINKA</a>
-    </sec:authorize>
-    <a href="/findTickets">Find Path and Tickets</a>
-    <c:if test = "${empty model.closedStationStatus}">
-        <c:if test = "${not empty model.scheduleList}">
-            <table border="1" width="100%" cellpadding="5">
-                <tr>
-                    <th>Station</th>
-                    <th>Arrival Date</th>
-                    <th>Departure Date</th>
-                    <th>Train Number</th>
-                    <th>End station</th>
-                </tr>
-                <c:forEach items="${model.scheduleList}" var="list">
-                    <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td>
-                        <td><a href="/buyTicket/${list.getStation()}/${list.dateDeparture}/${list.trainName}/${list.endPointStationName}/${login}">Buy Ticket</a></p></td>></tr>
-                </c:forEach>
-            </table><br/>
-        </c:if>
-    </c:if>
-    <c:if test = "${not empty model.closedStationStatus}">
-        <b>That station closed or destroyed by mutants, save Go our souls</b>
-    </c:if>
-</div>
-
 <script>
+
+
+
+
     $("div[id^='stat_']").hover(
         function() {
             $(this).css('background-color', '#C5D1FA');
@@ -212,7 +199,19 @@
         });
 
     $("div[id^='stat_']").click(function() {
+        if ($('#station1').val()) {
+            if ($('#station2').val()) {
+                $('#station1').val($(this).text());
+                $('#station2').val('');
+            } else {
+                if ($('#station1').val() != $(this).text()) {
+                    $('#station2').val($(this).text());
+//							$('#submit').click();
+                }
+            }
+        } else {
             $('#station1').val($(this).text());
+        }
     });
 </script>
 </body>

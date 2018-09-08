@@ -25,7 +25,7 @@ public class Branch {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Branch branch = (Branch) o;
-        return Objects.equals(id, branch.id);
+        return Objects.equals(branchColor, branch.branchColor);
     }
 
     @Override

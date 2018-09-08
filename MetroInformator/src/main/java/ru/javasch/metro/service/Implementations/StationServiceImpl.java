@@ -15,6 +15,8 @@ import ru.javasch.metro.service.Interfaces.TransitionService;
 
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -88,4 +90,41 @@ public class StationServiceImpl implements StationService {
         if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
             graphService.changeWeight(stationName);
     }
+
+    @Override
+    @Transactional
+    public List<List<Station>> formSegments(List<Station> stations) {
+        List<List<Station>> segments = new ArrayList<>();
+            for (int i = 1; i < stations.size(); i++) {
+                List<Station> segment = new ArrayList<>();
+                segment.add(stations.get(i - 1));
+                segment.add(stations.get(i));
+                segments.add(segment);
+            }
+        return segments;
+    }
+
+    @Override
+    @Transactional
+    public void checkSegments(List<List<Station>> segments) {
+        Iterator it = segments.iterator();
+        while (it.hasNext()) {
+            List<Station> st = (List<Station>)it.next();
+            if (st.get(0).equals(st.get(1)))
+                it.remove();
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<List<Station>> findPathSegments(List<List<Station>> segments) {
+        List<List<Station>> pathStation = new ArrayList<>();
+        for (List<Station> st : segments) {
+            if (st.get(0).getBranch().equals(st.get(1).getBranch()))
+                pathStation.add(st);
+        }
+        return pathStation;
+    }
+
+
 }

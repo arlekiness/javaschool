@@ -2,15 +2,15 @@ package ru.javasch.metro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DTO.TicketDTO;
+import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
+import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
+import ru.javasch.metro.service.Interfaces.PathFinderService;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TicketService;
 import ru.javasch.metro.service.Interfaces.TrainService;
@@ -34,41 +34,38 @@ public class BuyingTicketController {
     @Autowired
     private TrainService trainService;
 
-    @RequestMapping(value="/buyTicket/{station}/{dateDeparture}/{trainName}/{endPointStation}/{login}")
-    public ModelAndView stationSchedule(@PathVariable(value="station") String stationName,
-                                        @PathVariable(value="dateDeparture") String dateDeparture,
-                                        @PathVariable(value="trainName") String trainName,
-                                        @PathVariable(value="endPointStation") String endPointStation,
-                                        @PathVariable(value="login") String userId,
-                                        HttpServletRequest request, HttpServletResponse response) {
-        TicketDTO ticketDTO = ticketService.formBeginTicketDTO(stationName, dateDeparture, trainName, endPointStation, userId);
-        List<Station> st = stationService.getAllStationsBeetweenTwoPoints(stationName, endPointStation);
-        List<String> stations = new ArrayList<>();
-        for (Station station : st)
-            stations.add(station.getName());
-        HttpSession session = request.getSession();
-        session.setAttribute("ticketDTO", ticketDTO);
-        ModelAndView model = new ModelAndView();
-        model.addObject("stationList", stations);
-        model.setViewName("buyticket");
-        return model;
+    @Autowired
+    private PathFinderService pathFinderService;
+
+
+    @RequestMapping(value="/findTickets")
+    public String findtickets() {
+        return "findtickets";
     }
 
-    @RequestMapping(value="/buyTicketFinal/{station}")
-    public String buyingTicketFinal(@PathVariable(value="station") String endStation, HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        TicketDTO ticketDTO = (TicketDTO) session.getAttribute("ticketDTO");
-        ticketDTO.setStationEnd(endStation);
+    @PostMapping("/giveOptions")
+    public String giveOptions(@RequestParam(value="begin") String beginStation,
+                              @RequestParam(value="end") String endStation,
+                              @RequestParam(value="date") String date) {
         try {
-            Train train = trainService.findByName(ticketDTO.getTrainName());
-            if (train.getCapacity() <= ticketService.occupiedSeats(ticketDTO))
-                System.out.println("You can't buy any more tickets");
-            else {
-                ticketService.addTicketInSystem(ticketDTO);
-                session.removeAttribute("ticketDTO");
-            }
-        } catch (Exception ex) {}
-        return "station";
+            List<Station> stations = pathFinderService.pathFinder(beginStation, endStation);
+            List<List<Station>> segments = stationService.formSegments(stations);
+            stationService.checkSegments(segments);
+            List<List<Station>> pathSegments = stationService.findPathSegments(segments);
+            String path = ticketService.formMessageAboutPath(segments);
+            System.out.println(path);
+//        List<Ticket> tickets =
+            List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
+            List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
+        } catch (ParseException ex) {
+            System.out.println("Huinya kakaya-to");
+        }
+
+
+
+        return "findtickets";
     }
+
+
 
 }
