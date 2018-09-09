@@ -129,7 +129,8 @@ create table ticket
 	train_id int not null,
 	stationBegin_id int not null,
 	stationEnd_id int not null,
-	ticketDate timestamp null,
+	ticketDateDeparture timestamp null,
+	ticketDateArrival timestamp null,
 	price int null,
 	branch_id int not null,
 	constraint ticket_id_uindex

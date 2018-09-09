@@ -21,7 +21,7 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
     public List<Ticket> getByStationAndDate (Station station, Date date) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Ticket where stationBegin = :station " +
-                        "and year(ticketDate) = year(:date)" + "and month(ticketDate) = month(:date)" + "and day(ticketDate) = day(:date)")
+                        "and year(ticketDateDeparture) = year(:date)" + "and month(ticketDate) = month(:date)" + "and day(ticketDate) = day(:date)")
                 .setParameter("station", station)
                 .setParameter("date", date)
                 .getResultList();
@@ -43,9 +43,9 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
         if (beginNumberOnBranch < endNumberOnBranch)
             return sessionFactory.getCurrentSession()
                     .createQuery("from Ticket where train = :train and " +
-                            "year(ticketDate) = year(:date) and " +
-                            "month(ticketDate) = month(:date) and " +
-                            "day(ticketDate) = day(:date) and " +
+                            "year(ticketDateDeparture) = year(:date) and " +
+                            "month(ticketDateDeparture) = month(:date) and " +
+                            "day(ticketDateDeparture) = day(:date) and " +
                             "((:beginNumberOnBranch = stationBegin.numberOnBranch) or " +
                             " (stationBegin.numberOnBranch < :beginNumberOnBranch and stationEnd.numberOnBranch > :beginNumberOnBranch) or " +
                               "(stationBegin.numberOnBranch > :beginNumberOnBranch and stationBegin.numberOnBranch < :endNumberOnBranch))")
@@ -57,9 +57,9 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
         else if (beginNumberOnBranch > endNumberOnBranch)
             return sessionFactory.getCurrentSession()
                     .createQuery("from Ticket where train = :train and " +
-                            "year(ticketDate) = year(:date) and " +
-                            "month(ticketDate) = month(:date) and " +
-                            "day(ticketDate) = day(:date) and " +
+                            "year(ticketDateDeparture) = year(:date) and " +
+                            "month(ticketDateDeparture) = month(:date) and " +
+                            "day(ticketDateDeparture) = day(:date) and " +
                             "((:beginNumberOnBranch = stationBegin.numberOnBranch) or " +
                             " (stationBegin.numberOnBranch > :beginNumberOnBranch and stationEnd.numberOnBranch < :beginNumberOnBranch) or " +
                             "(stationBegin.numberOnBranch < :beginNumberOnBranch and stationBegin.numberOnBranch > :endNumberOnBranch))")

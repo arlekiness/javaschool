@@ -29,12 +29,6 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public Train findByName(String trainName) {
-        return trainDAO.findByName(trainName);
-    }
-
-    @Override
-    @Transactional
     public Train findById(Long Id) { return (Train)trainDAO.getById(Id); }
 
     @Override

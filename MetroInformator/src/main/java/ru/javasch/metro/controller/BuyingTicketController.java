@@ -1,5 +1,6 @@
 package ru.javasch.metro.controller;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @Controller
+@Log4j
 public class BuyingTicketController {
 
     @Autowired
@@ -49,6 +51,13 @@ public class BuyingTicketController {
 //        List<Ticket> tickets =
             List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
             List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
+            System.out.println(tickets.size());
+
+            for (List<Ticket> tick : tickets) {
+                for (Ticket t : tick)
+                    System.out.print(t.getBranch().getColor() + "****" + t.getStationBegin().getName() + "----->" + t.getStationEnd().getName() + "Date: " + t.getTicketDateDeparture() + " - " + t.getTicketDateArrival() + "//====//");
+                System.out.println("********");
+            }
         } catch (ParseException ex) {
             System.out.println("Huinya kakaya-to");
         }

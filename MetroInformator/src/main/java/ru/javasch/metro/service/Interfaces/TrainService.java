@@ -6,7 +6,6 @@ import ru.javasch.metro.model.Train;
 
 @Service
 public interface TrainService {
-    public Train findByName(String trainName);
     public Long add (String trainName);
     public void delete (Long Id);
     public Train findById(Long Id);

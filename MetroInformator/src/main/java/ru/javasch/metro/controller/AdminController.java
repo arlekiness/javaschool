@@ -1,5 +1,6 @@
 package ru.javasch.metro.controller;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @Controller
+@Log4j
 public class AdminController {
 
     @Autowired

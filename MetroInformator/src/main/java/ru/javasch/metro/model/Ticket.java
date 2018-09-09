@@ -11,7 +11,8 @@ public class Ticket {
     private Train train;
     private Station stationBegin;
     private Station stationEnd;
-    private Date ticketDate;
+    private Date ticketDateDeparture;
+    private Date ticketDateArrival;
     private Integer price;
     private Branch branch;
 
@@ -39,10 +40,15 @@ public class Ticket {
     public Station getStationEnd() { return stationEnd; }
     public void setStationEnd(Station stationEnd) { this.stationEnd = stationEnd; }
 
-    @Column(name = "ticketDate")
+    @Column(name = "ticketDateDeparture")
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getTicketDate() { return ticketDate; }
-    public void setTicketDate(Date ticketDate) { this.ticketDate = ticketDate; }
+    public Date getTicketDateDeparture() { return ticketDateDeparture; }
+    public void setTicketDateDeparture(Date ticketDateDeparture) { this.ticketDateDeparture = ticketDateDeparture; }
+
+    @Column(name = "ticketDateArrival")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getTicketDateArrival() { return ticketDateArrival; }
+    public void setTicketDateArrival(Date ticketDateArrival) { this.ticketDateArrival = ticketDateArrival; }
 
     @Column(name="price")
     public Integer getPrice() { return price; }

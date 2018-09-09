@@ -1,0 +1,6 @@
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (1, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (2, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (3, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (4, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (5, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id) VALUES (6, 1, 1, 1, 19, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 2);

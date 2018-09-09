@@ -127,21 +127,32 @@ public class TicketServiceImpl implements TicketService {
             }
             schedulesChain.add(anotherOneList);
         }
-        System.out.println(schedulesChain.size());
-        for (List<Schedule> sc : schedulesChain)
-            System.out.print(sc.size() + " ");
 
-        System.out.println("********" + schedulesChain.get(0).get(0) + "********>********" + schedulesChain.get(1).get(0));
-//        System.out.println("===========================");
-//        System.out.println("********" + schedulesChain.get(0).get(1) + "********>********" + schedulesChain.get(1).get(1)
-//                            + "********>********" + schedulesChain.get(2).get(1) + "********>********" + schedulesChain.get(3).get(1) + "********");
-//        System.out.println("===========================");
-//        System.out.println("********" + schedulesChain.get(0).get(2) + "********>********" + schedulesChain.get(1).get(2)
-//                + "********>********" + schedulesChain.get(2).get(2) + "********>********" + schedulesChain.get(3).get(2) + "********");
-//        System.out.println("===========================");
-//        System.out.println("********" + schedulesChain.get(0).get(3) + "********>********" + schedulesChain.get(1).get(3)
-//                + "********>********" + schedulesChain.get(2).get(3) + "********>********" + schedulesChain.get(3).get(3) + "********");
-//        System.out.println("===========================");
-        return new ArrayList<List<Ticket>>();
+        int ticketChain = schedulesChain.size();
+        int ticketsInChain = ticketChain / 2;
+        int fullChains = schedulesChain.get(ticketChain - 1).size();
+
+        System.out.println(ticketChain + " " + fullChains);
+
+        List<List<Ticket>> tickets = new ArrayList<>();
+        for (int i = 0; i < fullChains - 1; i++) {
+            List<Ticket> chain = new ArrayList<>();
+            for (int j = 1; j < ticketChain; j += 2) {
+                Ticket ticket = new Ticket();
+                Schedule begin = schedulesChain.get(j - 1).get(i);
+                Schedule end = schedulesChain.get(j).get(i);
+                ticket.setPrice(500);
+                ticket.setStationBegin(begin.getStation());
+                ticket.setStationEnd(end.getStation());
+                ticket.setTrain(begin.getTrain());
+                ticket.setTicketDateDeparture(begin.getDateDeparture());
+                ticket.setTicketDateArrival(end.getDateArrival());
+                ticket.setBranch(begin.getStation().getBranch());
+                chain.add(ticket);
+            }
+            tickets.add(chain);
+        }
+
+        return tickets;
     }
 }
