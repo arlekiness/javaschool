@@ -46,11 +46,11 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createTrain")
-    public String creatingTrainForm(@RequestParam(value="stationName") String stationName,
+    public String creatingTrainForm(@RequestParam(value="trainName") String trainName,
+                                        @RequestParam(value="stationName") String stationName,
                                     @RequestParam(value="datetime") String dateTime)
     {
         try {
-            String trainName = trainService.formTrainName(stationName, dateTime);
             scheduleService.addNewSchedules(trainName, stationName, dateTime);
             return "adminka";
         } catch (Exception ex) {

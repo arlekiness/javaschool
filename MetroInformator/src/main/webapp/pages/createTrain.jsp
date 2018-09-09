@@ -12,6 +12,8 @@
 </head>
 <body>
 <form class="form" action="/createTrain" method="post">
+    Train
+    <input name="trainName" type="text"/><br/>
     Station
     <input name="stationName" type="text"/><br/>
     Date

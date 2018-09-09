@@ -21,6 +21,8 @@
         <form action="/stationList" method="POST">
             <input type='text' placeholder='WATCH SCHEDULE' name='stationSelect' value='' autocomplete='off' list='stations_list' required id='station1'>
             <br> <br>
+            <input type="date" id="start" name="date" value="2018-11-11" min="2018-01-01" max="2018-12-31" />
+            <br> <br>
             <datalist id='stations_list' class='options'>
                 <option> Avtovo </option>
                 <option> Admiralteyskaya </option>
@@ -191,8 +193,7 @@
                     <th>End station</th>
                 </tr>
                 <c:forEach items="${model.scheduleList}" var="list">
-                    <tr><td>${list.getStation()}</td><td>${list.dateArrival}</td><td>${list.dateDeparture}</td><td>${list.trainName}</td><td>${list.endPointStationName}</td>
-                        <td><a href="/buyTicket/${list.getStation()}/${list.dateDeparture}/${list.trainName}/${list.endPointStationName}/${login}">Buy Ticket</a></p></td>></tr>
+                    <tr><td>${list.getStation().getName()}</td><td>${list.getDateArrival()}</td><td>${list.getDateDeparture()}</td><td>${list.getTrain().getTrainName()}</td><td>${list.getEndPointStation().getName()}</td>
                 </c:forEach>
             </table><br/>
         </c:if>

@@ -3,23 +3,15 @@ package ru.javasch.metro.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ru.javasch.metro.DAO.Interfaces.StationDAO;
-import ru.javasch.metro.DTO.TicketDTO;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
-import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.Interfaces.PathFinderService;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TicketService;
 import ru.javasch.metro.service.Interfaces.TrainService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -1,13 +1,11 @@
 package ru.javasch.metro.service.Interfaces;
 
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.DTO.UserDTO;
 import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.model.User;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 @Service

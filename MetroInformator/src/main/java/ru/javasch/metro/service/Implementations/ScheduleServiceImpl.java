@@ -1,15 +1,10 @@
 package ru.javasch.metro.service.Implementations;
 
-import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.DAO.Interfaces.ScheduleDAO;
-import ru.javasch.metro.DAO.Interfaces.StationDAO;
-import ru.javasch.metro.DTO.ScheduleDTO;
 import ru.javasch.metro.configuration.constants.Utils;
-import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.Branch;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
@@ -48,31 +43,22 @@ public class ScheduleServiceImpl implements ScheduleService {
      View Schedule List on station*/
     @Override
     @Transactional
-    public List<ScheduleDTO> getAllTrainsOnStation (String stationName) {
+    public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException {
+        Date date = Utils.parseToDate(dateString);
         Station station = stationService.findByName(stationName);
         if (station.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException("Station closed for some reason");
 
-        List<Schedule> schedule = scheduleDAO.getByStation(station);
-        List<ScheduleDTO> scheduleList = new ArrayList<>();
-        for (Schedule sch : schedule) {
-            ScheduleDTO schDTO = new ScheduleDTO();
-            schDTO.setDateArrival(sch.getDateArrival().toString());
-            schDTO.setDateDeparture(sch.getDateDeparture().toString());
-            schDTO.setStation(sch.getStation().getName());
-            schDTO.setEndPointStationName(sch.getEndPointStation().getName());
-            schDTO.setTrainName(sch.getTrain().getTrainName());
-            scheduleList.add(schDTO);
-        }
-        return scheduleList;
+        List<Schedule> schedule = scheduleDAO.getByStationAndDate(station, date);
+        return schedule;
     }
     /**
      Adding new Schedule List when ADMIN add new train*/
     @Override
     @Transactional
     public List<Station> addNewSchedules (String trainName, String stationName, String firstDate) throws ParseException {
-        trainService.add(trainName);
-        Train train = trainService.findByName(trainName);
+        Long Id = trainService.add(trainName);
+        Train train = trainService.findById(Id);
         List<Station> stations = stationService.getAllStationOnBranch(stationName);
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);

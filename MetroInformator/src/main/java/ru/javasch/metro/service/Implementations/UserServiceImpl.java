@@ -1,17 +1,10 @@
 package ru.javasch.metro.service.Implementations;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.DAO.Interfaces.RoleDAO;
 import ru.javasch.metro.DAO.Interfaces.UserDAO;
-import ru.javasch.metro.DTO.UserDTO;
 import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.model.Role;
@@ -22,8 +15,6 @@ import ru.javasch.metro.service.Interfaces.UserService;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

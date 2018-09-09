@@ -1,21 +1,14 @@
 package ru.javasch.metro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javasch.metro.DTO.UserDTO;
-import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.service.Implementations.SecureService;
 import ru.javasch.metro.service.Interfaces.UserService;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Controller
 public class UserController {

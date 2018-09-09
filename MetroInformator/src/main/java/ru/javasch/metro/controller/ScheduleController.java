@@ -3,17 +3,10 @@ package ru.javasch.metro.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javasch.metro.DAO.Interfaces.StationDAO;
-import ru.javasch.metro.DAO.Interfaces.TicketDAO;
-import ru.javasch.metro.DTO.ScheduleDTO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.Station;
-import ru.javasch.metro.model.Ticket;
-import ru.javasch.metro.model.User;
-import ru.javasch.metro.service.Implementations.SecureService;
+import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.service.Interfaces.ScheduleService;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TicketService;
@@ -37,15 +30,19 @@ public class ScheduleController {
     UserService userService;
 
     @PostMapping("/stationList")
-    public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName) {
+    public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName,
+                                        @RequestParam(value="date") String date) {
 
         Map<String, Object> modelMap = new HashMap<>();
         try {
-            List<ScheduleDTO> sch = scheduleService.getAllTrainsOnStation(stationName);
+            List<Schedule> sch = scheduleService.getAllTrainsOnStation(stationName, date);
             modelMap.put("showSchedule", "true");
             modelMap.put("scheduleList", sch);
             return new ModelAndView("stationscheme", "model", modelMap);
         } catch (RuntimeBusinessLogicException ex) {
+            modelMap.put("closedStationStatus", "true");
+            return new ModelAndView("stationscheme", "model", modelMap);
+        } catch (ParseException ex) {
             modelMap.put("closedStationStatus", "true");
             return new ModelAndView("stationscheme", "model", modelMap);
         }

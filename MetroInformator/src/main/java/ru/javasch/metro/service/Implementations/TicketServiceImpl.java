@@ -6,9 +6,7 @@ import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DAO.Interfaces.TicketDAO;
 import ru.javasch.metro.DAO.Interfaces.TrainDAO;
 import ru.javasch.metro.DAO.Interfaces.UserDAO;
-import ru.javasch.metro.DTO.TicketDTO;
 import ru.javasch.metro.configuration.constants.Utils;
-import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.Interfaces.ScheduleService;
 import ru.javasch.metro.service.Interfaces.StationService;
@@ -50,27 +48,6 @@ public class TicketServiceImpl implements TicketService {
 
         List<Ticket> tickets = ticketDAO.getByStationDateTrain(beginStation, endStation, date, train);
         return tickets.size();
-    }
-
-    @Override
-    @Transactional
-    public void addTicketInSystem(TicketDTO ticketDTO) throws ParseException {
-        User user = (User)userDAO.getById(Long.parseLong(ticketDTO.getUserId()));
-        Train train = trainDAO.findByName(ticketDTO.getTrainName());
-        Station stationBegin = stationDAO.findByName(ticketDTO.getStationBegin());
-        Station stationEnd = stationDAO.findByName(ticketDTO.getStationEnd());
-        Date date = Utils.parseToDateTime(ticketDTO.getDateDeparture());
-        Integer price = Math.abs(stationBegin.getNumberOnBranch() - stationEnd.getNumberOnBranch()) * 100;
-        Branch branch = stationBegin.getBranch();
-        Ticket ticket = new Ticket();
-        ticket.setUser(user);
-        ticket.setTrain(train);
-        ticket.setStationBegin(stationBegin);
-        ticket.setStationEnd(stationEnd);
-        ticket.setTicketDate(date);
-        ticket.setPrice(price);
-        ticket.setBranch(branch);
-        ticketDAO.add(ticket);
     }
 
     @Override
@@ -154,18 +131,17 @@ public class TicketServiceImpl implements TicketService {
         for (List<Schedule> sc : schedulesChain)
             System.out.print(sc.size() + " ");
 
-        System.out.println("********" + schedulesChain.get(0).get(0) + "********>********" + schedulesChain.get(1).get(0)
-                            + "********>********" + schedulesChain.get(2).get(0) + "********>********" + schedulesChain.get(3).get(0) + "********");
-        System.out.println("===========================");
-        System.out.println("********" + schedulesChain.get(0).get(1) + "********>********" + schedulesChain.get(1).get(1)
-                            + "********>********" + schedulesChain.get(2).get(1) + "********>********" + schedulesChain.get(3).get(1) + "********");
-        System.out.println("===========================");
-        System.out.println("********" + schedulesChain.get(0).get(2) + "********>********" + schedulesChain.get(1).get(2)
-                + "********>********" + schedulesChain.get(2).get(2) + "********>********" + schedulesChain.get(3).get(2) + "********");
-        System.out.println("===========================");
-        System.out.println("********" + schedulesChain.get(0).get(3) + "********>********" + schedulesChain.get(1).get(3)
-                + "********>********" + schedulesChain.get(2).get(3) + "********>********" + schedulesChain.get(3).get(3) + "********");
-        System.out.println("===========================");
+        System.out.println("********" + schedulesChain.get(0).get(0) + "********>********" + schedulesChain.get(1).get(0));
+//        System.out.println("===========================");
+//        System.out.println("********" + schedulesChain.get(0).get(1) + "********>********" + schedulesChain.get(1).get(1)
+//                            + "********>********" + schedulesChain.get(2).get(1) + "********>********" + schedulesChain.get(3).get(1) + "********");
+//        System.out.println("===========================");
+//        System.out.println("********" + schedulesChain.get(0).get(2) + "********>********" + schedulesChain.get(1).get(2)
+//                + "********>********" + schedulesChain.get(2).get(2) + "********>********" + schedulesChain.get(3).get(2) + "********");
+//        System.out.println("===========================");
+//        System.out.println("********" + schedulesChain.get(0).get(3) + "********>********" + schedulesChain.get(1).get(3)
+//                + "********>********" + schedulesChain.get(2).get(3) + "********>********" + schedulesChain.get(3).get(3) + "********");
+//        System.out.println("===========================");
         return new ArrayList<List<Ticket>>();
     }
 }
