@@ -1,34 +1,28 @@
 package ru.javasch.metro.service.Implementations;
 
 import javafx.util.Pair;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.DAO.Interfaces.GraphDAO;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
-import ru.javasch.metro.DAO.Interfaces.TransitionDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.Branch;
 import ru.javasch.metro.model.Graph;
 import ru.javasch.metro.model.Station;
-import ru.javasch.metro.model.Transition;
+import ru.javasch.metro.model.Status;
 import ru.javasch.metro.service.Interfaces.PathFinderService;
 import ru.javasch.metro.service.Interfaces.StationService;
-import ru.javasch.metro.service.Interfaces.TransitionService;
 
-import javax.transaction.Transaction;
 import javax.transaction.Transactional;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
+@Log4j
 public class PathFinderServiceImpl implements PathFinderService {
     @Autowired
     StationService stationService;
 
-    @Autowired
-    TransitionService transitionService;
 
     @Autowired
     GraphDAO graphDAO;
@@ -40,6 +34,25 @@ public class PathFinderServiceImpl implements PathFinderService {
     @Override
     @Transactional
     public List<Station> pathFinder(String stationBegin, String stationEnd) {
+        List<Graph> st1 = graphDAO.getAllNodes(stationService.findByName(stationBegin));
+        List<Graph> st2 = graphDAO.getAllNodes(stationService.findByName(stationEnd));
+
+        int closed1 = 0;
+        int closed2 = 0;
+
+        for (Graph r : st1)
+            if (r.getOldWeight() != 100000)
+                closed1++;
+
+        for (Graph r : st2)
+            if (r.getOldWeight() != 100000)
+                closed2++;
+
+        System.out.println(st1.size() + " " + st2.size() + " " + closed1 + closed2);
+
+        if (closed1 > 0 || closed2 > 0)
+            throw new RuntimeBusinessLogicException("Something go wrong. Some Stations are closed");
+
         int indexBeg = stationService.findByName(stationBegin).getId() - 1;
         int indexEnd = stationService.findByName(stationEnd).getId() - 1;
         int[][] graphArray = new int[69][69];
@@ -92,7 +105,7 @@ public class PathFinderServiceImpl implements PathFinderService {
                     break;
                 interIndex = bestTransition;
                 transCount++;
-                if (transCount > 0)
+                if (transCount > 10)
                     throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
             }
             path.add(indexEnd);

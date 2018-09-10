@@ -2204,3 +2204,7 @@ INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, tra
 INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (2202, '2018-11-11 22:30:00', '2018-11-11 22:35:00' , 60, 172, 58);
 INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (2203, '2018-11-11 23:05:00', '2018-11-11 23:10:00' , 59, 172, 58);
 INSERT INTO testbase.schedule (id, date_arrival, date_departure, station_id, train_id, endPointStation_id) VALUES (2204, '2018-11-11 23:40:00', '2018-11-11 23:45:00' , 58, 172, 58);
+
+
+
+

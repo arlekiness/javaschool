@@ -24,7 +24,6 @@ public class GraphServiceImpl implements GraphService {
     @Transactional
     public void changeWeight (String stationName) {
         Station station = stationService.findByName(stationName);
-        Status status = station.getStatus();
         List<Graph> graph = graphDAO.getAllNodes(station);
         for (Graph gr : graph) {
                 int weight = gr.getWeight();

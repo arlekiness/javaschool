@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Branch;
 import ru.javasch.metro.model.Station;
 
@@ -19,10 +20,14 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
 
     @Override
     public Station findByName(String name) {
-        return (Station) sessionFactory.getCurrentSession()
-                .createQuery("from Station where name = :name")
-                .setParameter("name", name)
-                .uniqueResult();
+        try {
+            return (Station) sessionFactory.getCurrentSession()
+                    .createQuery("from Station where name = :name")
+                    .setParameter("name", name)
+                    .uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeBusinessLogicException("Such station doesn't exists");
+        }
     }
 
     @Override

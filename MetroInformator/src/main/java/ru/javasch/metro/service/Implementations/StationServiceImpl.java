@@ -4,21 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.DAO.Interfaces.StationDAO;
 import ru.javasch.metro.DAO.Interfaces.StatusDAO;
-import ru.javasch.metro.DAO.Interfaces.TransitionDAO;
-import ru.javasch.metro.model.Graph;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Status;
-import ru.javasch.metro.model.Transition;
 import ru.javasch.metro.service.Interfaces.GraphService;
 import ru.javasch.metro.service.Interfaces.StationService;
-import ru.javasch.metro.service.Interfaces.TransitionService;
 
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class StationServiceImpl implements StationService {
@@ -29,8 +24,6 @@ public class StationServiceImpl implements StationService {
     @Autowired
     private StatusDAO statusDAO;
 
-    @Autowired
-    private TransitionDAO transitionDAO;
 
     @Autowired
     private GraphService graphService;
@@ -70,9 +63,6 @@ public class StationServiceImpl implements StationService {
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getCloseStatus();
         station.setStatus(status);
-        List<Transition> transition = transitionDAO.getTransitionsByStation(station);
-        for (Transition t : transition)
-            t.setStatus(status);
         if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
             graphService.changeWeight(stationName);
     }
@@ -84,9 +74,6 @@ public class StationServiceImpl implements StationService {
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getWorkStatus();
         station.setStatus(status);
-        List<Transition> transition = transitionDAO.getTransitionsByStation(station);
-        for (Transition t : transition)
-            t.setStatus(status);
         if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
             graphService.changeWeight(stationName);
     }

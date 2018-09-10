@@ -2,6 +2,7 @@ package ru.javasch.metro.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,13 +46,14 @@ public class UserController {
         }
     }
 
+
     @RequestMapping(value = "/login")
     public String login() {
         return "login";
     }
 
     @RequestMapping(value = "/")
-    public String loginRedirect() { return "login"; }
+    public String loginRedirect() { return "stationscheme"; }
 
     @RequestMapping(value = "/home")
     public String home() { return "stationscheme"; }

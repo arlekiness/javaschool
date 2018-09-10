@@ -6,6 +6,7 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.GenericDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository

@@ -15,5 +15,6 @@ public interface TicketService {
     public String formMessageAboutPath(List<List<Station>> segments);
     public List<Schedule>  formFirstTicket(List<List<Station>> segments, String date) throws ParseException;
     public List<List<Ticket>> formTicketChains(List<List<Station>> pathSegment, List<Schedule> schedule);
+    public void registrateTicketsInSystem(List<Ticket> ticket, String userName);
 }
 

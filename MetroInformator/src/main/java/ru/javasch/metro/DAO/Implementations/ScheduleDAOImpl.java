@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.DAO.Interfaces.ScheduleDAO;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.Interfaces.StationService;
 
@@ -20,14 +21,20 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
 
     @Override
     public List<Schedule> getByStationAndDate(Station station, Date date) {
-        return (List<Schedule>)sessionFactory.getCurrentSession()
-                .createQuery("from Schedule " +
-                        "where station = :station " + " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
-                        " and day(dateDeparture) = day(:date)" +
-                        " order by dateArrival asc ")
-                .setParameter("station", station)
-                .setParameter("date", date)
-                .getResultList();
+        Date now = new Date();
+        try {
+            return (List<Schedule>)sessionFactory.getCurrentSession()
+                    .createQuery("from Schedule " +
+                            "where station = :station " + " and dateDeparture > :datenow and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
+                            " and day(dateDeparture) = day(:date)" +
+                            " order by dateArrival asc ")
+                    .setParameter("station", station)
+                    .setParameter("date", date)
+                    .setParameter("datenow", now)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeBusinessLogicException("There is no trains on that date on that station");
+        }
     }
 
     public Schedule findByTrainAndStation (Train train, Station station) {
@@ -40,17 +47,20 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
 
     @Override
     public List getByStationsAndDate(Station stationBegin, Station endPointStation, Date date, Date now) {
-
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Schedule " + "where station = :stationBegin " + " and dateDeparture > :dateNow" + " and dateDeparture > :date" +
-                                " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
-                                " and day(dateDeparture) = day(:date)" +
-                                " and endPointStation = :endPointStation")
-                .setParameter("stationBegin", stationBegin)
-                .setParameter("endPointStation", endPointStation)
-                .setParameter("date", date)
-                .setParameter("dateNow", now)
-                .getResultList();
+        try {
+            return sessionFactory.getCurrentSession()
+                    .createQuery("from Schedule " + "where station = :stationBegin " + " and dateDeparture > :dateNow" + " and dateDeparture > :date" +
+                            " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
+                            " and day(dateDeparture) = day(:date)" +
+                            " and endPointStation = :endPointStation")
+                    .setParameter("stationBegin", stationBegin)
+                    .setParameter("endPointStation", endPointStation)
+                    .setParameter("date", date)
+                    .setParameter("dateNow", now)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeBusinessLogicException("There is not trains");
+        }
     }
 
 }

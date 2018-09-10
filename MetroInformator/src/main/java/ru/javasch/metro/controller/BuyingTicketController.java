@@ -2,16 +2,21 @@ package ru.javasch.metro.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ru.javasch.metro.configuration.constants.Utils;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
-import ru.javasch.metro.service.Interfaces.PathFinderService;
-import ru.javasch.metro.service.Interfaces.StationService;
-import ru.javasch.metro.service.Interfaces.TicketService;
-import ru.javasch.metro.service.Interfaces.TrainService;
+import ru.javasch.metro.service.Interfaces.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class BuyingTicketController {
     private StationService stationService;
 
     @Autowired
-    private TrainService trainService;
+    private UserService userService;
 
     @Autowired
     private PathFinderService pathFinderService;
@@ -37,10 +42,16 @@ public class BuyingTicketController {
         return "findtickets";
     }
 
+    @GetMapping("/giveOptions")
+    public String giveOptionsGet() {
+        return "findtickets";
+    }
+
     @PostMapping("/giveOptions")
     public String giveOptions(@RequestParam(value="begin") String beginStation,
                               @RequestParam(value="end") String endStation,
-                              @RequestParam(value="date") String date) {
+                              @RequestParam(value="date") String date,
+                              HttpServletRequest req, HttpServletResponse resp) {
         try {
             List<Station> stations = pathFinderService.pathFinder(beginStation, endStation);
             List<List<Station>> segments = stationService.formSegments(stations);
@@ -51,13 +62,14 @@ public class BuyingTicketController {
 //        List<Ticket> tickets =
             List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
             List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
-            System.out.println(tickets.size());
-
-            for (List<Ticket> tick : tickets) {
-                for (Ticket t : tick)
-                    System.out.print(t.getBranch().getColor() + "****" + t.getStationBegin().getName() + "----->" + t.getStationEnd().getName() + "Date: " + t.getTicketDateDeparture() + " - " + t.getTicketDateArrival() + "//====//");
-                System.out.println("********");
-            }
+            HttpSession session = req.getSession();
+            session.setAttribute("TicketList", tickets);
+            session.setAttribute("chainId", 1);
+            return "buyticket";
+        } catch (RuntimeBusinessLogicException ex) {
+            System.out.println("Smth wrong");
+            System.out.println(ex.getError());
+            ex.getError();
         } catch (ParseException ex) {
             System.out.println("Huinya kakaya-to");
         }
@@ -65,6 +77,20 @@ public class BuyingTicketController {
 
 
         return "findtickets";
+    }
+
+    @RequestMapping(value = "/requestTicket/{count}")
+    public ModelAndView ticketRegistration(@PathVariable(value = "count") int count,
+                                           HttpServletRequest req,
+                                           HttpServletResponse resp) {
+        HttpSession session = req.getSession();
+        List<List<Ticket>> tickets = (List<List<Ticket>>) session.getAttribute("TicketList");
+        List<Ticket> chain = tickets.get(count - 1);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        ticketService.registrateTicketsInSystem(chain, userName);
+        session.removeAttribute("TicketList");
+        return new ModelAndView("redirect:/giveOptions");
     }
 
 

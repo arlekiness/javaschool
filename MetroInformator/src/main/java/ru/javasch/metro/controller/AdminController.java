@@ -49,7 +49,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createTrain")
     public String creatingTrainForm(@RequestParam(value="trainName") String trainName,
-                                        @RequestParam(value="stationName") String stationName,
+                                    @RequestParam(value="stationName") String stationName,
                                     @RequestParam(value="datetime") String dateTime)
     {
         try {

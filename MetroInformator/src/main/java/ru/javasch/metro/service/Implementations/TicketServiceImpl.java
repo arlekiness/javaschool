@@ -11,6 +11,7 @@ import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.Interfaces.ScheduleService;
 import ru.javasch.metro.service.Interfaces.StationService;
 import ru.javasch.metro.service.Interfaces.TicketService;
+import ru.javasch.metro.service.Interfaces.UserService;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
@@ -37,6 +38,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     ScheduleService scheduleService;
+
+    @Autowired
+    UserService userService;
 
 
     @Override
@@ -154,5 +158,15 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return tickets;
+    }
+
+    @Override
+    @Transactional
+    public void registrateTicketsInSystem(List<Ticket> ticket, String userName) {
+        User user = userService.findUserByEmail(userName);
+        for (Ticket t : ticket) {
+            t.setUser(user);
+            ticketDAO.add(t);
+        }
     }
 }
