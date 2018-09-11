@@ -21,6 +21,7 @@ public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements 
         } catch (NonUniqueResultException ex) {
             throw new RuntimeBusinessLogicException("Train already exist");
         } catch (NullPointerException ex) {
+            //try
             throw new RuntimeBusinessLogicException("Such train doesn't exist");
         }
     }
