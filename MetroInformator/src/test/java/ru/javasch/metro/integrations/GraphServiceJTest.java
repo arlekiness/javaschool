@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import ru.javasch.metro.DAO.Interfaces.GraphDAO;
+import ru.javasch.metro.dao.interfaces.GraphDAO;
 import ru.javasch.metro.configuration.*;
-import ru.javasch.metro.service.Interfaces.StationService;
+import ru.javasch.metro.service.interfaces.StationService;
 
 import javax.transaction.Transactional;
 

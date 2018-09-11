@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.javasch.metro.configuration.*;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.service.Interfaces.ScheduleService;
+import ru.javasch.metro.service.interfaces.ScheduleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {

@@ -8,18 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.Station;
-import ru.javasch.metro.model.Train;
-import ru.javasch.metro.service.Implementations.PathFinderServiceImpl;
-import ru.javasch.metro.service.Interfaces.PathFinderService;
-import ru.javasch.metro.service.Interfaces.ScheduleService;
-import ru.javasch.metro.service.Interfaces.StationService;
-import ru.javasch.metro.service.Interfaces.TrainService;
-
-import java.text.ParseException;
-import java.util.List;
+import ru.javasch.metro.service.interfaces.ScheduleService;
+import ru.javasch.metro.service.interfaces.StationService;
+import ru.javasch.metro.service.interfaces.TrainService;
 
 @Controller
 @Log4j

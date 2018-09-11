@@ -1,5 +1,8 @@
 package ru.javasch.metro.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ public class Ticket {
     private Date ticketDateArrival;
     private Integer price;
     private Branch branch;
+    private Long valid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +30,12 @@ public class Ticket {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "train_id", nullable = false)
     public Train getTrain() { return train; }
     public void setTrain(Train train) { this.train = train; }
 
-
+//(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OneToOne
     public Station getStationBegin() { return stationBegin; }
     public void setStationBegin(Station stationBegin) { this.stationBegin = stationBegin; }
@@ -58,4 +62,6 @@ public class Ticket {
     public Branch getBranch() { return branch; }
     public void setBranch(Branch branch) { this.branch = branch; }
 
+    public Long getValid() { return valid; }
+    public void setValid(Long valid) { this.valid = valid; }
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
-import ru.javasch.metro.service.Interfaces.ScheduleService;
-import ru.javasch.metro.service.Interfaces.StationService;
-import ru.javasch.metro.service.Interfaces.TicketService;
-import ru.javasch.metro.service.Interfaces.UserService;
+import ru.javasch.metro.service.interfaces.ScheduleService;
+import ru.javasch.metro.service.interfaces.StationService;
+import ru.javasch.metro.service.interfaces.TicketService;
+import ru.javasch.metro.service.interfaces.UserService;
 
 import java.text.ParseException;
 import java.util.*;

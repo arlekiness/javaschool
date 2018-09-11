@@ -2,12 +2,11 @@ package ru.javasch.metro.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javasch.metro.service.Implementations.SecureService;
-import ru.javasch.metro.service.Interfaces.UserService;
+import ru.javasch.metro.service.implementations.SecureService;
+import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

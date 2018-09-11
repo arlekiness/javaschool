@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.javasch.metro.configuration.*;
-import ru.javasch.metro.service.Interfaces.TrainService;
+import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
 

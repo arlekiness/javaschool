@@ -1,8 +1,9 @@
 package ru.javasch.metro.model;
 
+import javax.validation.constraints.NotNull;
+
 import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 

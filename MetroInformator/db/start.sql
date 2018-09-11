@@ -126,17 +126,18 @@ create table ticket
 	id int auto_increment
 		primary key,
 	user_id int not null,
-	train_id int not null,
+	train_id int null,
 	stationBegin_id int not null,
 	stationEnd_id int not null,
 	ticketDateDeparture timestamp null,
 	ticketDateArrival timestamp null,
 	price int null,
 	branch_id int not null,
+	valid int not null,
 	constraint ticket_id_uindex
 		unique (id),
 	constraint ticket_train_id_fk
-		foreign key (train_id) references train(id),
+		foreign key (train_id) references train(id) on delete set null,
 	constraint ticket_user_id_fk
 		foreign key (user_id) references user(id),
 	constraint station_begin_fk
