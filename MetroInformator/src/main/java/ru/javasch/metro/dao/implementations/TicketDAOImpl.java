@@ -71,10 +71,10 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
     }
 
     @Override
-    public List<Ticket> findTicketsByTrain(Train train) {
+    public List <Ticket> findAllInvalidTickets() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Ticket where train = :train")
-                .setParameter("train", train)
+                .createQuery("from Ticket where train = null and valid = :valid")
+                .setParameter("valid", "VALID")
                 .getResultList();
     }
 }

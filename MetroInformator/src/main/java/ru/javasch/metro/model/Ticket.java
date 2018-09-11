@@ -18,7 +18,7 @@ public class Ticket {
     private Date ticketDateArrival;
     private Integer price;
     private Branch branch;
-    private Long valid;
+    private String valid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class Ticket {
     public void setUser(User user) { this.user = user; }
 
     @ManyToOne
-    @JoinColumn(name = "train_id", nullable = false)
+    @JoinColumn(name = "train_id", nullable = true)
     public Train getTrain() { return train; }
     public void setTrain(Train train) { this.train = train; }
 
@@ -62,6 +62,7 @@ public class Ticket {
     public Branch getBranch() { return branch; }
     public void setBranch(Branch branch) { this.branch = branch; }
 
-    public Long getValid() { return valid; }
-    public void setValid(Long valid) { this.valid = valid; }
+    @Column(name="valid")
+    public String getValid() { return valid; }
+    public void setValid(String valid) { this.valid = valid; }
 }

@@ -151,7 +151,7 @@ public class TicketServiceImpl implements TicketService {
                 ticket.setTicketDateDeparture(begin.getDateDeparture());
                 ticket.setTicketDateArrival(end.getDateArrival());
                 ticket.setBranch(begin.getStation().getBranch());
-                ticket.setValid(1L);
+                ticket.setValid("VALID");
                 chain.add(ticket);
             }
             tickets.add(chain);
@@ -168,5 +168,13 @@ public class TicketServiceImpl implements TicketService {
             t.setUser(user);
             ticketDAO.add(t);
         }
+    }
+
+    @Override
+    @Transactional
+    public void invalidateNonValidTickets() {
+        List<Ticket> tickets = ticketDAO.findAllInvalidTickets();
+        for (Ticket t : tickets)
+            t.setValid("INVALID");
     }
 }

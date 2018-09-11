@@ -18,11 +18,11 @@ public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements 
                     .createQuery("from Train where trainName = :trainName")
                     .setParameter("trainName", trainName)
                     .uniqueResult();
-        } catch (NonUniqueResultException ex) {
-            throw new RuntimeBusinessLogicException("Train already exist");
+//        } catch (NonUniqueResultException ex) {
+//            throw new RuntimeBusinessLogicException("Train already exist");
         } catch (NullPointerException ex) {
             //try
-            throw new RuntimeBusinessLogicException("Such train doesn't exist");
+            return null;
         }
     }
 

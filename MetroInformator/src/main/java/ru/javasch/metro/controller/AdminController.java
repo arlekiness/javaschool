@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.StationService;
+import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.TrainService;
+
+import java.util.List;
 
 @Controller
 @Log4j
@@ -25,6 +29,9 @@ public class AdminController {
 
     @Autowired
     StationService stationService;
+
+    @Autowired
+    TicketService ticketService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/adminFunctions")
@@ -47,8 +54,10 @@ public class AdminController {
         try {
             scheduleService.addNewSchedules(trainName, stationName, dateTime);
             return "adminka";
-        } catch (Exception ex) {
-            System.out.println("Smth wrng");return "adminka";}
+        } catch (RuntimeBusinessLogicException ex) {
+            System.out.println(ex.getError().toString());
+            return "adminka";
+        } catch (Exception ex) {return "adminka";}
     }
 
 
@@ -56,7 +65,8 @@ public class AdminController {
     @GetMapping("/deleteTrain")
     public String deletingTrain() {
         try {
-//            List<Train> =
+            trainService.delete(92L);
+            ticketService.invalidateNonValidTickets();
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());

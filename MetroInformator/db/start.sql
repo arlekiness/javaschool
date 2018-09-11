@@ -133,7 +133,7 @@ create table ticket
 	ticketDateArrival timestamp null,
 	price int null,
 	branch_id int not null,
-	valid int not null,
+	valid varchar(10) not null,
 	constraint ticket_id_uindex
 		unique (id),
 	constraint ticket_train_id_fk

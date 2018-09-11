@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Status;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.StationService;
@@ -29,7 +30,9 @@ public class TrainServiceImpl implements TrainService {
     @Override
     @Transactional
     public Long add (String trainName) {
-            Train train = new Train();
+        Train train = trainDAO.findByName(trainName);
+        if (train == null) {
+            train = new Train();
             train.setTrainName(trainName);
             Status status = statusDAO.getWorkStatus();
             train.setTrainName(trainName);
@@ -37,6 +40,9 @@ public class TrainServiceImpl implements TrainService {
             train.setStatus(status);
             trainDAO.add(train);
             return train.getId();
+        } else {
+            throw new RuntimeBusinessLogicException("Such train already exist");
+        }
     }
 
     @Override
