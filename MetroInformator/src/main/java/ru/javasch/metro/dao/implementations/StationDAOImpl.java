@@ -14,9 +14,6 @@ import java.util.List;
 @Repository
 public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> implements StationDAO<E> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
     @Override
     public Station findByName(String name) {
         try {

@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> implements ScheduleDAO<E> {
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Autowired
     StationService stationService;

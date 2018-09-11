@@ -14,8 +14,6 @@ import java.util.List;
 
 @Repository
 public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implements TicketDAO<E> {
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Override
     public List<Ticket> getByStationAndDate (Station station, Date date) {

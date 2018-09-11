@@ -10,8 +10,6 @@ import ru.javasch.metro.model.Train;
 
 @Repository
 public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements TrainDAO<E> {
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Override
     public Train findByName(String trainName) {

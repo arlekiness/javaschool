@@ -9,9 +9,6 @@ import ru.javasch.metro.model.User;
 @Repository
 public class UserDAOImpl<E extends User> extends GenericDAOImpl<E> implements UserDAO<E> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
     @Override
     public void updateProfile(User user) {
         sessionFactory.getCurrentSession().createQuery("UPDATE User SET " +

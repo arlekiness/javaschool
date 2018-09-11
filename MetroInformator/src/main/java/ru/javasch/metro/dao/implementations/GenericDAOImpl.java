@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public abstract class GenericDAOImpl<E> implements GenericDAO<E> {
     @Autowired
-    private SessionFactory sessionFactory;
+    SessionFactory sessionFactory;
 
     private Class<E> entityClass;
 
