@@ -74,7 +74,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/registration",
+                .antMatchers("/registration", "/",
+                        "/login",
+                        "/stationList",
                         "/login",
                         "/static/**"
                         )

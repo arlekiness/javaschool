@@ -47,7 +47,7 @@ public class UserController {
             return model;
         }
         catch (Exception ex) {
-            System.out.println("Here");
+
             System.out.println(ex.getCause());
             return new ModelAndView("registration");
         }
