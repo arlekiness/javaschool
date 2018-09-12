@@ -51,21 +51,4 @@ public class TrainServiceImpl implements TrainService {
         Train train = (Train)trainDAO.getById(Id);
         trainDAO.delete(train);
     }
-
-//    @Override
-//    @Transactional
-//    public String formTrainName (String stationName,  String dateTime) {
-//        Station st = stationService.findByName(stationName);
-//        Branch branch = st.getBranch();
-//        StringBuilder str = new StringBuilder("T");
-//        str.append(branch.getId()).append("-" + st.getName() + "-");
-//
-//        for (int i = 0; i < dateTime.length(); i++) {
-//            char c = dateTime.charAt(i);
-//            if (Character.isDigit(c))
-//                str.append(c);
-//        }
-//        return new String(str);
-//
-//    }
 }

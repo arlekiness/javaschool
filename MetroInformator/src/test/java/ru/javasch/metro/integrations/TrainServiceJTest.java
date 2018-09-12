@@ -34,7 +34,7 @@ public class TrainServiceJTest {
     @Test
     @Transactional
     public void add() {
-        Long Id = trainService.add("T-9999999999");
+        Long Id = trainService.add("T-999");
         Assert.assertTrue(trainService.findById(Id).getTrainName().equals("T-999"));
         trainService.delete(Id);
     }
