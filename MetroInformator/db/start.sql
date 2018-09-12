@@ -40,7 +40,7 @@ create table user
 		primary key,
 	firstName varchar(100) not null,
 	lastName varchar(100) not null,
-	birthDay varchar(100) not null,
+	birthDay varchar(100) null,
 	login varchar(100) not null,
 	password varchar(100) not null,
 	constraint user_id_uindex

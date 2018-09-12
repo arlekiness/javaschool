@@ -1,7 +1,6 @@
 package ru.javasch.metro.service.interfaces;
 
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.exception.BusinessLogicException;
 import ru.javasch.metro.model.User;
 
 import javax.mail.MessagingException;
@@ -12,19 +11,11 @@ import java.util.List;
 public interface UserService {
 
     void add(User user);
-
     void remove(User user);
-
     List<User> getUsers();
-
     User findAuthenticatedUser();
-
     User findUserByEmail(String email);
-
     void update(User user);
-
-
-    void registration(String firstName, String lastName, String login, String password) throws IOException, BusinessLogicException, MessagingException;
-
+    void registration(String firstName, String lastName, String login, String password) throws IOException, MessagingException;
     String getUserId();
 }

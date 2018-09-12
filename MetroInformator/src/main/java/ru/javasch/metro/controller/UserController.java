@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.service.implementations.SecureService;
 import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 @Controller
 @Log4j
@@ -37,11 +39,17 @@ public class UserController {
             model.setViewName("redirect:/login");
             return model;
         }
-        catch (Exception ex) {
+        catch (RuntimeBusinessLogicException ex) {
             ModelAndView model = new ModelAndView();
-            model.addObject("Wrong", "Something wrong");
-            model.setViewName("redirect:/registration");
+            model.setViewName("registration");
+            model.addObject("UserControllerException", ex);
+            System.out.println(model.isEmpty());
             return model;
+        }
+        catch (Exception ex) {
+            System.out.println("Here");
+            System.out.println(ex.getCause());
+            return new ModelAndView("registration");
         }
     }
 

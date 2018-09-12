@@ -1,5 +1,10 @@
 package ru.javasch.metro.utils;
 
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,5 +31,15 @@ public class Utils {
         Long time1 = cal1.getTimeInMillis();
         Long time2 = cal2.getTimeInMillis();
         return (time2 - time1) / 1000 / 60 ;
+    }
+
+    public static String getHelloContext() throws IOException {
+        File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.html");
+        return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    public static String getInvalidContext() throws IOException {
+        File file = ResourceUtils.getFile("classpath:messages/templateForEmailInvalidateMessage.html");
+        return new String(Files.readAllBytes(file.toPath()));
     }
 }

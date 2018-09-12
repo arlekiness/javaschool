@@ -15,6 +15,7 @@ import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -66,10 +67,14 @@ public class AdminController {
     public String deletingTrain() {
         try {
             trainService.delete(92L);
-            ticketService.invalidateNonValidTickets();
+            List<Ticket> tickets = ticketService.invalidateNonValidTickets();
+            ticketService.sendInvalidateMessages(tickets);
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
+            return "adminka";
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return "adminka";
         }
     }

@@ -12,7 +12,9 @@ import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.UserService;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,6 +42,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MailService mailService;
 
 
     @Override
@@ -172,9 +177,21 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void invalidateNonValidTickets() {
+    public List<Ticket> invalidateNonValidTickets() {
         List<Ticket> tickets = ticketDAO.findAllInvalidTickets();
+        System.out.println("Now here" + tickets.size());
         for (Ticket t : tickets)
             t.setValid("INVALID");
+        return tickets;
+    }
+
+    @Override
+    @Transactional
+    public void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException {
+        for (Ticket t: tickets) {
+            User user = t.getUser();
+            Message message = Message.createInvalidateMessage(user.getLogin());
+            mailService.sendMimeMessage(message);
+        }
     }
 }

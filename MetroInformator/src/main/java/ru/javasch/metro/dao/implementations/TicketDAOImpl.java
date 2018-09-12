@@ -72,7 +72,7 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
 
     @Override
     public List <Ticket> findAllInvalidTickets() {
-        return sessionFactory.getCurrentSession()
+        return (List <Ticket>) sessionFactory.getCurrentSession()
                 .createQuery("from Ticket where train = null and valid = :valid")
                 .setParameter("valid", "VALID")
                 .getResultList();

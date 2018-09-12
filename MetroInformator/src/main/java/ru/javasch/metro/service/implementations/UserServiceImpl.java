@@ -5,8 +5,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.UserDAO;
-import ru.javasch.metro.exception.BusinessLogicException;
-import ru.javasch.metro.exception.ErrorCode;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Message;
 import ru.javasch.metro.model.Role;
 import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.RoleService;
@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private MailService mailService;
 
 
     @Autowired
@@ -79,12 +82,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void registration(String firstName, String lastName, String login, String password) throws IOException, BusinessLogicException, MessagingException {
-        if (firstName == null)
-            throw new BusinessLogicException(ErrorCode.NULL_ELEMENTS.getMessage());
+    public void registration(String firstName, String lastName, String login, String password) throws IOException, MessagingException {
+        if (firstName == "" || lastName == "" || login == "" || password == "")
+            throw new RuntimeBusinessLogicException("One or two fields are empty");
 
         if (findUserByEmail(login) != null)
-            throw new BusinessLogicException(ErrorCode.USER_ALREADY_EXIST.getMessage());
+            throw new RuntimeBusinessLogicException("User already exist");
 
         Role role = roleService.getRole();
         Set<Role> roleSet = new HashSet<>();
@@ -96,6 +99,8 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(password));
         user.setRoles(roleSet);
+        Message message = Message.createWelcomeMessage(login);
+        mailService.sendMimeMessage(message);
         add(user);
     }
 }
