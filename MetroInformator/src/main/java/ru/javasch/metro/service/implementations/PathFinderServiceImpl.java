@@ -19,9 +19,14 @@ import java.util.List;
 @Service
 @Log4j
 public class PathFinderServiceImpl implements PathFinderService {
+
+    private static final int NO_TRANSITION = 100000;
+    private static final int TRANSITION = 50;
+    private static final int MAX_TRANSITION = 10;
+    private static final int NUMBER_OF_STATION = 69;
+
     @Autowired
     StationService stationService;
-
 
     @Autowired
     GraphDAO graphDAO;
@@ -33,28 +38,34 @@ public class PathFinderServiceImpl implements PathFinderService {
     @Override
     @Transactional
     public List<Station> pathFinder(String stationBegin, String stationEnd) {
-        List<Graph> st1 = graphDAO.getAllNodes(stationService.findByName(stationBegin));
-        List<Graph> st2 = graphDAO.getAllNodes(stationService.findByName(stationEnd));
+        Station stationBeg = stationDAO.findByName(stationBegin);
+        Station stationEn = stationDAO.findByName(stationEnd);
+        List<Graph> st1 = graphDAO.getAllFromNodes(stationBeg);
+        List<Graph> st2 = graphDAO.getAllFromNodes(stationEn);
+        int st1_branch = stationDAO.getAllStationOnBranch(stationBeg).size();
+        int st2_branch = stationDAO.getAllStationOnBranch(stationEn).size();
 
         int closed1 = 0;
         int closed2 = 0;
 
         for (Graph r : st1)
-            if (r.getOldWeight() != 100000)
+            if (r.getWeight() == NO_TRANSITION && r.getOldWeight() != NO_TRANSITION)
                 closed1++;
 
         for (Graph r : st2)
-            if (r.getOldWeight() != 100000)
+            if (r.getWeight() == NO_TRANSITION && r.getOldWeight() != NO_TRANSITION)
                 closed2++;
 
-        System.out.println(st1.size() + " " + st2.size() + " " + closed1 + closed2);
+        System.out.println(st1.size() + " " + st2.size() + " " + closed1 + " " + closed2);
 
-        if (closed1 > 0 || closed2 > 0)
-            throw new RuntimeBusinessLogicException("Something go wrong. Some Stations are closed");
+        if (closed1 > st1_branch / 2)
+            throw new RuntimeBusinessLogicException("Begin station is closed");
+        if (closed2 > st2_branch / 2)
+            throw new RuntimeBusinessLogicException("End station is closed");
 
         int indexBeg = stationService.findByName(stationBegin).getId() - 1;
         int indexEnd = stationService.findByName(stationEnd).getId() - 1;
-        int[][] graphArray = new int[69][69];
+        int[][] graphArray = new int[NUMBER_OF_STATION][NUMBER_OF_STATION];
         List<Integer> path = new ArrayList<>();
         List<Graph> graph = graphDAO.getAll();
         path.add(indexBeg);
@@ -68,28 +79,28 @@ public class PathFinderServiceImpl implements PathFinderService {
         int transCount = 0;
         int interIndex = indexBeg;
         Pair<Integer, Integer> notIncluded = null;
-        if (graphArray[indexEnd][indexBeg] != 100000) {
+        if (graphArray[indexEnd][indexBeg] != NO_TRANSITION) {
             path.add(indexEnd);
         } else {
             /**               */
 
             while (true) {
                 List<Integer> availTrans = new ArrayList<>();
-                for (int i = 0; i < 69; i++) {
-                    if (graphArray[interIndex][i] != 100000)
+                for (int i = 0; i < NUMBER_OF_STATION; i++) {
+                    if (graphArray[interIndex][i] != NO_TRANSITION)
                         availTrans.add(i);
                 }
 
                 List<Pair<Integer, Integer>> interSt = new ArrayList<>();
                 for (int j = 0; j < availTrans.size() - 1; j++) {
-                    for (int k = 0; k < 69; k++) {
+                    for (int k = 0; k < NUMBER_OF_STATION; k++) {
                         int l = availTrans.get(j);
-                        if (graphArray[k][l] == 50)
+                        if (graphArray[k][l] == TRANSITION)
                             interSt.add(new Pair<>(k, l));
                     }
                 }
                 interSt.remove(notIncluded);
-                int bestTransition = 10000;
+                int bestTransition = NO_TRANSITION;
                 int endDest = 0;
                 for (Pair<Integer, Integer> pair : interSt) {
                     if (Math.abs(indexEnd - pair.getKey()) < Math.abs(indexEnd - bestTransition)) {
@@ -100,11 +111,11 @@ public class PathFinderServiceImpl implements PathFinderService {
                 }
                 path.add(endDest);
                 path.add(bestTransition);
-                if (graphArray[bestTransition][indexEnd] != 100000)
+                if (graphArray[bestTransition][indexEnd] != NO_TRANSITION)
                     break;
                 interIndex = bestTransition;
                 transCount++;
-                if (transCount > 10)
+                if (transCount > MAX_TRANSITION)
                     throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
             }
             path.add(indexEnd);

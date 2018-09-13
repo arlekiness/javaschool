@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
+import ru.javasch.metro.dao.interfaces.RoleDAO;
 import ru.javasch.metro.dao.interfaces.UserDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Message;
@@ -11,6 +12,7 @@ import ru.javasch.metro.model.Role;
 import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.RoleService;
 import ru.javasch.metro.service.interfaces.UserService;
+import ru.javasch.metro.utils.Utils;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -26,11 +28,10 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Autowired
-    private RoleService roleService;
+    private RoleDAO roleDAO;
 
     @Autowired
     private MailService mailService;
-
 
     @Autowired
     private SecureService secureService;
@@ -89,15 +90,14 @@ public class UserServiceImpl implements UserService {
         if (findUserByEmail(login) != null)
             throw new RuntimeBusinessLogicException("User already exist");
 
-        Role role = roleService.getRole();
+        Role role = roleDAO.getRole();
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
         User user = new User();
         user.setLogin(login);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(password));
+        user.setPassword(Utils.encodePassword(password));
         user.setRoles(roleSet);
         Message message = Message.createWelcomeMessage(login);
         mailService.sendMimeMessage(message);

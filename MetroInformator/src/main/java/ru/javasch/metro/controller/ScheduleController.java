@@ -20,16 +20,16 @@ import java.util.*;
 @Log4j
 public class ScheduleController {
     @Autowired
-    ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
     @Autowired
-    TicketService ticketService;
+    private TicketService ticketService;
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping("/stationList")
     public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName,

@@ -3,6 +3,8 @@ package ru.javasch.metro.service.implementations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
+import ru.javasch.metro.dao.interfaces.StationDAO;
+import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.utils.Utils;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
@@ -23,10 +25,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleDAO scheduleDAO;
 
     @Autowired
-    private StationService stationService;
+    private StationDAO stationDAO;
 
     @Autowired
-    private TrainService trainService;
+    private TrainDAO trainDAO;
 
     @Override
     @Transactional
@@ -45,7 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException {
         Date date = Utils.parseToDate(dateString);
-        Station station = stationService.findByName(stationName);
+        Station station = stationDAO.findByName(stationName);
         if (station.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException("Station closed for some reason");
 
@@ -57,9 +59,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Station> addNewSchedules (String trainName, String stationName, String firstDate) throws ParseException {
-        Long Id = trainService.add(trainName);
-        Train train = trainService.findById(Id);
-        List<Station> stations = stationService.getAllStationOnBranch(stationName);
+        trainDAO.add(trainName);
+        Train train = trainDAO.findByName(trainName);
+        Station station = stationDAO.findByName(stationName);
+        List<Station> stations = stationDAO.getAllStationOnBranch(station);
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);
         Station endPointStation = stations.get(stations.size() - 1);
@@ -87,7 +90,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Schedule> getAllSchedulesByStationDateAndPath (Station stationBegin, Station stationEnd, Date date, Date now) {
-        List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
+        List<Station> stations = stationDAO.getAllStationOnBranch(stationBegin);
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())
             endPointStation = stations.get(stations.size() - 1);

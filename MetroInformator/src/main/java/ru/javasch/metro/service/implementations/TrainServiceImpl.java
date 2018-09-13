@@ -2,6 +2,7 @@ package ru.javasch.metro.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
@@ -19,9 +20,6 @@ public class TrainServiceImpl implements TrainService {
 
     @Autowired
     StatusDAO statusDAO;
-
-    @Autowired
-    StationService stationService;
 
     @Override
     @Transactional

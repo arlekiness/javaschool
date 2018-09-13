@@ -1,5 +1,7 @@
 package ru.javasch.metro.utils;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -12,6 +14,10 @@ import java.util.Date;
 
 
 public class Utils {
+
+    private static final int MILLIS_IN_SECONDS = 1000;
+    private static final int SECONDS_IN_MINUTES = 60;
+
 
     public static Date parseToDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -30,7 +36,7 @@ public class Utils {
         cal2.setTime(date2);
         Long time1 = cal1.getTimeInMillis();
         Long time2 = cal2.getTimeInMillis();
-        return (time2 - time1) / 1000 / 60 ;
+        return (time2 - time1) / MILLIS_IN_SECONDS / SECONDS_IN_MINUTES ;
     }
 
     public static String getHelloContext() throws IOException {
@@ -41,5 +47,10 @@ public class Utils {
     public static String getInvalidContext() throws IOException {
         File file = ResourceUtils.getFile("classpath:messages/templateForEmailInvalidateMessage.html");
         return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    public static String encodePassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 }

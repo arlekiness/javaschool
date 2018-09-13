@@ -23,16 +23,16 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    TrainService trainService;
+    private TrainService trainService;
 
     @Autowired
-    ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @Autowired
-    TicketService ticketService;
+    private TicketService ticketService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/adminFunctions")
@@ -83,8 +83,7 @@ public class AdminController {
     @GetMapping("/closeStation")
     public String closeStation() {
         try {
-            stationService.closeStation("Dostoyevskaya");
-            stationService.closeStation("Ploshchad Alexandra Nevskogo-2");
+            stationService.closeStation("Sadovaya");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -96,8 +95,7 @@ public class AdminController {
     @GetMapping("/openStation")
     public String openStation() {
         try {
-            stationService.openStation("Dostoyevskaya");
-            stationService.openStation("Ploshchad Alexandra Nevskogo-2");
+            stationService.openStation("Sadovaya");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());

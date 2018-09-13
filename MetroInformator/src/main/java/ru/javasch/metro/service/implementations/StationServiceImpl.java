@@ -2,6 +2,7 @@ package ru.javasch.metro.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javasch.metro.dao.interfaces.GraphDAO;
 import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.model.Station;
@@ -23,7 +24,6 @@ public class StationServiceImpl implements StationService {
 
     @Autowired
     private StatusDAO statusDAO;
-
 
     @Autowired
     private GraphService graphService;

@@ -29,7 +29,6 @@ import java.util.Collections;
 @ComponentScan(basePackageClasses = UserDetailsServiceImpl.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
     private UserDetailsService userDetailService;
 
@@ -50,23 +49,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
         };
     }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("DELETE");
-        config.setAllowedOrigins(Collections.singletonList("*"));
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

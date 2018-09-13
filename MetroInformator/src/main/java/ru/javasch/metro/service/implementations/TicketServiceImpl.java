@@ -32,12 +32,6 @@ public class TicketServiceImpl implements TicketService {
     StationService stationService;
 
     @Autowired
-    TrainDAO trainDAO;
-
-    @Autowired
-    UserDAO userDAO;
-
-    @Autowired
     ScheduleService scheduleService;
 
     @Autowired
