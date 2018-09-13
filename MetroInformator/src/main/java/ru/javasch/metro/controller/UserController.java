@@ -43,11 +43,9 @@ public class UserController {
             ModelAndView model = new ModelAndView();
             model.setViewName("registration");
             model.addObject("UserControllerException", ex);
-            System.out.println(model.isEmpty());
             return model;
         }
         catch (Exception ex) {
-
             System.out.println(ex.getCause());
             return new ModelAndView("registration");
         }

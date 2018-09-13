@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 
 public class Utils {
@@ -40,13 +41,15 @@ public class Utils {
     }
 
     public static String getHelloContext() throws IOException {
-        File file = ResourceUtils.getFile("classpath:messages/templateForEmailWelcomeMessage.html");
-        return new String(Files.readAllBytes(file.toPath()));
+        ResourceBundle bundle = ResourceBundle.getBundle("message");
+        String message = bundle.getString("welcome_message");
+        return message;
     }
 
     public static String getInvalidContext() throws IOException {
-        File file = ResourceUtils.getFile("classpath:messages/templateForEmailInvalidateMessage.html");
-        return new String(Files.readAllBytes(file.toPath()));
+        ResourceBundle bundle = ResourceBundle.getBundle("message");
+        String message = bundle.getString("invalid_message");
+        return message;
     }
 
     public static String encodePassword(String password) {
