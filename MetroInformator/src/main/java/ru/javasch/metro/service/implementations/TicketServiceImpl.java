@@ -6,6 +6,7 @@ import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.TicketDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.dao.interfaces.UserDAO;
+import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.StationService;
@@ -22,6 +23,8 @@ import java.util.*;
 
 @Service
 public class TicketServiceImpl implements TicketService {
+    private static final int TRAIN_CAPACITY = 6;
+
     @Autowired
     TicketDAO ticketDAO;
 
@@ -164,8 +167,17 @@ public class TicketServiceImpl implements TicketService {
     public void registrateTicketsInSystem(List<Ticket> ticket, String userName) {
         User user = userService.findUserByEmail(userName);
         for (Ticket t : ticket) {
-            t.setUser(user);
-            ticketDAO.add(t);
+            Station beginStation = t.getStationBegin();
+            Station endStation = t.getStationEnd();
+            Date date = t.getTicketDateDeparture();
+            Train train = t.getTrain();
+            List<Ticket> tickets = ticketDAO.getByStationDateTrain(beginStation, endStation, date, train);
+            if (tickets.size() < TRAIN_CAPACITY) {
+                t.setUser(user);
+                ticketDAO.add(t);
+            } else {
+                throw new RuntimeBusinessLogicException("Some of tickets was already booked. Please try new search");
+            }
         }
     }
 

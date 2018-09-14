@@ -82,14 +82,21 @@ public class BuyingTicketController {
     public ModelAndView ticketRegistration(@PathVariable(value = "count") int count,
                                            HttpServletRequest req,
                                            HttpServletResponse resp) {
-        HttpSession session = req.getSession();
-        List<List<Ticket>> tickets = (List<List<Ticket>>) session.getAttribute("TicketList");
-        List<Ticket> chain = tickets.get(count - 1);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        ticketService.registrateTicketsInSystem(chain, userName);
-        session.removeAttribute("TicketList");
-        return new ModelAndView("redirect:/giveOptions");
+        try {
+            HttpSession session = req.getSession();
+            List<List<Ticket>> tickets = (List<List<Ticket>>) session.getAttribute("TicketList");
+            List<Ticket> chain = tickets.get(count - 1);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userName = authentication.getName();
+            ticketService.registrateTicketsInSystem(chain, userName);
+            session.removeAttribute("TicketList");
+            return new ModelAndView("redirect:/giveOptions");
+        } catch (RuntimeBusinessLogicException ex) {
+            HttpSession session = req.getSession();
+            session.removeAttribute("TicketList");
+            System.out.println(ex.getError());
+            return new ModelAndView("redirect:/giveOptions");
+        }
     }
 
 
