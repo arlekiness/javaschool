@@ -70,8 +70,8 @@ public class PathFinderServiceImpl implements PathFinderService {
         List<Graph> graph = graphDAO.getAll();
         path.add(indexBeg);
         int index = 0;
-        for (int i = 0; i < 69; i++) {
-            for (int j = 0; j < 69; j++) {
+        for (int i = 0; i < NUMBER_OF_STATION; i++) {
+            for (int j = 0; j < NUMBER_OF_STATION; j++) {
                 graphArray[i][j] = graph.get(index).getWeight();
                 index++;
             }
@@ -90,6 +90,8 @@ public class PathFinderServiceImpl implements PathFinderService {
                     if (graphArray[interIndex][i] != NO_TRANSITION)
                         availTrans.add(i);
                 }
+
+                System.out.println(availTrans);
 
                 List<Pair<Integer, Integer>> interSt = new ArrayList<>();
                 for (int j = 0; j < availTrans.size() - 1; j++) {
@@ -117,6 +119,7 @@ public class PathFinderServiceImpl implements PathFinderService {
                 transCount++;
                 if (transCount > MAX_TRANSITION)
                     throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
+                System.out.println(path + "****");
             }
             path.add(indexEnd);
             /**  */

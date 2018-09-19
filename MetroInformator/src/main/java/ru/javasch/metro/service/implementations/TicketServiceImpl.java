@@ -131,13 +131,27 @@ public class TicketServiceImpl implements TicketService {
                 anotherOneList.add(end);
             }
             schedulesChain.add(anotherOneList);
+            endsOfFirstSegmentSchedule = anotherOneList;
         }
 
         int ticketChain = schedulesChain.size();
         int ticketsInChain = ticketChain / 2;
-        int fullChains = schedulesChain.get(ticketChain - 1).size();
+//        int fullChains = schedulesChain.get(ticketChain - 1).size();
+        int min = 100000;
 
-        System.out.println(ticketChain + " " + fullChains);
+        for (List<Schedule> sch : schedulesChain) {
+            if (sch.size() < min)
+                min = sch.size();
+        }
+        int fullChains = min;
+        System.out.println(ticketChain + "*******" + fullChains);
+        for (List<Schedule> sch : schedulesChain) {
+            for (Schedule sc : sch)
+                System.out.print(sc);
+            System.out.println("/");
+        }
+
+
 
         List<List<Ticket>> tickets = new ArrayList<>();
         for (int i = 0; i < fullChains - 1; i++) {

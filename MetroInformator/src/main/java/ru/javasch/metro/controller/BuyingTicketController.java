@@ -71,6 +71,8 @@ public class BuyingTicketController {
             ex.getError();
         } catch (ParseException ex) {
             System.out.println("Huinya kakaya-to");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 

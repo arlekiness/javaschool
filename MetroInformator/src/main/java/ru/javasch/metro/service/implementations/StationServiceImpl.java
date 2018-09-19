@@ -63,8 +63,12 @@ public class StationServiceImpl implements StationService {
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getCloseStatus();
         station.setStatus(status);
-        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
-            graphService.changeWeight(stationName);
+        List<Station> trSt;
+        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName())) {
+            trSt = graphService.changeWeight(stationName);
+            for (Station st : trSt)
+                st.setStatus(status);
+        }
     }
 
     @Override
@@ -74,8 +78,12 @@ public class StationServiceImpl implements StationService {
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getWorkStatus();
         station.setStatus(status);
-        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName()))
-            graphService.changeWeight(stationName);
+        List<Station> trSt;
+        if (!station.getStatus().getStatusName().equals(previousStatus.getStatusName())) {
+            trSt = graphService.changeWeight(stationName);
+            for (Station st : trSt)
+                st.setStatus(status);
+        }
     }
 
     @Override

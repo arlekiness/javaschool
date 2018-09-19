@@ -50,6 +50,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
                     .createQuery("from Schedule " + "where station = :stationBegin " + " and dateDeparture > :dateNow" + " and dateDeparture > :date" +
                             " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
                             " and day(dateDeparture) = day(:date)" +
+                            " and dateDeparture > :date" +
                             " and endPointStation = :endPointStation")
                     .setParameter("stationBegin", stationBegin)
                     .setParameter("endPointStation", endPointStation)

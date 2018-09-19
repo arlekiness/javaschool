@@ -83,7 +83,10 @@ public class AdminController {
     @GetMapping("/closeStation")
     public String closeStation() {
         try {
-            stationService.closeStation("Sadovaya");
+            stationService.closeStation("Tekhnologichesky Institut-1");
+            stationService.closeStation("Ploshchad Alexandra Nevskogo-1");
+            stationService.closeStation("Nevsky Prospekt");
+            stationService.closeStation("Parnas");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
@@ -95,7 +98,10 @@ public class AdminController {
     @GetMapping("/openStation")
     public String openStation() {
         try {
-            stationService.openStation("Sadovaya");
+            stationService.openStation("Tekhnologichesky Institut-1");
+            stationService.openStation("Ploshchad Alexandra Nevskogo-1");
+            stationService.openStation("Nevsky Prospekt");
+            stationService.openStation("Parnas");
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());

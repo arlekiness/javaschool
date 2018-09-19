@@ -27,7 +27,7 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     @Transactional
-    public void changeWeight (String stationName) {
+    public List<Station> changeWeight (String stationName) {
         Station station = stationDAO.findByName(stationName);
         List<Graph> graph = graphDAO.getAllNodes(station);
         List<Graph> graphFrom = graphDAO.getAllFromNodes(station);
@@ -48,5 +48,7 @@ public class GraphServiceImpl implements GraphService {
                 gr.setOldWeight(weight);
                 gr.setWeight(oldWeight);
             }
+
+            return transitStations;
     }
 }
