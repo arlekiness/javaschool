@@ -59,8 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration", "/",
                         "/login",
                         "/stationList",
-                        "/login",
-                        "/static/**"
+                        "/static/**",
+                        "/schedule"
                         )
                 .permitAll()
                 .anyRequest().authenticated()
@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/schedule")
                 .failureUrl("/login?error=true")
                 .and()
                 .cors()

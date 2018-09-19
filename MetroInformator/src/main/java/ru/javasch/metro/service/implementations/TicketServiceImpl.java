@@ -74,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public List<Schedule> formFirstTicket(List<List<Station>> segments, String dateForm) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateForm);
         Date now = new Date();
         List<Station> stat = segments.get(0);

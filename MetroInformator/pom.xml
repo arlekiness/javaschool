@@ -217,6 +217,7 @@
         </dependency>
         <!--  -->
 
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
 
         <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat-maven-plugin -->
         <!--<dependency>-->

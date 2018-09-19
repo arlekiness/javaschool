@@ -36,9 +36,9 @@ public class BuyingTicketController {
     private PathFinderService pathFinderService;
 
 
-    @RequestMapping(value="/findTickets")
+    @GetMapping(value="/tickets")
     public String findtickets() {
-        return "findtickets";
+        return "tickets";
     }
 
     @GetMapping("/giveOptions")
@@ -46,12 +46,14 @@ public class BuyingTicketController {
         return "findtickets";
     }
 
-    @PostMapping("/giveOptions")
+    @PostMapping("/tickets")
     public String giveOptions(@RequestParam(value="begin") String beginStation,
                               @RequestParam(value="end") String endStation,
                               @RequestParam(value="date") String date,
                               HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println(beginStation + " " + endStation + " " + date);
         try {
+            System.out.println(beginStation + " " + endStation + " " + date);
             List<Station> stations = pathFinderService.pathFinder(beginStation, endStation);
             List<List<Station>> segments = stationService.formSegments(stations);
             stationService.checkSegments(segments);

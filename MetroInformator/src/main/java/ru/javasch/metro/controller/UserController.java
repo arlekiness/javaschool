@@ -11,6 +11,7 @@ import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
@@ -57,11 +58,23 @@ public class UserController {
         return "login";
     }
 
+//    @RequestMapping(value = "/sUIS")
+//    public String setUsernameInSession(HttpServletRequest req, HttpServletResponse resp) {
+//        try {
+//            HttpSession session = req.getSession();
+//            session.setAttribute("username", secureService.getAuthentication().getName());
+//            System.out.println(secureService.getAuthentication().getName());
+//            return "schedule";
+//        } catch (Exception ex) {
+//            return "schedule";
+//        }
+//    }
+
     @RequestMapping(value = "/")
-    public String loginRedirect() { return "stationscheme"; }
+    public String loginRedirect() { return "schedule"; }
 
     @RequestMapping(value = "/home")
-    public String home() { return "stationscheme"; }
+    public String home() { return "schedule"; }
 
     @RequestMapping(value = "/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
