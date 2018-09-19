@@ -78,7 +78,7 @@ public class PathFinderServiceImpl implements PathFinderService {
         }
         int transCount = 0;
         int interIndex = indexBeg;
-        Pair<Integer, Integer> notIncluded = null;
+        List<Pair<Integer, Integer>> notIncluded = new ArrayList<>();
         if (graphArray[indexEnd][indexBeg] != NO_TRANSITION) {
             path.add(indexEnd);
         } else {
@@ -101,12 +101,12 @@ public class PathFinderServiceImpl implements PathFinderService {
                             interSt.add(new Pair<>(k, l));
                     }
                 }
-                interSt.remove(notIncluded);
+                interSt.removeAll(notIncluded);
                 int bestTransition = NO_TRANSITION;
                 int endDest = 0;
                 for (Pair<Integer, Integer> pair : interSt) {
                     if (Math.abs(indexEnd - pair.getKey()) < Math.abs(indexEnd - bestTransition)) {
-                        notIncluded = pair;
+                        notIncluded.add(pair);
                         bestTransition = pair.getKey();
                         endDest = pair.getValue();
                     }

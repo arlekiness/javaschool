@@ -24,6 +24,7 @@ import java.util.*;
 @Service
 public class TicketServiceImpl implements TicketService {
     private static final int TRAIN_CAPACITY = 6;
+    private static final int ENDLESS_WEIGHT = 100000;
 
     @Autowired
     TicketDAO ticketDAO;
@@ -137,7 +138,7 @@ public class TicketServiceImpl implements TicketService {
         int ticketChain = schedulesChain.size();
         int ticketsInChain = ticketChain / 2;
 //        int fullChains = schedulesChain.get(ticketChain - 1).size();
-        int min = 100000;
+        int min = ENDLESS_WEIGHT;
 
         for (List<Schedule> sch : schedulesChain) {
             if (sch.size() < min)
