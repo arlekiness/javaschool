@@ -137,7 +137,6 @@ public class TicketServiceImpl implements TicketService {
 
         int ticketChain = schedulesChain.size();
         int ticketsInChain = ticketChain / 2;
-//        int fullChains = schedulesChain.get(ticketChain - 1).size();
         int min = ENDLESS_WEIGHT;
 
         for (List<Schedule> sch : schedulesChain) {
@@ -145,14 +144,6 @@ public class TicketServiceImpl implements TicketService {
                 min = sch.size();
         }
         int fullChains = min;
-        System.out.println(ticketChain + "*******" + fullChains);
-        for (List<Schedule> sch : schedulesChain) {
-            for (Schedule sc : sch)
-                System.out.print(sc);
-            System.out.println("/");
-        }
-
-
 
         List<List<Ticket>> tickets = new ArrayList<>();
         for (int i = 0; i < fullChains - 1; i++) {

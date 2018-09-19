@@ -91,8 +91,6 @@ public class PathFinderServiceImpl implements PathFinderService {
                         availTrans.add(i);
                 }
 
-                System.out.println(availTrans);
-
                 List<Pair<Integer, Integer>> interSt = new ArrayList<>();
                 for (int j = 0; j < availTrans.size() - 1; j++) {
                     for (int k = 0; k < NUMBER_OF_STATION; k++) {
@@ -119,7 +117,6 @@ public class PathFinderServiceImpl implements PathFinderService {
                 transCount++;
                 if (transCount > MAX_TRANSITION)
                     throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
-                System.out.println(path + "****");
             }
             path.add(indexEnd);
             /**  */
