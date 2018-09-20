@@ -13,5 +13,5 @@ public interface ScheduleService {
     public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException;
     public List<Station> addNewSchedules (String trainName, String stationName, String firstDate) throws ParseException;
     public List<Schedule> getAllSchedulesByStationDateAndPath (Station stationBegin, Station stationEnd, Date date, Date now);
-    public Schedule findByTrainAndStation (Station station, Train train);
+    public Schedule findByTrainAndStation (Station station, Train train, Date date);
 }

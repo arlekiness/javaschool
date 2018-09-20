@@ -10,6 +10,6 @@ import java.util.List;
 public interface ScheduleDAO<E extends Schedule> extends GenericDAO<E>  {
     public List<Schedule> getByStationAndDate(Station station, Date date);
     public List getByStationsAndDate(Station stationBegin, Station endPointStation, Date date, Date now);
-    public Schedule findByTrainAndStation (Train train, Station station);
+    public Schedule findByTrainAndStation (Train train, Station station, Date date);
 
 }

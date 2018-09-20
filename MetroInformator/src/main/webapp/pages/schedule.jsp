@@ -17,6 +17,7 @@
     <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
     <link href="static/css/style-shedule.css" rel="stylesheet" />
     <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -26,6 +27,7 @@
     <script src="static/js/custom.js"></script>
     <script src="static/js/velocity.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 
 
 
@@ -71,6 +73,11 @@
                                         <br>
                                         <li><a href="#">Dashboard</a></li>
                                         <br>
+                                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                            <li><a href="#">Admin Panel</a></li>
+                                            <br>
+                                        </sec:authorize>
+
                                         <li><a href="/logout">Log out</a></li>
                                     </ul>
                                 </li>
@@ -107,7 +114,7 @@
 
         <div id='content'>
             <div id='input_box'>
-                <form method="POST" class="cd-form cd-form1">
+                <form class="cd-form cd-form1" action="/schedule" method="POST">
 
                     <input class="full-width has-padding has-border" type='text' placeholder='Station' name='start' value='' autocomplete='off' list='stations_list' required id='station1'>
                     <datalist id='stations_list' class='options'>
@@ -254,7 +261,7 @@
 
                     <p class="fieldset" style="display: inline-block; width: 20%">
                         <label class="image-replace cd-password" for="signup-date">Date</label>
-                        <input class="full-width has-padding-icon has-border" id="date" type="text"  placeholder="Date" onClick="xCal(this)" onKeyUp="xCal()">
+                        <input class="full-width has-padding-icon has-border" id="date" name="date" type="text"  placeholder="Date" onClick="xCal(this)" onKeyUp="xCal()">
                         <a href="#0" class="date-icon"><i class="fa fa-calendar"></i></a>
                     </p>
 
@@ -265,13 +272,40 @@
 
                     </div>
                 </form>
+                <c:if test="${not empty model.closedStationStatus}">
+                    <script>
+                        swal({
+                            title: 'CLOSED',
+                            text: 'Station is closed',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
+                <c:if test="${not empty model.noTrains}">
+                    <script>
+                        swal({
+                            title: 'WE DEEPLY SORRY FOR OUR ADMIN...',
+                            text: '..but there is no trains',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
+                <c:if test="${not empty model.parseException}">
+                    <script>
+                        swal({
+                            title: 'SOME PROBLEMS',
+                            text: 'But we trying to solve it',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
 
 
 
             </div>
             <div id='map'>
                 <span><img src="static/images/map_clear.png" id='image'/></span>
-                <div id='stat_1' class="violet"> Komendantsky Prospekt</div>
+                <div id='stat_1' class="violet">Komendantsky Prospekt</div>
                 <div id='stat_2' class="violet">Staraya Derevnya</div>
                 <div id='stat_3' class="violet">Krestovsky Ostrov</div>
                 <div id='stat_4' class="violet">Chkalovskaya</div>

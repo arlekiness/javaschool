@@ -35,11 +35,14 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
         }
     }
 
-    public Schedule findByTrainAndStation (Train train, Station station) {
+    public Schedule findByTrainAndStation (Train train, Station station, Date date) {
         return (Schedule) sessionFactory.getCurrentSession()
-                .createQuery("from Schedule where train = :train and station = :station")
+                .createQuery("from Schedule where train = :train and station = :station" + " and dateDeparture > :date" +
+                        " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
+                        " and day(dateDeparture) = day(:date)")
                 .setParameter("train", train)
                 .setParameter("station", station)
+                .setParameter("date", date)
                 .uniqueResult();
     }
 

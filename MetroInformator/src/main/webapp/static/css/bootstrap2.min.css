@@ -1698,7 +1698,7 @@ input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].bt
   display: none; }
 
 .collapse.in {
-  display: block; }
+  display: inline; }
 
 .collapsing {
   position: relative;

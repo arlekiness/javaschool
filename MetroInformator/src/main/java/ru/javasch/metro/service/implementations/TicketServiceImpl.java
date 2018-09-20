@@ -6,6 +6,7 @@ import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.TicketDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.dao.interfaces.UserDAO;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.interfaces.ScheduleService;
@@ -92,12 +93,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public List<List<Ticket>> formTicketChains(List<List<Station>> pathSegment, List<Schedule> schedule) {
+        Date date = schedule.get(0).getDateDeparture();
         Station endOfFirstSegment = pathSegment.get(0).get(1);
         List<List<Schedule>> schedulesChain = new ArrayList<>();
         schedulesChain.add(schedule);
         List<Schedule> endsOfFirstSegmentSchedule = new ArrayList<>();
         for (Schedule sch : schedule) {
-            Schedule end = scheduleService.findByTrainAndStation(endOfFirstSegment, sch.getTrain());
+            Schedule end = scheduleService.findByTrainAndStation(endOfFirstSegment, sch.getTrain(), date);
             endsOfFirstSegmentSchedule.add(end);
         }
 
@@ -128,15 +130,15 @@ public class TicketServiceImpl implements TicketService {
             schedulesChain.add(schedulesChainSeg);
             List<Schedule> anotherOneList = new ArrayList<>();
             for (Schedule sch : schedulesChainSeg) {
-                Schedule end = scheduleService.findByTrainAndStation(stat.get(1), sch.getTrain());
+                Schedule end = scheduleService.findByTrainAndStation(stat.get(1), sch.getTrain(), date);
                 anotherOneList.add(end);
             }
             schedulesChain.add(anotherOneList);
+
             endsOfFirstSegmentSchedule = anotherOneList;
         }
 
         int ticketChain = schedulesChain.size();
-        int ticketsInChain = ticketChain / 2;
         int min = ENDLESS_WEIGHT;
 
         for (List<Schedule> sch : schedulesChain) {
@@ -146,7 +148,7 @@ public class TicketServiceImpl implements TicketService {
         int fullChains = min;
 
         List<List<Ticket>> tickets = new ArrayList<>();
-        for (int i = 0; i < fullChains - 1; i++) {
+        for (int i = 0; i < fullChains; i++) {
             List<Ticket> chain = new ArrayList<>();
             for (int j = 1; j < ticketChain; j += 2) {
                 Ticket ticket = new Ticket();
@@ -182,7 +184,7 @@ public class TicketServiceImpl implements TicketService {
                 t.setUser(user);
                 ticketDAO.add(t);
             } else {
-                throw new RuntimeBusinessLogicException("Some of tickets was already booked. Please try new search");
+                throw new RuntimeBusinessLogicException(ErrorCode.NO_MORE_TICKETS);
             }
         }
     }
@@ -191,7 +193,6 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public List<Ticket> invalidateNonValidTickets() {
         List<Ticket> tickets = ticketDAO.findAllInvalidTickets();
-        System.out.println("Now here" + tickets.size());
         for (Ticket t : tickets)
             t.setValid("INVALID");
         return tickets;

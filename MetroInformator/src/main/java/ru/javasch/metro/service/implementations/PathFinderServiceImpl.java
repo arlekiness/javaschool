@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.GraphDAO;
 import ru.javasch.metro.dao.interfaces.StationDAO;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Graph;
 import ru.javasch.metro.model.Station;
@@ -56,12 +57,10 @@ public class PathFinderServiceImpl implements PathFinderService {
             if (r.getWeight() == NO_TRANSITION && r.getOldWeight() != NO_TRANSITION)
                 closed2++;
 
-        System.out.println(st1.size() + " " + st2.size() + " " + closed1 + " " + closed2);
-
         if (closed1 > st1_branch / 2)
-            throw new RuntimeBusinessLogicException("Begin station is closed");
+            throw new RuntimeBusinessLogicException(ErrorCode.BEGIN_STATION_CLOSED);
         if (closed2 > st2_branch / 2)
-            throw new RuntimeBusinessLogicException("End station is closed");
+            throw new RuntimeBusinessLogicException(ErrorCode.END_STATION_CLOSED);
 
         int indexBeg = stationService.findByName(stationBegin).getId() - 1;
         int indexEnd = stationService.findByName(stationEnd).getId() - 1;
@@ -116,7 +115,7 @@ public class PathFinderServiceImpl implements PathFinderService {
                 interIndex = bestTransition;
                 transCount++;
                 if (transCount > MAX_TRANSITION)
-                    throw new RuntimeBusinessLogicException("All Transition Stations is Closed. Can't find the way");
+                    throw new RuntimeBusinessLogicException(ErrorCode.ATS_ARE_CLOSED);
             }
             path.add(indexEnd);
             /**  */

@@ -35,7 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
                     .stream()
                     .map(userRole -> new SimpleGrantedAuthority(userRole.getType()))
                     .collect(Collectors.toCollection(ArrayList::new));
-            System.out.println(authorities.toString());
             return new org.springframework.security.core.userdetails
                     .User(username, user.getPassword(), true, true, true, true, authorities);
         } else throw new UsernameNotFoundException("User not found!");

@@ -18,8 +18,10 @@
     <script src="static/js/custom.js"></script>
     <script src="static/js/velocity.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 
     <!-- css -->
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
     <link href="static/css/style.css" rel="stylesheet" />
     <link href="static/css/calendar.css" rel="stylesheet" />
@@ -151,6 +153,25 @@
                                                 <input class="full-width has-padding" type="submit" value="SEND MY PASS">
                                             </p>
                                         </form>
+
+                                        <c:if test="${not empty emptyfields}">
+                                            <script>
+                                                swal({
+                                                    title: 'Oops..',
+                                                    text: 'Some fields are empty.',
+                                                    type: 'error'
+                                                });
+                                            </script>
+                                        </c:if>
+                                        <c:if test="${not empty exist}">
+                                            <script>
+                                                swal({
+                                                    title: 'Oops..',
+                                                    text: 'User with such login already exist.',
+                                                    type: 'error'
+                                                });
+                                            </script>
+                                        </c:if>
 
                                         <p class="cd-form-bottom-message"><a href="#0">Back</a></p>
                                     </div> <!-- cd-reset-password -->

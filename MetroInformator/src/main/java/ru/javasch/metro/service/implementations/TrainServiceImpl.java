@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Status;
 import ru.javasch.metro.model.Train;
@@ -39,7 +40,7 @@ public class TrainServiceImpl implements TrainService {
             trainDAO.add(train);
             return train.getId();
         } else {
-            throw new RuntimeBusinessLogicException("Such train already exist");
+            throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_EXIST);
         }
     }
 

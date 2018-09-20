@@ -56,7 +56,6 @@ public class AdminController {
             scheduleService.addNewSchedules(trainName, stationName, dateTime);
             return "adminka";
         } catch (RuntimeBusinessLogicException ex) {
-            System.out.println(ex.getError().toString());
             return "adminka";
         } catch (Exception ex) {return "adminka";}
     }

@@ -43,11 +43,15 @@ public class UserController {
         catch (RuntimeBusinessLogicException ex) {
             ModelAndView model = new ModelAndView();
             model.setViewName("registration");
-            model.addObject("UserControllerException", ex);
-            return model;
+            if (ex.getError().equals("One or two fields are empty")) {
+                model.addObject("emptyfields", ex);
+                return model;
+            } else {
+                model.addObject("exist", ex);
+                return model;
+            }
         }
         catch (Exception ex) {
-            System.out.println(ex.getCause());
             return new ModelAndView("registration");
         }
     }
@@ -57,18 +61,6 @@ public class UserController {
     public String login() {
         return "login";
     }
-
-//    @RequestMapping(value = "/sUIS")
-//    public String setUsernameInSession(HttpServletRequest req, HttpServletResponse resp) {
-//        try {
-//            HttpSession session = req.getSession();
-//            session.setAttribute("username", secureService.getAuthentication().getName());
-//            System.out.println(secureService.getAuthentication().getName());
-//            return "schedule";
-//        } catch (Exception ex) {
-//            return "schedule";
-//        }
-//    }
 
     @RequestMapping(value = "/")
     public String loginRedirect() { return "schedule"; }

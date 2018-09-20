@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.RoleDAO;
 import ru.javasch.metro.dao.interfaces.UserDAO;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Message;
 import ru.javasch.metro.model.Role;
@@ -85,10 +86,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void registration(String firstName, String lastName, String login, String password) throws IOException, MessagingException {
         if (firstName == "" || lastName == "" || login == "" || password == "")
-            throw new RuntimeBusinessLogicException("One or two fields are empty");
+            throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
 
         if (findUserByEmail(login) != null)
-            throw new RuntimeBusinessLogicException("User already exist");
+            throw new RuntimeBusinessLogicException(ErrorCode.USER_EXIST);
 
         Role role = roleDAO.getRole();
         Set<Role> roleSet = new HashSet<>();

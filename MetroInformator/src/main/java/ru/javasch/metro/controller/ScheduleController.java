@@ -3,6 +3,7 @@ package ru.javasch.metro.controller;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,27 +33,33 @@ public class ScheduleController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/schedule")
+    @GetMapping("/schedule")
     public String scheduleMap() {
         return "schedule";
     }
 
-    @PostMapping("/stationList")
-    public ModelAndView stationSchedule(@RequestParam(value="stationSelect") String stationName,
+    @PostMapping("/schedule")
+    public ModelAndView stationSchedule(@RequestParam(value="start") String stationName,
                                         @RequestParam(value="date") String date) {
-
         Map<String, Object> modelMap = new HashMap<>();
         try {
             List<Schedule> sch = scheduleService.getAllTrainsOnStation(stationName, date);
+            if (sch.size() == 0) {
+                modelMap.put("noTrains", "true");
+                return new ModelAndView("schedule", "model", modelMap);
+            }
             modelMap.put("showSchedule", "true");
             modelMap.put("scheduleList", sch);
-            return new ModelAndView("stationscheme", "model", modelMap);
+            return new ModelAndView("scheduletable", "model", modelMap);
         } catch (RuntimeBusinessLogicException ex) {
             modelMap.put("closedStationStatus", "true");
-            return new ModelAndView("stationscheme", "model", modelMap);
+            return new ModelAndView("schedule", "model", modelMap);
         } catch (ParseException ex) {
-            modelMap.put("closedStationStatus", "true");
-            return new ModelAndView("stationscheme", "model", modelMap);
+            modelMap.put("parseException", "true");
+            return new ModelAndView("schedule", "model", modelMap);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ModelAndView("schedule", "model", modelMap);
         }
     }
 }

@@ -22,13 +22,16 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                     .setParameter("name", name)
                     .uniqueResult();
         } catch (Exception e) {
+            System.out.println("Such station doesn't exists");
             throw new RuntimeBusinessLogicException("Such station doesn't exists");
         }
     }
 
     @Override
     public List<Station> getAllStationOnBranch(Station station) {
+        System.out.println(station.getName());
         Branch branch = station.getBranch();
+        System.out.println(branch.getColor());
         return (List<Station>) sessionFactory.getCurrentSession()
                 .createQuery("from Station where branch = :branch")
                 .setParameter("branch", branch)

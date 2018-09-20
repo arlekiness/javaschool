@@ -3,6 +3,7 @@ package ru.javasch.metro.service.implementations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.utils.Utils;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
@@ -14,6 +15,7 @@ import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -30,7 +32,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public Schedule findByTrainAndStation (Station station, Train train) {return scheduleDAO.findByTrainAndStation(train, station);}
+    public Schedule findByTrainAndStation (Station station, Train train, Date date) {return scheduleDAO.findByTrainAndStation(train, station, date);}
 
     /**add one schedule */
     @Override
@@ -44,10 +46,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException {
-        Date date = Utils.parseToDate(dateString);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = format.parse(dateString);
+        System.out.println(stationName);
         Station station = stationService.findByName(stationName);
+        System.out.println(station.getName());
         if (station.getStatus().getStatusName().equals("CLOSED"))
-            throw new RuntimeBusinessLogicException("Station closed for some reason");
+            throw new RuntimeBusinessLogicException(ErrorCode.STATION_CLOSED);
 
         List<Schedule> schedule = scheduleDAO.getByStationAndDate(station, date);
         return schedule;
@@ -58,7 +63,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Station> addNewSchedules (String trainName, String stationName, String firstDate) throws ParseException {
         if (trainName == "" || stationName == "" || firstDate == "")
-            throw new RuntimeBusinessLogicException("One or more fields are empty");
+            throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
         List<Station> stations = stationService.getAllStationOnBranch(stationName);

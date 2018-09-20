@@ -17,6 +17,7 @@
     <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
     <link href="static/css/style-tickets.css" rel="stylesheet" />
     <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -26,6 +27,7 @@
     <script src="static/js/custom.js"></script>
     <script src="static/js/velocity.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 
 
 
@@ -61,6 +63,10 @@
                                     <br>
                                     <li><a href="#">Dashboard</a></li>
                                     <br>
+                                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                        <li><a href="#">Admin Panel</a></li>
+                                        <br>
+                                    </sec:authorize>
                                     <li><a href="/logout">Log out</a></li>
                                 </ul>
                             </li>
@@ -246,7 +252,7 @@
 
                     <p class="fieldset" style="display: inline-block; width: 20%">
                         <label class="image-replace cd-password" for="signup-date">Date</label>
-                        <input class="full-width has-padding-icon has-border" name="date" id="date" type="text"  placeholder="Date" onClick="xCal(this)" onKeyUp="xCal()">
+                        <input class="full-width has-padding-icon has-border" name="date" id="date" type="text"  placeholder="Date" onClick="xCal(this)" onKeyUp="xCal()" required>
                         <a href="#0" class="date-icon"><i class="fa fa-calendar"></i></a>
                     </p>
 
@@ -257,13 +263,48 @@
 
                     </div>
                 </form>
-
+                <c:if test="${not empty noTrainsOnDate}">
+                    <script>
+                        swal({
+                            title: 'WE DEEPLY SORRY FOR OUR ADMIN...',
+                            text: '..but there is no trains',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
+                <c:if test="${not empty beginStationClosed}">
+                    <script>
+                        swal({
+                            title: 'CLOSED',
+                            text: 'First station is closed. Try another one',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
+                <c:if test="${not empty endStationClosed}">
+                    <script>
+                        swal({
+                            title: 'CLOSED',
+                            text: 'End station is closed. Try another one',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
+                <c:if test="${not empty ATSClosed}">
+                    <script>
+                        swal({
+                            title: 'CLOSED',
+                            text: 'Transition stations is closed. Save God our souls',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
 
 
             </div>
             <div id='map'>
                 <span><img src="static/images/map_clear.png" id='image'/></span>
-                <div id='stat_1' class="violet"> Komendantsky Prospekt</div>
+                <div id='stat_1' class="violet">Komendantsky Prospekt</div>
                 <div id='stat_2' class="violet">Staraya Derevnya</div>
                 <div id='stat_3' class="violet">Krestovsky Ostrov</div>
                 <div id='stat_4' class="violet">Chkalovskaya</div>
