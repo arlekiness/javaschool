@@ -1,18 +1,17 @@
 package ru.javasch.metro.controller;
 
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import lombok.extern.log4j.Log4j;
+import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.service.implementations.SecureService;
 import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 
 @Controller
 @Log4j
@@ -35,32 +34,26 @@ public class UserController {
                                @RequestParam(value="password") String password) {
         try {
             userService.registration(firstName, lastName, login, password);
-            ModelAndView model = new ModelAndView();
-            model.addObject("Allgood", "Success!");
-            model.setViewName("redirect:/login");
-            return model;
+            return new ModelAndView("login", "allgood", true);
         }
         catch (RuntimeBusinessLogicException ex) {
             ModelAndView model = new ModelAndView();
             model.setViewName("registration");
-            if (ex.getError().equals("One or two fields are empty")) {
+            if (ex.getError() == ErrorCode.EMPTY_FIELDS) {
                 model.addObject("emptyfields", ex);
                 return model;
             } else {
                 model.addObject("exist", ex);
                 return model;
             }
-        }
-        catch (Exception ex) {
-            return new ModelAndView("registration");
+        } catch (Exception ex) {
+            return new ModelAndView("registration", "systemError", true);
         }
     }
 
 
     @RequestMapping(value = "/login")
-    public String login() {
-        return "login";
-    }
+    public String login() { return "login"; }
 
     @RequestMapping(value = "/")
     public String loginRedirect() { return "schedule"; }

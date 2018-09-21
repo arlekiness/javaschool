@@ -10,23 +10,23 @@
     <meta charset="utf-8">
     <title>meTro-Systems - Tickets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="static/images/sw.png" type="image/png">
+    <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="static/css/style-tickets.css" rel="stylesheet" />
-    <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="/static/css/style-tickets.css" rel="stylesheet" />
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
-    <script src="static/js/jquery-3.2.1.js"></script>
-    <script src="static/js/jcanvas.js"></script>
-    <script src="static/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="static/js/custom.js"></script>
-    <script src="static/js/velocity.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/jcanvas.js"></script>
+    <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/velocity.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/sweetalert2.js"></script>
 
 
@@ -297,13 +297,22 @@
                         });
                     </script>
                 </c:if>
+                <c:if test="${not empty systemError}">
+                    <script>
+                        swal({
+                            title: 'OOOOPS...',
+                            text: 'Something very bad happened. Try again',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
 
 
 
 
             </div>
             <div id='map'>
-                <span><img src="static/images/map_clear.png" id='image'/></span>
+                <span><img src="/static/images/map_clear.png" id='image'/></span>
                 <div id='stat_1' class="violet">Komendantsky Prospekt</div>
                 <div id='stat_2' class="violet">Staraya Derevnya</div>
                 <div id='stat_3' class="violet">Krestovsky Ostrov</div>

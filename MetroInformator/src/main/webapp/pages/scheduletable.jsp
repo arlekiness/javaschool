@@ -10,25 +10,25 @@
     <meta charset="utf-8">
     <title>meTro-Systems - Tickets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="static/images/sw.png" type="image/png">
+    <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="static/css/style-shedule-table.css" rel="stylesheet" />
-    <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="/static/css/style-shedule-table.css" rel="stylesheet" />
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
     <!-- ==================================================
                    javascript
 ================================================== -->
-    <script src="static/js/modernizr.js"></script> <!-- Modernizr -->
-    <script src="static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/jquery-3.2.1.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
     <script src='http://code.angularjs.org/1.3.14/angular-animate.js'></script>
-    <script src="static/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="static/js/custom.js"></script>
-    <script src="static/js/velocity.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/jcanvas.js"></script>
+    <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/velocity.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jcanvas.js"></script>
 
 
 

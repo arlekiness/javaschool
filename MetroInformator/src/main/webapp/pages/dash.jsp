@@ -14,22 +14,21 @@
 
 
     <!-- css -->
-    <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="static/css/style-dash.css" rel="stylesheet" />
-    <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style-dash.css" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
     <!-- ==================================================
                    javascript
 ================================================== -->
-    <script src="static/js/modernizr.js"></script> <!-- Modernizr -->
-    <script src="static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/jquery-3.2.1.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
     <script src='http://code.angularjs.org/1.3.14/angular-animate.js'></script>
-    <script src="static/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="static/js/custom.js"></script>
-    <script src="static/js/velocity.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/jcanvas.js"></script>
-
+    <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/velocity.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jcanvas.js"></script>
 
 
 
@@ -147,6 +146,14 @@
 
                 </main>
 
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <c:forEach begin="1" end="${model.trainPages}" step="1" varStatus="loop">
+                            <li class="page-item"><a class="page-link" href="/dashtrain/${loop.count}">${loop.count}</a></li>
+                        </c:forEach>
+                    </ul>
+                </nav>
+
 
             </div>
 
@@ -186,6 +193,14 @@
 
                 </main>
 
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <c:forEach begin="1" end="${model.stationPages}" step="1" varStatus="loopSt">
+                            <li class="page-item"><a class="page-link" href="/dashstation/${loopSt.count}">${loopSt.count}</a></li>
+                        </c:forEach>
+                    </ul>
+                </nav>
+
 
             </div>
 
@@ -208,8 +223,6 @@
 
 
 </div>
-
-
 
 
 </body>

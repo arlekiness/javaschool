@@ -29,13 +29,10 @@ public class BuyingTicketController {
     private TicketService ticketService;
 
     @Autowired
-    private StationService stationService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
-    private PathFinderService pathFinderService;
+    private ControllerService controllerService;
 
 
     @GetMapping(value="/tickets")
@@ -51,20 +48,9 @@ public class BuyingTicketController {
                               @RequestParam(value="date") String date,
                               HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<Station> stations = pathFinderService.pathFinder(beginStation, endStation);
-            List<List<Station>> segments = stationService.formSegments(stations);
-            stationService.checkSegments(segments);
-            List<List<Station>> pathSegments = stationService.findPathSegments(segments);
-            String path = ticketService.formMessageAboutPath(segments);
-            List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
-            if (schedules.size() == 0)
-                throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
-            List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
-            if (tickets.size() == 0)
-                throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
+            List<List<Ticket>> tickets = controllerService.chainsOfTickets(beginStation, endStation, date);
             HttpSession session = req.getSession();
             session.setAttribute("TicketList", tickets);
-            session.setAttribute("chainId", 1);
             return new ModelAndView("tickettable");
         } catch (RuntimeBusinessLogicException ex) {
             if (ex.getError() == ErrorCode.BEGIN_STATION_CLOSED)
@@ -75,13 +61,8 @@ public class BuyingTicketController {
                 return new ModelAndView("tickets", "ATSClosed", true);
             else
                 return new ModelAndView("tickets", "noTrainsOnDate", true);
-
-        } catch (ParseException ex) {
-            System.out.println("Huinya kakaya-to");
-            return new ModelAndView("tickets");
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ModelAndView("tickets");
+            return new ModelAndView("tickets", "systemError", true);
         }
     }
 
@@ -101,6 +82,8 @@ public class BuyingTicketController {
         } catch (RuntimeBusinessLogicException ex) {
             HttpSession session = req.getSession();
             session.removeAttribute("TicketList");
+            return new ModelAndView("redirect:/ticketsFail");
+        } catch (Exception ex) {
             return new ModelAndView("redirect:/ticketsFail");
         }
     }

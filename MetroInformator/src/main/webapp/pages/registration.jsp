@@ -12,20 +12,20 @@
     <!-- ==================================================
                javascript
 ================================================== -->
-    <script src="static/js/jquery-3.2.1.js"></script>
-    <script src="static/js/jcanvas.js"></script>
-    <script src="static/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="static/js/custom.js"></script>
-    <script src="static/js/velocity.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/jcanvas.js"></script>
+    <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/velocity.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/sweetalert2.js"></script>
 
     <!-- css -->
     <link rel="stylesheet" href="/static/css/sweetalert2.css">
-    <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="static/css/style.css" rel="stylesheet" />
-    <link href="static/css/calendar.css" rel="stylesheet" />
-    <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="/static/css/style.css" rel="stylesheet" />
+    <link href="/static/css/calendar.css" rel="stylesheet" />
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -168,6 +168,15 @@
                                                 swal({
                                                     title: 'Oops..',
                                                     text: 'User with such login already exist.',
+                                                    type: 'error'
+                                                });
+                                            </script>
+                                        </c:if>
+                                        <c:if test="${not empty systemError}">
+                                            <script>
+                                                swal({
+                                                    title: 'OOOOPS...',
+                                                    text: 'Something very bad happened. Try again',
                                                     type: 'error'
                                                 });
                                             </script>

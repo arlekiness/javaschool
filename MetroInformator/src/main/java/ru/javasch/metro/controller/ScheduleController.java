@@ -58,7 +58,7 @@ public class ScheduleController {
             modelMap.put("parseException", "true");
             return new ModelAndView("schedule", "model", modelMap);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            modelMap.put("systemError", "true");
             return new ModelAndView("schedule", "model", modelMap);
         }
     }

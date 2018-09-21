@@ -10,10 +10,7 @@ import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
-import ru.javasch.metro.service.interfaces.ScheduleService;
-import ru.javasch.metro.service.interfaces.StationService;
-import ru.javasch.metro.service.interfaces.TicketService;
-import ru.javasch.metro.service.interfaces.TrainService;
+import ru.javasch.metro.service.interfaces.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,22 +33,29 @@ public class AdminController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private ControllerService controllerService;
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dash")
     public ModelAndView enteringIntoAdmin() {
+        Map<String, Object> pag = controllerService.pagination();
+        List<Train> trains = (List<Train>)pag.get("trains");
+        List<Station> stations = (List<Station>)pag.get("stations");
+        trains = trains.subList(0, 20);
+        stations = stations.subList(0, 19);
         Map<String, Object> modelMap = new HashMap<>();
-        List<Train> trains = trainService.getAllTrains();
-        List<Station> stations = stationService.getAllStations();
-        System.out.println(trains.size());
         modelMap.put("trains", trains);
         modelMap.put("stations", stations);
+        modelMap.put("trainPages", pag.get("trainPages"));
+        modelMap.put("stationPages", pag.get("stationPages"));
         return new ModelAndView("dash", "model", modelMap);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/createTrain")
     public String creatingTrainForm() {
-        return "createTrain";
+        return "createtrain";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -107,5 +111,58 @@ public class AdminController {
             System.out.println(ex.getError());
             return new ModelAndView("redirect:/dash");
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/dashtrain/{count}")
+    public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
+        Map<String, Object> pag = controllerService.pagination();
+        List<Train> trains = (List<Train>)pag.get("trains");
+        List<Station> stations = (List<Station>)pag.get("stations");
+        if (pageNum != (int)pag.get("trainPages"))
+            trains = trains.subList((pageNum - 1) * 20, (pageNum - 1) * 20 + 20);
+        else
+            trains = trains.subList((pageNum - 1) * 20, trains.size());
+        stations = stations.subList(0, 19);
+
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("trains", trains);
+        modelMap.put("stations", stations);
+        modelMap.put("trainPages", pag.get("trainPages"));
+        modelMap.put("stationPages", pag.get("stationPages"));
+        return new ModelAndView("dash", "model", modelMap);
+    }
+
+    @RequestMapping(value="/dashstation/{stcount}")
+    public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
+        Map<String, Object> pag = controllerService.pagination();
+        List<Train> trains = (List<Train>)pag.get("trains");
+        List<Station> stations = (List<Station>)pag.get("stations");
+        switch (stationNum) {
+            case 1:
+                stations = stations.subList(0, 19);
+                break;
+            case 2:
+                stations = stations.subList(19, 37);
+                break;
+            case 3:
+                stations = stations.subList(37, 49);
+                break;
+            case 4:
+                stations = stations.subList(49, 57);
+                break;
+            case 5:
+                stations = stations.subList(57, 69);
+                break;
+            default:
+                break;
+        }
+        trains = trains.subList(0, 20);
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("trains", trains);
+        modelMap.put("stations", stations);
+        modelMap.put("trainPages", pag.get("trainPages"));
+        modelMap.put("stationPages", pag.get("stationPages"));
+        return new ModelAndView("dash", "model", modelMap);
     }
 }
