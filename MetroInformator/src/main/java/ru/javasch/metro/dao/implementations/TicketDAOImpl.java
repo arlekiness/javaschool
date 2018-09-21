@@ -8,6 +8,7 @@ import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
+import ru.javasch.metro.model.User;
 
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,14 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
         return (List <Ticket>) sessionFactory.getCurrentSession()
                 .createQuery("from Ticket where train = null and valid = :valid")
                 .setParameter("valid", "VALID")
+                .getResultList();
+    }
+
+    @Override
+    public List<Ticket> findAllUserTickets(User user) {
+        return (List <Ticket>) sessionFactory.getCurrentSession()
+                .createQuery("from Ticket where user = :user")
+                .setParameter("user", user)
                 .getResultList();
     }
 }

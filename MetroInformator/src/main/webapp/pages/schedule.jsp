@@ -69,12 +69,10 @@
                                 <li class="sign-out dropdown">
                                     <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
                                     <ul class="dropdown-menu dash-user">
-                                        <li><a href="#">My tickets</a></li>
-                                        <br>
-                                        <li><a href="#">Dashboard</a></li>
+                                        <li><a href="/myTickets">My tickets</a></li>
                                         <br>
                                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                            <li><a href="#">Admin Panel</a></li>
+                                            <li><a href="/dash">Admin Panel</a></li>
                                             <br>
                                         </sec:authorize>
 
@@ -346,7 +344,7 @@
                 <div id='stat_37' class="red">Vyborgskaya</div>
                 <div id='stat_38' class="red">Ploshchad Lenina</div>
                 <div id='stat_39' class="red">Chernyshevskaya</div>
-                <div id='stat_40' class="red">Ploshchad Vosstaniya </div>
+                <div id='stat_40' class="red">Ploshchad Vosstaniya</div>
                 <div id='stat_41' class="red">Vladimirskaya</div>
                 <div id='stat_42' class="red">Pushkinskaya</div>
                 <div id='stat_43' class="red">Tekhnologichesky Institut-1</div>

@@ -13,6 +13,7 @@ import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class TrainServiceImpl implements TrainService {
@@ -49,5 +50,11 @@ public class TrainServiceImpl implements TrainService {
     public void delete (Long Id) {
         Train train = (Train)trainDAO.getById(Id);
         trainDAO.delete(train);
+    }
+
+    @Override
+    @Transactional
+    public List<Train> getAllTrains () {
+        return (List<Train>)trainDAO.getAll();
     }
 }

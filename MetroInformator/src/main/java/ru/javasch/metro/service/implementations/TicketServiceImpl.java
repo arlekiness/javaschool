@@ -207,4 +207,12 @@ public class TicketServiceImpl implements TicketService {
             mailService.sendMimeMessage(message);
         }
     }
+
+    @Override
+    @Transactional
+    public List<Ticket> findAllTicketsByUser() {
+        User user = userService.findAuthenticatedUser();
+        List<Ticket> tickets = ticketDAO.findAllUserTickets(user);
+        return tickets;
+    }
 }

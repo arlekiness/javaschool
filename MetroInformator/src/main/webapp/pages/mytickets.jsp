@@ -15,7 +15,7 @@
 
     <!-- css -->
     <link href="static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="static/css/style-tickets-table.css" rel="stylesheet" />
+    <link href="static/css/style-my-tickets.css" rel="stylesheet" />
     <link href="static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
     <!-- ==================================================
                    javascript
@@ -47,12 +47,10 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
-                            <li class="active"><a href="/tickets">Tickets</a></li>
+                            <li><a href="/tickets">Tickets</a></li>
                             <li><a href="/schedule">Schedule</a></li>
                         </ul>
                     </div>
-
-
                     <!-- КНОПКИ -->
 
                     <div class="register-signin-tickets pull-right main-nav1">
@@ -73,6 +71,7 @@
                             </li>
                         </ul>
 
+                    </div>
 
                     <!-- гамбургерное меню  -->
 
@@ -84,7 +83,7 @@
                         <div class="drawer-list">
                             <ul>
                                 <li><a href="/">Home</a></li>
-                                <li class="active"><a href="/tickets">Tickets</a></li>
+                                <li><a href="/tickets">Tickets</a></li>
                                 <li><a href="/schedule">Schedule</a></li>
                             </ul>
                         </div>
@@ -97,67 +96,46 @@
 
     <!-- контент -->
 
-    <c:set var="count" value="${0}" scope="page"/>
     <div class="wrapper-tickets">
-        <p class="hero-text text-center">Search for tickets</p>
-
-
-    </div>
-
-    <div class="container table">
-        <div class="row thead">
-            <div class="col-md-3">DEPARTURE</div>
-            <div class="col-md-3">ARRIVAL</div>
-            <div class="col-md-2">TRAIN</div>
-            <div class="col-md-2">TRANSITIONS</div>
-            <div class="col-md-2">TICKETS</div>
+        <p class="hero-text text-center">My tickets</p>
+        <div class="hero-underline">
+            <span class="hero-station">${loggedUser.getFirstName()} ${loggedUser.getLastName()}</span>
         </div>
-        <c:if test = "${not empty TicketList}">
-            <c:forEach items="${TicketList}" var="list">
-                <div class="row line" data-toggle="collapse" data-target="#${count}">
-                    <div class="col-md-3 time">
-                            ${list.get(0).getTicketDateDeparture().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${list.get(0).getStationBegin().getName()}</span></div>
-                    <div class="col-md-3 time">${list.get(list.size() - 1).getTicketDateArrival().toString().substring(11, 16)}<span><i class="fa fa-circle"></i> ${list.get(list.size() - 1).getStationEnd().getName()}</span></div>
-                    <div class="col-md-2 time">${list.get(0).getTrain().getTrainName()}</div>
-                    <div class="col-md-2"><span class="transitions">${list.size() - 1} TRANSITION</span></div>
-                    <div class="col-md-2 buy-ticket"><a class='button' href="/registerTickets/${count}" data-type="modal-trigger">BUY TICKETS</a></div>
-
-
+        <main>
+            <c:if test="${empty myTicketList}">
+                <div class="hero-underline1">
+                    <span class="hero-station1">There is no tickets yet</span>
                 </div>
-
-                <div class="container collapse" id="${count}">
-                    <c:forEach items="${list}" var="ticket">
-                        <div class="row line" style="background-color:#edeef2">
-                            <div class="col-md-3 time">
-                                    ${ticket.getTicketDateDeparture().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${ticket.getStationBegin().getName()}</span></div>
-                            <div class="col-md-3 time">${ticket.getTicketDateArrival().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${ticket.getStationEnd().getName()}</span></div>
-                            <div class="col-md-2 time">${ticket.getTrain().getTrainName()}</div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2 buy-ticket"></div>
-                        </div>
-                    </c:forEach>
-                </div>
-                <c:set var="count" value="${count + 1}" scope="page"/>
-            </c:forEach>
-        </c:if>
-
+            </c:if>
+            <c:if test="${not empty myTicketList}">
+            <table>
+                <thead>
+                <tr>
+                    <th>TRAIN №</th>
+                    <th>DEPARTURE</th>
+                    <th>ARRIVAL</th>
+                    <th>PRICE</th>
+                    <th>VALID</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${myTicketList}" var="list">
+                <tr class="table-first">
+                    <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
+                    <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
+                    <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
+                    <td data-title='PRICE'>500</td>
+                    <td data-title='VALID' class="valid">${list.getValid()}</td>
+                </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            </c:if>
+        </main>
     </div>
-
+    <!-- конец контента -->
+    <div class="clearfix"></div>
 </div>
-
-
-
-<!-- конец контента -->
-
-
-<div class="clearfix"></div>
-
-
-
-
-
-
-
 
 </body>
 </html>

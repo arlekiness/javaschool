@@ -12,6 +12,7 @@ import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
+import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +39,11 @@ public class BuyingTicketController {
 
 
     @GetMapping(value="/tickets")
-    public String findtickets() {
-        return "tickets";
-    }
+    public String findtickets() {return "tickets"; }
 
-    @GetMapping("/giveOptions")
-    public String giveOptionsGet() {
-        return "findtickets";
-    }
+    @RequestMapping(value="/ticketsFail")
+    public ModelAndView ticketsFail() {return new ModelAndView("tickets", "noTickets", true); }
+
 
     @PostMapping("/tickets")
     public ModelAndView giveOptions(@RequestParam(value="begin") String beginStation,
@@ -58,11 +56,12 @@ public class BuyingTicketController {
             stationService.checkSegments(segments);
             List<List<Station>> pathSegments = stationService.findPathSegments(segments);
             String path = ticketService.formMessageAboutPath(segments);
-//        List<Ticket> tickets =
             List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
             if (schedules.size() == 0)
                 throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
             List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
+            if (tickets.size() == 0)
+                throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
             HttpSession session = req.getSession();
             session.setAttribute("TicketList", tickets);
             session.setAttribute("chainId", 1);
@@ -79,40 +78,46 @@ public class BuyingTicketController {
 
         } catch (ParseException ex) {
             System.out.println("Huinya kakaya-to");
+            return new ModelAndView("tickets");
         } catch (Exception ex) {
             ex.printStackTrace();
+            return new ModelAndView("tickets");
         }
-
-
-
-        return new ModelAndView("findtickets");
     }
 
-    @RequestMapping(value = "/requestTicket/{count}")
+    @RequestMapping(value = "/registerTickets/{count}")
     public ModelAndView ticketRegistration(@PathVariable(value = "count") int count,
                                            HttpServletRequest req,
                                            HttpServletResponse resp) {
         try {
             HttpSession session = req.getSession();
             List<List<Ticket>> tickets = (List<List<Ticket>>) session.getAttribute("TicketList");
-            List<Ticket> chain = tickets.get(count - 1);
+            List<Ticket> chain = tickets.get(count);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userName = authentication.getName();
             ticketService.registrateTicketsInSystem(chain, userName);
             session.removeAttribute("TicketList");
-            return new ModelAndView("redirect:/giveOptions");
+            return new ModelAndView("redirect:/myTickets");
         } catch (RuntimeBusinessLogicException ex) {
             HttpSession session = req.getSession();
             session.removeAttribute("TicketList");
-            return new ModelAndView("redirect:/giveOptions");
+            return new ModelAndView("redirect:/ticketsFail");
         }
     }
 
-
-    @RequestMapping(value="/tickettabletest")
-    public String testTable() {
-        return "tickettable";
+    @RequestMapping(value = "/myTickets")
+    public ModelAndView myTickets(HttpServletRequest req,
+                                  HttpServletResponse resp) {
+        try {
+            User user = userService.findAuthenticatedUser();
+            List<Ticket> ticket = ticketService.findAllTicketsByUser();
+            HttpSession session = req.getSession();
+            session.setAttribute("loggedUser", user);
+            session.setAttribute("myTicketList", ticket);
+            return new ModelAndView("mytickets");
+        } catch (Exception ex) {
+            return new ModelAndView("mytickets");
+        }
     }
-
 
 }

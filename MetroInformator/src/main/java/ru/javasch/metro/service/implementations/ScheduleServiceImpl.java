@@ -48,9 +48,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
-        System.out.println(stationName);
         Station station = stationService.findByName(stationName);
-        System.out.println(station.getName());
         if (station.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException(ErrorCode.STATION_CLOSED);
 

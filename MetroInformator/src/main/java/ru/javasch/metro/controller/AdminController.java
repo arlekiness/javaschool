@@ -4,19 +4,21 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
+import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Log4j
@@ -35,9 +37,15 @@ public class AdminController {
     private TicketService ticketService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/adminFunctions")
-    public String enteringIntoAdmin() {
-        return "adminka";
+    @RequestMapping(value="/dash")
+    public ModelAndView enteringIntoAdmin() {
+        Map<String, Object> modelMap = new HashMap<>();
+        List<Train> trains = trainService.getAllTrains();
+        List<Station> stations = stationService.getAllStations();
+        System.out.println(trains.size());
+        modelMap.put("trains", trains);
+        modelMap.put("stations", stations);
+        return new ModelAndView("dash", "model", modelMap);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -62,49 +70,42 @@ public class AdminController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/deleteTrain")
-    public String deletingTrain() {
+    @GetMapping("/deleteTrain/{id}")
+    public ModelAndView deletingTrain(@PathVariable(value = "id") Long id) {
         try {
-            trainService.delete(92L);
+            trainService.delete(id);
             List<Ticket> tickets = ticketService.invalidateNonValidTickets();
             ticketService.sendInvalidateMessages(tickets);
-            return "adminka";
+            return new ModelAndView("redirect:/dash");
         } catch (RuntimeBusinessLogicException ex) {
-            System.out.println(ex.getError());
-            return "adminka";
+            return new ModelAndView("redirect:/dash");
         } catch (Exception ex) {
             ex.printStackTrace();
-            return "adminka";
+            return new ModelAndView("redirect:/dash");
         }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/closeStation")
-    public String closeStation() {
+    @GetMapping("/closeStation/{stationName}")
+    public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) {
         try {
-            stationService.closeStation("Tekhnologichesky Institut-1");
-            stationService.closeStation("Ploshchad Alexandra Nevskogo-1");
-            stationService.closeStation("Nevsky Prospekt");
-            stationService.closeStation("Parnas");
-            return "adminka";
+            stationService.closeStation(stationName);
+            return new ModelAndView("redirect:/dash");
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
-            return "adminka";
+            return new ModelAndView("redirect:/dash");
         }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/openStation")
-    public String openStation() {
+    @GetMapping("/openStation/{stationName}")
+    public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) {
         try {
-            stationService.openStation("Tekhnologichesky Institut-1");
-            stationService.openStation("Ploshchad Alexandra Nevskogo-1");
-            stationService.openStation("Nevsky Prospekt");
-            stationService.openStation("Parnas");
-            return "adminka";
+            stationService.openStation(stationName);
+            return new ModelAndView("redirect:/dash");
         } catch (RuntimeBusinessLogicException ex) {
             System.out.println(ex.getError());
-            return "adminka";
+            return new ModelAndView("redirect:/dash");
         }
     }
 }

@@ -55,22 +55,37 @@
 
                     <!-- КНОПКИ -->
 
-                    <div class="register-signin-tickets pull-right main-nav1">
+                    <sec:authorize access = "isAnonymous()">
+                        <div class="register-signin-shedule pull-right main-nav1">
+                            <ul>
+                                <li><span><a href="/login" class="cd-signup">SIGN IN</a></span></li>
+                                <li><span><a href="/registration" class="cd-signup">REGISTER</a></span></li>
+                            </ul>
+                        </div>
+                    </sec:authorize>
 
-                        <ul>
-                            <li class="sign-out dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span>John Doe <i class="fa fa-caret-down"></i></a>
-                                <ul class="dropdown-menu dash-user">
-                                    <li><a href="#">My tickets</a></li>
-                                    <br>
-                                    <li><a href="#">Dashboard</a></li>
-                                    <br>
-                                    <li><a href="index.html">Log out</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <sec:authorize access = "isAuthenticated()">
 
-                    </div>
+                        <div class="register-signin-tickets pull-right main-nav1">
+
+                            <ul>
+                                <li class="sign-out dropdown">
+                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
+                                    <ul class="dropdown-menu dash-user">
+                                        <li><a href="/myTickets">My tickets</a></li>
+                                        <br>
+                                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                            <li><a href="/dash">Admin Panel</a></li>
+                                            <br>
+                                        </sec:authorize>
+
+                                        <li><a href="/logout">Log out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </sec:authorize>
 
 
                     <!-- гамбургерное меню  -->
@@ -84,7 +99,7 @@
                             <ul>
                                 <li><a href="/">Home</a></li>
                                 <li><a href="/tickets">Tickets</a></li>
-                                <li class="active"><a href="shedule.html">Shedule</a></li>
+                                <li class="active"><a href="/schedule">Shedule</a></li>
                             </ul>
                         </div>
                     </div>
@@ -101,8 +116,8 @@
         <p class="hero-text text-center">Check train shedule</p>
 
         <div class="hero-underline">
-            <i class="fa fa-calendar date"></i><span class="hero-station">${model.scheduleList.get(0).getArrivalDate().toString().substring(0, 11)}</span>
-            <i class="fa fa-circle station"></i><span class="hero-station">Ploshchad Alexandra Nevskogo-2</span>
+            <i class="fa fa-calendar date"></i><span class="hero-station">${model.scheduleList.get(0).getDateArrival().toString().substring(0, 11)}</span>
+            <i class="fa fa-circle station"></i><span class="hero-station">${model.scheduleList.get(0).getStation().getName()}</span>
 
         </div>
 
@@ -122,23 +137,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="table-first">
-                    <td data-title='TRAIN'>T-001</td>
-                    <td data-title='ARRIVAL'>10:00</td>
-                    <td data-title='DIRECTION'><span><i class="fa fa-circle"></i> Ploshchad Alexandra Nevskogo-2</span></td>
-                </tr>
-
-                <tr class="table-first">
-                    <td data-title='TRAIN'>T-001</td>
-                    <td data-title='ARRIVAL'>10:00</td>
-                    <td data-title='DIRECTION'><span><i class="fa fa-circle"></i> Ploshchad Alexandra Nevskogo-2</span></td>
-                </tr>
-
-                <tr class="table-first">
-                    <td data-title='TRAIN'>T-001</td>
-                    <td data-title='ARRIVAL'>10:00</td>
-                    <td data-title='DIRECTION'><span><i class="fa fa-circle"></i> Ploshchad Alexandra Nevskogo-2</span></td>
-                </tr>
+                <c:forEach items="${model.scheduleList}" var="schedule">
+                    <tr class="table-first">
+                        <td data-title='TRAIN'>${schedule.getTrain().getTrainName()}</td>
+                        <td data-title='ARRIVAL'>${schedule.getDateArrival().toString().substring(11, 16)}</td>
+                        <td data-title='DIRECTION'><span><i class="fa fa-circle"></i>${schedule.getEndPointStation().getName()}</span></td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
 
