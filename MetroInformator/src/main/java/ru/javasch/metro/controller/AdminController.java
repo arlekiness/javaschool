@@ -2,7 +2,6 @@ package ru.javasch.metro.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,33 +36,8 @@ public class AdminController {
     @Autowired
     private ControllerService controllerService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/dash")
-    public ModelAndView enteringIntoAdmin(HttpServletRequest req) {
-        Map<String, Object> pag = controllerService.pagination();
-        List<Train> trains = (List<Train>)pag.get("trains");
-        List<Station> stations = (List<Station>)pag.get("stations");
-        trains = trains.subList(0, 20);
-        stations = stations.subList(0, 19);
-        Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("trains", trains);
-        modelMap.put("stations", stations);
-        modelMap.put("trainPages", pag.get("trainPages"));
-        modelMap.put("stationPages", pag.get("stationPages"));
-        if(req.getParameter("success") != null) {
-            modelMap.put("success", true);
-        }
-        if(req.getParameter("deleted") != null) {
-            modelMap.put("successdelete", true);
-        }
-        if(req.getParameter("train") != null) {
-            modelMap.put("trainexist", true);
-        }
-        if(req.getParameter("systemError") != null) {
-            modelMap.put("systemError", true);
-        }
-        return new ModelAndView("dash", "model", modelMap);
-    }
+    /** Block for
+                create-delete trains*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/createtrain")
@@ -80,13 +54,13 @@ public class AdminController {
     {
         try {
             scheduleService.addNewSchedules(trainName, stationName, date, time);
-            return new ModelAndView("redirect:/dash", "success", true);
+            return new ModelAndView("redirect:/dashtrain", "success", true);
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dash", "train", true);
+            return new ModelAndView("redirect:/dashtrain", "train", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("redirect:/dash", "systemError", true);
+            return new ModelAndView("redirect:/dashtrain", "systemError", true);
         }
     }
 
@@ -97,26 +71,38 @@ public class AdminController {
         try {
             trainService.delete(id);
             List<Ticket> tickets = ticketService.invalidateNonValidTickets();
-            ticketService.sendInvalidateMessages(tickets);
-            return new ModelAndView("redirect:/dash", "deleted", true);
+            return new ModelAndView("redirect:/dashtrain", "deleted", true);
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dash", "systemError", true);
+            return new ModelAndView("redirect:/dashtrain", "systemError", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("redirect:/dash", "systemError", true);
+            return new ModelAndView("redirect:/dashtrain", "systemError", true);
         }
     }
+
+    /** Block for
+                open-close stations*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/closeStation/{stationName}")
     public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) {
         try {
             stationService.closeStation(stationName);
-            return new ModelAndView("redirect:/dash");
+            String color = stationService.findByName(stationName).getBranch().getColor();
+            if (color == "RED")
+                return new ModelAndView("redirect:/dashstation");
+            else if (color.equals("BLUE"))
+                return new ModelAndView("redirect:/dashstation/2");
+            else if (color.equals("GREEN"))
+                return new ModelAndView("redirect:/dashstation/3");
+            else if (color.equals("ORANGE"))
+                return new ModelAndView("redirect:/dashstation/4");
+            else
+                return new ModelAndView("redirect:/dashstation/5");
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dash");
+            return new ModelAndView("redirect:/dashstation");
         }
     }
 
@@ -125,38 +111,91 @@ public class AdminController {
     public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) {
         try {
             stationService.openStation(stationName);
-            return new ModelAndView("redirect:/dash");
+            String color = stationService.findByName(stationName).getBranch().getColor();
+            if (color == "RED")
+                return new ModelAndView("redirect:/dashstation");
+            else if (color.equals("BLUE"))
+                return new ModelAndView("redirect:/dashstation/2");
+            else if (color.equals("GREEN"))
+                return new ModelAndView("redirect:/dashstation/3");
+            else if (color.equals("ORANGE"))
+                return new ModelAndView("redirect:/dashstation/4");
+            else
+                return new ModelAndView("redirect:/dashstation/5");
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dash");
+            return new ModelAndView("redirect:/dashstation");
         }
+    }
+
+    /** Block for
+                admin panel
+                    train pagination*/
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/dashtrain")
+    public ModelAndView enteringIntoAdminTrain(HttpServletRequest req) {
+        Map<String, Object> pag = controllerService.trainpagination();
+        List<Train> trains = (List<Train>)pag.get("trains");
+        trains = trains.subList(0, 20);
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("trains", trains);
+        modelMap.put("trainPages", pag.get("trainPages"));
+        if(req.getParameter("success") != null) {
+            modelMap.put("success", true);
+        }
+        if(req.getParameter("deleted") != null) {
+            modelMap.put("successdelete", true);
+        }
+        if(req.getParameter("train") != null) {
+            modelMap.put("trainexist", true);
+        }
+        if(req.getParameter("systemError") != null) {
+            modelMap.put("systemError", true);
+        }
+        return new ModelAndView("dashtrain", "model", modelMap);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashtrain/{count}")
     public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
-        Map<String, Object> pag = controllerService.pagination();
+        Map<String, Object> pag = controllerService.trainpagination();
         List<Train> trains = (List<Train>)pag.get("trains");
-        List<Station> stations = (List<Station>)pag.get("stations");
         if (pageNum != (int)pag.get("trainPages"))
             trains = trains.subList((pageNum - 1) * 20, (pageNum - 1) * 20 + 20);
         else
             trains = trains.subList((pageNum - 1) * 20, trains.size());
-        stations = stations.subList(0, 19);
 
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("trains", trains);
-        modelMap.put("stations", stations);
         modelMap.put("trainPages", pag.get("trainPages"));
+        return new ModelAndView("dashtrain", "model", modelMap);
+    }
+
+    /** Block for
+           admin panel
+                station pagination*/
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/dashstation")
+    public ModelAndView enteringIntoAdminStation(HttpServletRequest req) {
+        Map<String, Object> pag = controllerService.stationpagination();
+        List<Station> stations = (List<Station>)pag.get("stations");
+        stations = stations.subList(0, 19);
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("stations", stations);
         modelMap.put("stationPages", pag.get("stationPages"));
-        return new ModelAndView("dash", "model", modelMap);
+        if(req.getParameter("systemError") != null) {
+            modelMap.put("systemError", true);
+        }
+        return new ModelAndView("dashstation", "model", modelMap);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashstation/{stcount}")
     public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
-        Map<String, Object> pag = controllerService.pagination();
-        List<Train> trains = (List<Train>)pag.get("trains");
+        Map<String, Object> pag = controllerService.stationpagination();
         List<Station> stations = (List<Station>)pag.get("stations");
         switch (stationNum) {
             case 1:
@@ -177,12 +216,39 @@ public class AdminController {
             default:
                 break;
         }
-        trains = trains.subList(0, 20);
         Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("trains", trains);
         modelMap.put("stations", stations);
-        modelMap.put("trainPages", pag.get("trainPages"));
         modelMap.put("stationPages", pag.get("stationPages"));
-        return new ModelAndView("dash", "model", modelMap);
+        return new ModelAndView("dashstation", "model", modelMap);
     }
+
 }
+
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @RequestMapping(value="/dash")
+//    public ModelAndView enteringIntoAdmin(HttpServletRequest req) {
+//        Map<String, Object> pag = controllerService.pagination();
+//        List<Train> trains = (List<Train>)pag.get("trains");
+//        List<Station> stations = (List<Station>)pag.get("stations");
+//        trains = trains.subList(0, 20);
+//        stations = stations.subList(0, 19);
+//        Map<String, Object> modelMap = new HashMap<>();
+//        modelMap.put("trains", trains);
+//        modelMap.put("stations", stations);
+//        modelMap.put("trainPages", pag.get("trainPages"));
+//        modelMap.put("stationPages", pag.get("stationPages"));
+//        if(req.getParameter("success") != null) {
+//            modelMap.put("success", true);
+//        }
+//        if(req.getParameter("deleted") != null) {
+//            modelMap.put("successdelete", true);
+//        }
+//        if(req.getParameter("train") != null) {
+//            modelMap.put("trainexist", true);
+//        }
+//        if(req.getParameter("systemError") != null) {
+//            modelMap.put("systemError", true);
+//        }
+//        return new ModelAndView("dash", "model", modelMap);
+//    }

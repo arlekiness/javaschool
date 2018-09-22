@@ -68,4 +68,24 @@ public class ControllerServiceImpl implements ControllerService {
         pag.put("stationPages", stationPages);
         return pag;
     }
+
+    @Override
+    public Map<String, Object> trainpagination () {
+        Map<String, Object> pag = new HashMap<>();
+        List<Train> trains = trainService.getAllTrains();
+        Integer trainPages = trains.size() / 20 + 1;
+        pag.put("trains", trains);
+        pag.put("trainPages", trainPages);
+        return pag;
+    }
+
+    @Override
+    public Map<String, Object> stationpagination () {
+        Map<String, Object> pag = new HashMap<>();
+        List<Station> stations = stationService.getAllStations();
+        Integer stationPages = 5;
+        pag.put("stations", stations);
+        pag.put("stationPages", stationPages);
+        return pag;
+    }
 }

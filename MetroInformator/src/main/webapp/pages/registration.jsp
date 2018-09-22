@@ -93,23 +93,23 @@
                             <form class="cd-form half-form1" action="/registration" method="post">
                                 <p class="fieldset">
                                     <label class="image-replace cd-firstname" for="signup-firstname">First name</label>
-                                    <input class="full-width has-padding has-border" id="signup-firstname" name="firstName" type="text" placeholder="First name">
+                                    <input class="full-width has-padding has-border" id="signup-firstname" name="firstName" type="text" placeholder="First name" required pattern="^[a-zA-Z]+$">
                                 </p>
 
                                 <p class="fieldset">
                                     <label class="image-replace cd-lastname" for="signup-lastname">Last name</label>
-                                    <input class="full-width has-padding has-border" id="signup-lastname" name="lastName" type="text" placeholder="Last name">
+                                    <input class="full-width has-padding has-border" id="signup-lastname" name="lastName" type="text" placeholder="Last name" required pattern="^[a-zA-Z]+$">
                                 </p>
 
                                 <p class="fieldset">
                                     <label class="image-replace cd-email" for="signup-email">E-mail address</label>
-                                    <input class="full-width has-padding has-border" id="signup-email" name="login" type="email" placeholder="E-mail address">
+                                    <input class="full-width has-padding has-border" id="signup-email" name="login" type="email" placeholder="E-mail address" required>
                                     <span class="cd-error-message">Проверьте правильность ввода e-mail</span>
                                 </p>
 
                                 <p class="fieldset">
                                     <label class="image-replace cd-password" for="signup-password">PASSWORD</label>
-                                    <input class="full-width has-padding has-border" id="signup-password" name="password" type="text"  placeholder="Password">
+                                    <input class="full-width has-padding has-border" id="signup-password" name="password" type="text"  placeholder="Password" required pattern="[A-Za-z0-9]{6,}">
                                     <a href="#0" class="hide-password">Show</a>
                                     <span class="cd-error-message">Неверный логин или пароль</span>
                                 </p>
@@ -168,6 +168,24 @@
                                                 swal({
                                                     title: 'Oops..',
                                                     text: 'User with such login already exist.',
+                                                    type: 'error'
+                                                });
+                                            </script>
+                                        </c:if>
+                                        <c:if test="${not empty uncpass}">
+                                            <script>
+                                                swal({
+                                                    title: 'Oops..',
+                                                    text: 'Password must contain not less 6 numbers or letters',
+                                                    type: 'error'
+                                                });
+                                            </script>
+                                        </c:if>
+                                        <c:if test="${not empty uncem}">
+                                            <script>
+                                                swal({
+                                                    title: 'Oops..',
+                                                    text: 'Please, use correct email',
                                                     type: 'error'
                                                 });
                                             </script>

@@ -8,27 +8,29 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>meTro-Systems - Tickets</title>
+    <title>meTro-Systems - Admin panel - Stations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="/static/css/style-my-tickets.css" rel="stylesheet" />
-    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/style-dash2.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
-    <script src="/static/js/modernizr.js"></script> <!-- Modernizr -->
-    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="static/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="static/js/jquery-3.2.1.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
     <script src='http://code.angularjs.org/1.3.14/angular-animate.js'></script>
-    <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="/static/js/custom.js"></script>
-    <script src="/static/js/velocity.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/jcanvas.js"></script>
+    <script src="static/js/main.js"></script> <!-- Resource jQuery -->
+    <script src="static/js/custom.js"></script>
+    <script src="static/js/velocity.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jcanvas.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 
 
 
@@ -51,6 +53,8 @@
                             <li><a href="/schedule">Schedule</a></li>
                         </ul>
                     </div>
+
+
                     <!-- КНОПКИ -->
 
                     <div class="register-signin-tickets pull-right main-nav1">
@@ -72,6 +76,7 @@
                         </ul>
 
                     </div>
+
 
                     <!-- гамбургерное меню  -->
 
@@ -96,46 +101,84 @@
 
     <!-- контент -->
 
+
     <div class="wrapper-tickets">
-        <p class="hero-text text-center">My tickets</p>
-        <div class="hero-underline">
-            <span class="hero-station">${loggedUser.getFirstName()} ${loggedUser.getLastName()}</span>
+        <p class="hero-text text-center">Admin panel</p>
+
+        <div class="korpus">
+            <div class="train-button"><div class="train-icon"></div><a href="/dashtrain" class="train-label">Trains</a></div>
+            <div class="station-button"><div class="station-icon"></div><a href="/dashstation" class="station-label">Stations</a></div>
+
+
+
+
+
+            <main>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>
+                            STATION
+                        </th>
+                        <th>
+                            STATUS
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${model.stations}" var="station">
+                        <tr class="table-first">
+                            <td data-title='STATION'><span><i class="fa fa-circle"></i> ${station.getName()}</span></td>
+                            <c:if test="${station.getStatus().getStatusName() eq 'WORKED'}">
+                                <td data-title='STATUS'><a class='button open' href="/closeStation/${station.getName()}" data-type="modal-trigger">${station.getStatus().getStatusName()}</a></td>
+                            </c:if>
+                            <c:if test="${station.getStatus().getStatusName() eq 'CLOSED'}">
+                                <td data-title='STATUS'><a class='button closed' href="/openStation/${station.getName()}" data-type="modal-trigger">${station.getStatus().getStatusName()}</a></td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+            </main>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <c:forEach begin="1" end="${model.stationPages}" step="1" varStatus="loopSt">
+                        <li class="page-item"><a class="page-link" href="/dashstation/${loopSt.count}">${loopSt.count}</a></li>
+                    </c:forEach>
+                </ul>
+            </nav>
+
+
+
+
+
         </div>
-        <main>
-            <c:if test="${empty myTicketList}">
-                <div class="hero-underline1">
-                    <span class="hero-station1">There is no tickets yet</span>
-                </div>
-            </c:if>
-            <c:if test="${not empty myTicketList}">
-            <table>
-                <thead>
-                <tr>
-                    <th>TRAIN №</th>
-                    <th>DEPARTURE</th>
-                    <th>ARRIVAL</th>
-                    <th>PRICE</th>
-                    <th>VALID</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${myTicketList}" var="list">
-                <tr class="table-first">
-                    <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
-                    <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
-                    <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
-                    <td data-title='PRICE'>500</td>
-                    <td data-title='VALID' class="valid">${list.getValid()}</td>
-                </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            </c:if>
-        </main>
+
+
+
+
+
     </div>
+
+
+
     <!-- конец контента -->
+
+
     <div class="clearfix"></div>
+
+
+
+
 </div>
+
+
+
 
 </body>
 </html>

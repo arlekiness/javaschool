@@ -10,5 +10,6 @@ public class ErrorCode {
     public static final String NO_MORE_TICKETS = "All tickets was already booked. Please try new search";
     public static final String TRAIN_EXIST = "Such train already exist";
     public static final String NO_TRAIN_ON_DATE = "No trains on that date";
-
+    public static final String UNCORRECT_PASSWORD = "Password must contain not less 6 numbers or letters";
+    public static final String UNCORRECT_EMAIL = "Invalid email";
 }

@@ -72,7 +72,7 @@
                                         <li><a href="/myTickets">My tickets</a></li>
                                         <br>
                                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                            <li><a href="/dash">Admin Panel</a></li>
+                                            <li><a href="/dashtrain">Admin Panel</a></li>
                                             <br>
                                         </sec:authorize>
 

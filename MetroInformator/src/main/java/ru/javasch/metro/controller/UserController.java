@@ -43,6 +43,12 @@ public class UserController {
             if (ex.getError() == ErrorCode.EMPTY_FIELDS) {
                 model.addObject("emptyfields", ex);
                 return model;
+            } else if (ex.getError() == ErrorCode.UNCORRECT_PASSWORD) {
+                model.addObject("uncpass", ex);
+                return model;
+            } else if (ex.getError() == ErrorCode.UNCORRECT_EMAIL) {
+                model.addObject("uncem", ex);
+                return model;
             } else {
                 model.addObject("exist", ex);
                 return model;

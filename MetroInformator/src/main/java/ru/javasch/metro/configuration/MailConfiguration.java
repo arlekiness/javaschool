@@ -22,11 +22,11 @@ public class MailConfiguration {
     public JavaMailSender getMailSender() {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.mail.ru");
+        mailSender.setHost("smtp.yandex.ru");
         mailSender.setPort(465);
 
-        mailSender.setUsername("apocalypticmetro@mail.ru");
-        mailSender.setPassword("13Kotelnikov13");
+        mailSender.setUsername("dummymailmetro@yandex.ru");
+        mailSender.setPassword("Kotelnikov13");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
