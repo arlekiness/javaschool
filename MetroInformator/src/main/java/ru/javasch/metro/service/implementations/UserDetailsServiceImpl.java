@@ -25,13 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserDAO userDao;
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("USER " + username);
+        log.info("USER LOGGED " + username);
         User user = userService.findUserByEmail(username);
         if (user != null) {
             Collection<GrantedAuthority> authorities = user.getRoles()
