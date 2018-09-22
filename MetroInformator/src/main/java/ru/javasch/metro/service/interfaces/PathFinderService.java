@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface PathFinderService {
-    public List<Station> pathFinder(String stationBegin, String stationEnd);
+    List<Station> pathFinder(String stationBegin, String stationEnd);
 }

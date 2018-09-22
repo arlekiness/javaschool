@@ -17,6 +17,7 @@
     <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style-dash.css" type="text/css"/>
     <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -29,6 +30,7 @@
     <script src="/static/js/velocity.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 
 
 
@@ -109,7 +111,7 @@
             <div class="tab">
                 <main>
                     <div class="add-train">
-                        <a class='button1' href="add-train.html" data-type="modal-trigger">Add new train</a></div>
+                        <a class='button1' href="/createtrain" data-type="modal-trigger">Add new train</a></div>
                     <table>
                         <thead>
                         <tr>
@@ -143,6 +145,43 @@
 
                         </tbody>
                     </table>
+
+                    <c:if test="${not empty model.success}">
+                        <script>
+                            swal({
+                                title: 'Good job!',
+                                text: 'Train is ready',
+                                type: 'success'
+                            });
+                        </script>
+                    </c:if>
+                    <c:if test="${not empty model.successdelete}">
+                        <script>
+                            swal({
+                                title: 'Good job!',
+                                text: 'Train is deleted',
+                                type: 'success'
+                            });
+                        </script>
+                    </c:if>
+                    <c:if test="${not empty model.trainexist}">
+                        <script>
+                            swal({
+                                title: 'Oh boy!',
+                                text: 'Train exist. Watch your hands',
+                                type: 'error'
+                            });
+                        </script>
+                    </c:if>
+                    <c:if test="${not empty model.systemError}">
+                        <script>
+                            swal({
+                                title: 'OOOOOOPS...',
+                                text: 'Something really bad happened. Try again!',
+                                type: 'error'
+                            });
+                        </script>
+                    </c:if>
 
                 </main>
 

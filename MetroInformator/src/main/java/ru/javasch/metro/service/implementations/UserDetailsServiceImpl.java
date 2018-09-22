@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j
 public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
@@ -29,6 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("USER " + username);
         User user = userService.findUserByEmail(username);
         if (user != null) {
             Collection<GrantedAuthority> authorities = user.getRoles()

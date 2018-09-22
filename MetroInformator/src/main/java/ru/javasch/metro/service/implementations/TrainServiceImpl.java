@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.StationDAO;
@@ -16,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Log4j
 public class TrainServiceImpl implements TrainService {
     @Autowired
     TrainDAO trainDAO;
@@ -39,6 +41,7 @@ public class TrainServiceImpl implements TrainService {
             train.setCapacity(6);
             train.setStatus(status);
             trainDAO.add(train);
+            log.info("TRAIN ADDED");
             return train.getId();
         } else {
             throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_EXIST);
@@ -49,6 +52,7 @@ public class TrainServiceImpl implements TrainService {
     @Transactional
     public void delete (Long Id) {
         Train train = (Train)trainDAO.getById(Id);
+        log.info("TRAIN " + train.getTrainName() + " REMOVED");
         trainDAO.delete(train);
     }
 

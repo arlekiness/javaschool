@@ -2,6 +2,7 @@ package ru.javasch.metro.controller;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dash")
-    public ModelAndView enteringIntoAdmin() {
+    public ModelAndView enteringIntoAdmin(HttpServletRequest req) {
         Map<String, Object> pag = controllerService.pagination();
         List<Train> trains = (List<Train>)pag.get("trains");
         List<Station> stations = (List<Station>)pag.get("stations");
@@ -49,27 +50,44 @@ public class AdminController {
         modelMap.put("stations", stations);
         modelMap.put("trainPages", pag.get("trainPages"));
         modelMap.put("stationPages", pag.get("stationPages"));
+        if(req.getParameter("success") != null) {
+            modelMap.put("success", true);
+        }
+        if(req.getParameter("deleted") != null) {
+            modelMap.put("successdelete", true);
+        }
+        if(req.getParameter("train") != null) {
+            modelMap.put("trainexist", true);
+        }
+        if(req.getParameter("systemError") != null) {
+            modelMap.put("systemError", true);
+        }
         return new ModelAndView("dash", "model", modelMap);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/createTrain")
+    @GetMapping("/createtrain")
     public String creatingTrainForm() {
         return "createtrain";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/createTrain")
-    public String creatingTrainForm(@RequestParam(value="trainName") String trainName,
-                                    @RequestParam(value="stationName") String stationName,
-                                    @RequestParam(value="datetime") String dateTime)
+    @PostMapping("/createtrain")
+    public ModelAndView creatingTrainForm(@RequestParam(value="trainname") String trainName,
+                                          @RequestParam(value="startstation") String stationName,
+                                          @RequestParam(value="date") String date,
+                                          @RequestParam(value="time") String time)
     {
         try {
-            scheduleService.addNewSchedules(trainName, stationName, dateTime);
-            return "adminka";
+            scheduleService.addNewSchedules(trainName, stationName, date, time);
+            return new ModelAndView("redirect:/dash", "success", true);
         } catch (RuntimeBusinessLogicException ex) {
-            return "adminka";
-        } catch (Exception ex) {return "adminka";}
+            log.info("EXCEPTION: " + ex.getError());
+            return new ModelAndView("redirect:/dash", "train", true);
+        } catch (Exception ex) {
+            log.error("SYSTEM EXCEPTION", ex);
+            return new ModelAndView("redirect:/dash", "systemError", true);
+        }
     }
 
 
@@ -80,12 +98,13 @@ public class AdminController {
             trainService.delete(id);
             List<Ticket> tickets = ticketService.invalidateNonValidTickets();
             ticketService.sendInvalidateMessages(tickets);
-            return new ModelAndView("redirect:/dash");
+            return new ModelAndView("redirect:/dash", "deleted", true);
         } catch (RuntimeBusinessLogicException ex) {
-            return new ModelAndView("redirect:/dash");
+            log.info("EXCEPTION: " + ex.getError());
+            return new ModelAndView("redirect:/dash", "systemError", true);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ModelAndView("redirect:/dash");
+            log.error("SYSTEM EXCEPTION", ex);
+            return new ModelAndView("redirect:/dash", "systemError", true);
         }
     }
 
@@ -96,7 +115,7 @@ public class AdminController {
             stationService.closeStation(stationName);
             return new ModelAndView("redirect:/dash");
         } catch (RuntimeBusinessLogicException ex) {
-            System.out.println(ex.getError());
+            log.info("EXCEPTION: " + ex.getError());
             return new ModelAndView("redirect:/dash");
         }
     }
@@ -108,7 +127,7 @@ public class AdminController {
             stationService.openStation(stationName);
             return new ModelAndView("redirect:/dash");
         } catch (RuntimeBusinessLogicException ex) {
-            System.out.println(ex.getError());
+            log.info("EXCEPTION: " + ex.getError());
             return new ModelAndView("redirect:/dash");
         }
     }
@@ -133,6 +152,7 @@ public class AdminController {
         return new ModelAndView("dash", "model", modelMap);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashstation/{stcount}")
     public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
         Map<String, Object> pag = controllerService.pagination();

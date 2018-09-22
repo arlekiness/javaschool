@@ -53,6 +53,7 @@ public class BuyingTicketController {
             session.setAttribute("TicketList", tickets);
             return new ModelAndView("tickettable");
         } catch (RuntimeBusinessLogicException ex) {
+            log.info("EXCEPTION: " + ex.getError());
             if (ex.getError() == ErrorCode.BEGIN_STATION_CLOSED)
                 return new ModelAndView("tickets", "beginStationClosed", true);
             else if (ex.getError() == ErrorCode.END_STATION_CLOSED)
@@ -62,6 +63,7 @@ public class BuyingTicketController {
             else
                 return new ModelAndView("tickets", "noTrainsOnDate", true);
         } catch (Exception ex) {
+            log.error("SYSTEM EXEPTION", ex);
             return new ModelAndView("tickets", "systemError", true);
         }
     }
@@ -80,10 +82,12 @@ public class BuyingTicketController {
             session.removeAttribute("TicketList");
             return new ModelAndView("redirect:/myTickets");
         } catch (RuntimeBusinessLogicException ex) {
+            log.info("EXCEPTION: " + ex.getError());
             HttpSession session = req.getSession();
             session.removeAttribute("TicketList");
             return new ModelAndView("redirect:/ticketsFail");
         } catch (Exception ex) {
+            log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("redirect:/ticketsFail");
         }
     }
@@ -99,6 +103,7 @@ public class BuyingTicketController {
             session.setAttribute("myTicketList", ticket);
             return new ModelAndView("mytickets");
         } catch (Exception ex) {
+            log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("mytickets");
         }
     }

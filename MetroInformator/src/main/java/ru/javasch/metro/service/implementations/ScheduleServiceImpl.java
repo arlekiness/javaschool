@@ -59,8 +59,8 @@ public class ScheduleServiceImpl implements ScheduleService {
      Adding new Schedule List when ADMIN add new train*/
     @Override
     @Transactional
-    public List<Station> addNewSchedules (String trainName, String stationName, String firstDate) throws ParseException {
-        if (trainName == "" || stationName == "" || firstDate == "")
+    public List<Station> addNewSchedules (String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
+        if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "")
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
@@ -68,7 +68,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);
         Station endPointStation = stations.get(stations.size() - 1);
-        Date date = Utils.parseToDateTime(firstDate);
+        Date date = Utils.parseToDateTime(firstDate, firstTime);
         Calendar cal = Calendar.getInstance();
         for (Station st : stations) {
             Schedule schedule = new Schedule();

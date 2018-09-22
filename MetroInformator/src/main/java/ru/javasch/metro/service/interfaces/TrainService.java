@@ -10,5 +10,5 @@ public interface TrainService {
     Long add (String trainName);
     void delete (Long Id);
     Train findById(Long Id);
-    public List<Train> getAllTrains ();
+    List<Train> getAllTrains ();
 }

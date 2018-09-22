@@ -25,9 +25,11 @@ public class Utils {
         return format.parse(date);
     }
 
-    public static Date parseToDateTime(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.parse(date);
+    public static Date parseToDateTime(String date, String time) throws ParseException {
+        StringBuilder str = new StringBuilder(date);
+        str.append(" ").append(time);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        return format.parse(str.toString());
     }
 
     public static Long twoDateSubstraction (Date date1, Date date2) {

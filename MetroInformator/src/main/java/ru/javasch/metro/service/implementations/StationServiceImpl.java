@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.GraphDAO;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@Log4j
 public class StationServiceImpl implements StationService {
 
     @Autowired
@@ -69,6 +71,7 @@ public class StationServiceImpl implements StationService {
             for (Station st : trSt)
                 st.setStatus(status);
         }
+        log.info("STATION " + stationName + " WAS CLOSED");
     }
 
     @Override
@@ -84,6 +87,7 @@ public class StationServiceImpl implements StationService {
             for (Station st : trSt)
                 st.setStatus(status);
         }
+        log.info("STATION " + stationName + " WAS OPENED");
     }
 
     @Override

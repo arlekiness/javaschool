@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.StationDAO;
@@ -23,6 +24,7 @@ import java.util.*;
 
 
 @Service
+@Log4j
 public class TicketServiceImpl implements TicketService {
     private static final int TRAIN_CAPACITY = 6;
     private static final int ENDLESS_WEIGHT = 100000;
@@ -181,6 +183,7 @@ public class TicketServiceImpl implements TicketService {
             Train train = t.getTrain();
             List<Ticket> tickets = ticketDAO.getByStationDateTrain(beginStation, endStation, date, train);
             if (tickets.size() < TRAIN_CAPACITY) {
+                log.info("TICKET REGISTERED FOR " + user.getLogin() + ": FROM " + beginStation.getName() + " TO " + endStation.getName() + " ON TRAIN " + train.getTrainName());
                 t.setUser(user);
                 ticketDAO.add(t);
             } else {

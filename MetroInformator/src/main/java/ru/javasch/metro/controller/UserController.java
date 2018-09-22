@@ -37,6 +37,7 @@ public class UserController {
             return new ModelAndView("login", "allgood", true);
         }
         catch (RuntimeBusinessLogicException ex) {
+            log.info("EXCEPTION: " + ex.getError());
             ModelAndView model = new ModelAndView();
             model.setViewName("registration");
             if (ex.getError() == ErrorCode.EMPTY_FIELDS) {
@@ -47,6 +48,7 @@ public class UserController {
                 return model;
             }
         } catch (Exception ex) {
+            log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("registration", "systemError", true);
         }
     }

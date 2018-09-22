@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface GraphService {
-    public List<Station> changeWeight (String stationName);
+    List<Station> changeWeight (String stationName);
 }

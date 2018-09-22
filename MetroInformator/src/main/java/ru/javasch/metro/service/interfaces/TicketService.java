@@ -19,6 +19,6 @@ public interface TicketService {
     void registrateTicketsInSystem(List<Ticket> ticket, String userName);
     List<Ticket> invalidateNonValidTickets();
     void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException;
-    public List<Ticket> findAllTicketsByUser();
+    List<Ticket> findAllTicketsByUser();
 }
 
