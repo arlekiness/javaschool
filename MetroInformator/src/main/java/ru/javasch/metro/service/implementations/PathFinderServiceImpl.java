@@ -111,6 +111,8 @@ public class PathFinderServiceImpl implements PathFinderService {
                         endDest = pair.getValue();
                     }
                 }
+                if(bestTransition == NO_TRANSITION)
+                    throw new RuntimeBusinessLogicException(ErrorCode.ATS_ARE_CLOSED);
                 path.add(endDest);
                 path.add(bestTransition);
                 if (graphArray[bestTransition][indexEnd] != NO_TRANSITION)

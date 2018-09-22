@@ -90,7 +90,7 @@ public class AdminController {
         try {
             stationService.closeStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
-            if (color == "RED")
+            if (color.equals("RED"))
                 return new ModelAndView("redirect:/dashstation");
             else if (color.equals("BLUE"))
                 return new ModelAndView("redirect:/dashstation/2");
@@ -112,7 +112,7 @@ public class AdminController {
         try {
             stationService.openStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
-            if (color == "RED")
+            if (color.equals("RED"))
                 return new ModelAndView("redirect:/dashstation");
             else if (color.equals("BLUE"))
                 return new ModelAndView("redirect:/dashstation/2");
