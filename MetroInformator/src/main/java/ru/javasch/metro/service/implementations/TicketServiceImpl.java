@@ -218,4 +218,8 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> tickets = ticketDAO.findAllUserTickets(user);
         return tickets;
     }
+
+    @Override
+    @Transactional
+    public List<Ticket> getByTrain(Train train) {return ticketDAO.getByTrain(train);}
 }

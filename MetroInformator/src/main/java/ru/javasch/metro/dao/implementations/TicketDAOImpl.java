@@ -86,4 +86,15 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
                 .setParameter("user", user)
                 .getResultList();
     }
+
+    @Override
+    public List<Ticket> getByTrain(Train train) {
+        Date date = new Date();
+        return (List <Ticket>) sessionFactory.getCurrentSession()
+                .createQuery("from Ticket where train = :train and " +
+                        " ticketDateDeparture > :date")
+                .setParameter("train", train)
+                .setParameter("date", date)
+                .getResultList();
+    }
 }

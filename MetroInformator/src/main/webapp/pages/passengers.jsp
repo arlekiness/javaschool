@@ -8,16 +8,15 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>meTro-Systems - Admin panel - Trains</title>
+    <title>meTro-Systems - Tickets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/images/sw.png" type="image/png">
+    <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/static/css/style-dash1.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/sweetalert2.css">
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="/static/css/style-my-tickets.css" rel="stylesheet" />
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -30,7 +29,6 @@
     <script src="/static/js/velocity.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
-    <script src="/static/js/sweetalert2.js"></script>
 
 
 
@@ -53,8 +51,6 @@
                             <li><a href="/schedule">Schedule</a></li>
                         </ul>
                     </div>
-
-
                     <!-- КНОПКИ -->
 
                     <div class="register-signin-tickets pull-right main-nav1">
@@ -76,7 +72,6 @@
                         </ul>
 
                     </div>
-
 
                     <!-- гамбургерное меню  -->
 
@@ -101,132 +96,47 @@
 
     <!-- контент -->
 
-
     <div class="wrapper-tickets">
-        <p class="hero-text text-center">Admin panel</p>
-
-        <div class="korpus">
-            <div class="train-button"><div class="train-icon"></div><a href="/dashtrain" class="train-label">Trains</a></div>
-            <div class="station-button"><div class="station-icon"></div><a href="/dashstation" class="station-label">Stations</a></div>
-
-
-
-
-
-            <main>
-                <div class="add-train">
-                    <a class='button1' href="/createtrain" data-type="modal-trigger">Add new train</a></div>
+        <p class="hero-text text-center">REGISTERED PASSENGERS</p>
+        <div class="hero-underline">
+            <span class="hero-station">${loggedUser.getFirstName()} ${loggedUser.getLastName()}</span>
+        </div>
+        <main>
+            <c:if test="${empty ticketlist}">
+                <div class="hero-underline1">
+                    <span class="hero-station1">There is no tickets on that train</span>
+                </div>
+            </c:if>
+            <c:if test="${not empty ticketlist}">
                 <table>
                     <thead>
                     <tr>
-                        <th>
-                            TRAIN ID
-                        </th>
-                        <th>
-                            TRAIN №
-                        </th>
-                        <th>
-                            CAPACITY
-                        </th>
-                        <th>
-                            STATUS
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
+                        <th>TRAIN №</th>
+                        <th>DEPARTURE</th>
+                        <th>ARRIVAL</th>
+                        <th>PRICE</th>
+                        <th>PASSENGER</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${model.trains}" var="train">
+                    <c:forEach items="${ticketlist}" var="list">
                         <tr class="table-first">
-                            <td data-title='TRAIN-ID'>${train.getId()}</td>
-                            <td data-title='TRAIN-NO'>${train.getTrainName()}</td>
-                            <td data-title='CAPACITY'>${train.getCapacity()}</td>
-                            <td data-title='STATUS'><span><i class="fa fa-circle"></i> ${train.getStatus().getStatusName()}</span></td>
-                            <td data-title='DELETE'><a class='button' href="/deleteTrain/${train.getId()}" data-type="modal-trigger">DELETE</a></td>
-                            <td data-title='PASSENGER'><a class='button' href="/passengers/${train.getId()}" data-type="modal-trigger">PASSENGERS</a></td>
+                            <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
+                            <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
+                            <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
+                            <td data-title='PRICE'>500</td>
+                            <td data-title='PASSENGER' class="valid">${list.getUser().getFirstName()} ${list.getUser().getLastName()}</td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
                 </table>
-
-                <c:if test="${not empty model.success}">
-                    <script>
-                        swal({
-                            title: 'Good job!',
-                            text: 'Train is ready',
-                            type: 'success'
-                        });
-                    </script>
-                </c:if>
-                <c:if test="${not empty model.successdelete}">
-                    <script>
-                        swal({
-                            title: 'Good job!',
-                            text: 'Train is deleted',
-                            type: 'success'
-                        });
-                    </script>
-                </c:if>
-                <c:if test="${not empty model.trainexist}">
-                    <script>
-                        swal({
-                            title: 'Oh boy!',
-                            text: 'Train exist. Watch your hands',
-                            type: 'error'
-                        });
-                    </script>
-                </c:if>
-                <c:if test="${not empty model.systemError}">
-                    <script>
-                        swal({
-                            title: 'OOOOOOPS...',
-                            text: 'Something really bad happened. Try again!',
-                            type: 'error'
-                        });
-                    </script>
-                </c:if>
-
-            </main>
-
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <c:forEach begin="1" end="${model.trainPages}" step="1" varStatus="loop">
-                        <li class="page-item"><a class="page-link" href="/dashtrain/${loop.count}">${loop.count}</a></li>
-                    </c:forEach>
-                </ul>
-            </nav>
-
-
-
-
-
-        </div>
-
-
-
-
-
+            </c:if>
+        </main>
     </div>
-
-
-
     <!-- конец контента -->
-
-
     <div class="clearfix"></div>
-
-
-
-
 </div>
-
-
-
 
 </body>
 </html>
+

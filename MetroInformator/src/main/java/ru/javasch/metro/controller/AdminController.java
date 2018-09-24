@@ -90,16 +90,7 @@ public class AdminController {
         try {
             stationService.closeStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
-            if (color.equals("RED"))
-                return new ModelAndView("redirect:/dashstation");
-            else if (color.equals("BLUE"))
-                return new ModelAndView("redirect:/dashstation/2");
-            else if (color.equals("GREEN"))
-                return new ModelAndView("redirect:/dashstation/3");
-            else if (color.equals("ORANGE"))
-                return new ModelAndView("redirect:/dashstation/4");
-            else
-                return new ModelAndView("redirect:/dashstation/5");
+            return new ModelAndView(controllerService.stationSwitchHelper(color));
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
             return new ModelAndView("redirect:/dashstation");
@@ -112,16 +103,7 @@ public class AdminController {
         try {
             stationService.openStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
-            if (color.equals("RED"))
-                return new ModelAndView("redirect:/dashstation");
-            else if (color.equals("BLUE"))
-                return new ModelAndView("redirect:/dashstation/2");
-            else if (color.equals("GREEN"))
-                return new ModelAndView("redirect:/dashstation/3");
-            else if (color.equals("ORANGE"))
-                return new ModelAndView("redirect:/dashstation/4");
-            else
-                return new ModelAndView("redirect:/dashstation/5");
+            return new ModelAndView(controllerService.stationSwitchHelper(color));
         } catch (RuntimeBusinessLogicException ex) {
             log.info("EXCEPTION: " + ex.getError());
             return new ModelAndView("redirect:/dashstation");
@@ -222,33 +204,19 @@ public class AdminController {
         return new ModelAndView("dashstation", "model", modelMap);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/passengers/{id}")
+    public ModelAndView passengers(@PathVariable(value = "id") Long id) {
+        try {
+            List<Ticket> tickets = ticketService.getByTrain(trainService.findById(id));
+            return new ModelAndView("passengers", "ticketlist", tickets);
+        } catch (RuntimeBusinessLogicException ex) {
+            log.info("EXCEPTION: " + ex.getError());
+            return new ModelAndView("redirect:/dashtrain", "systemError", true);
+        } catch (Exception ex) {
+            log.error("SYSTEM EXCEPTION", ex);
+            return new ModelAndView("redirect:/dashtrain", "systemError", true);
+        }
+    }
+
 }
-
-
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @RequestMapping(value="/dash")
-//    public ModelAndView enteringIntoAdmin(HttpServletRequest req) {
-//        Map<String, Object> pag = controllerService.pagination();
-//        List<Train> trains = (List<Train>)pag.get("trains");
-//        List<Station> stations = (List<Station>)pag.get("stations");
-//        trains = trains.subList(0, 20);
-//        stations = stations.subList(0, 19);
-//        Map<String, Object> modelMap = new HashMap<>();
-//        modelMap.put("trains", trains);
-//        modelMap.put("stations", stations);
-//        modelMap.put("trainPages", pag.get("trainPages"));
-//        modelMap.put("stationPages", pag.get("stationPages"));
-//        if(req.getParameter("success") != null) {
-//            modelMap.put("success", true);
-//        }
-//        if(req.getParameter("deleted") != null) {
-//            modelMap.put("successdelete", true);
-//        }
-//        if(req.getParameter("train") != null) {
-//            modelMap.put("trainexist", true);
-//        }
-//        if(req.getParameter("systemError") != null) {
-//            modelMap.put("systemError", true);
-//        }
-//        return new ModelAndView("dash", "model", modelMap);
-//    }

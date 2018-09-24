@@ -88,4 +88,18 @@ public class ControllerServiceImpl implements ControllerService {
         pag.put("stationPages", stationPages);
         return pag;
     }
+
+    @Override
+    public String stationSwitchHelper(String color) {
+        if (color.equals("RED"))
+            return "redirect:/dashstation";
+        else if (color.equals("BLUE"))
+            return "redirect:/dashstation/2";
+        else if (color.equals("GREEN"))
+            return "redirect:/dashstation/3";
+        else if (color.equals("ORANGE"))
+            return "redirect:/dashstation/4";
+        else
+            return "redirect:/dashstation/5";
+    }
 }

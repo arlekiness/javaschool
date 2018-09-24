@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
+import ru.javasch.metro.model.Train;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -20,5 +21,6 @@ public interface TicketService {
     List<Ticket> invalidateNonValidTickets();
     void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException;
     List<Ticket> findAllTicketsByUser();
+    List<Ticket> getByTrain(Train train);
 }
 

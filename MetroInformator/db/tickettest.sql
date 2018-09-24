@@ -1,8 +1,8 @@
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (1, 7, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (2, 7, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (3, 7, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (4, 7, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
-INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (5, 7, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (1, 3, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (2, 3, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (3, 3, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (4, 3, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
+INSERT INTO testbase.ticket (id, user_id, train_id, stationBegin_id, stationEnd_id, ticketDateDeparture, ticketDateArrival, price, branch_id, valid) VALUES (5, 3, 87, 19, 1, '2018-11-11 6:50:00', '2018-11-11 17:15:00', 500, 1, 'VALID');
 
 
 INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (173, 'T-173', 6, 1);

@@ -13,4 +13,5 @@ public interface ControllerService {
     Map<String, Object> pagination ();
     Map<String, Object> trainpagination ();
     Map<String, Object> stationpagination ();
+    String stationSwitchHelper(String color);
 }
