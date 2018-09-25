@@ -22,7 +22,6 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                     .setParameter("name", name)
                     .uniqueResult();
         } catch (Exception e) {
-            System.out.println("Such station doesn't exists");
             throw new RuntimeBusinessLogicException("Such station doesn't exists");
         }
     }
@@ -71,6 +70,15 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                     .setParameter("branch", branch)
                     .getResultList();
         return list;
+    }
+
+    @Override
+    public List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId) {
+        return (List<Station>) sessionFactory.getCurrentSession()
+                .createQuery("from Station where id >= :stationBeginId " + "and id <= :stationEndId")
+                .setParameter("stationBeginId", stationBeginId)
+                .setParameter("stationEndId", stationEndId)
+                .getResultList();
     }
 
 

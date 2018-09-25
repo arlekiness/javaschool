@@ -1,7 +1,7 @@
 package ru.javasch.metro.controller;
 
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,7 @@ import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import java.util.Map;
 @Controller
 @Log4j
 public class AdminController {
+
+    private static final int TRAIN_NUM_ON_PAGE = 20;
 
     @Autowired
     private TrainService trainService;
@@ -55,10 +58,7 @@ public class AdminController {
         try {
             scheduleService.addNewSchedules(trainName, stationName, date, time);
             return new ModelAndView("redirect:/dashtrain", "success", true);
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dashtrain", "train", true);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("redirect:/dashtrain", "systemError", true);
         }
@@ -72,9 +72,6 @@ public class AdminController {
             trainService.delete(id);
             List<Ticket> tickets = ticketService.invalidateNonValidTickets();
             return new ModelAndView("redirect:/dashtrain", "deleted", true);
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dashtrain", "systemError", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("redirect:/dashtrain", "systemError", true);
@@ -87,27 +84,17 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/closeStation/{stationName}")
     public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) {
-        try {
             stationService.closeStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
             return new ModelAndView(controllerService.stationSwitchHelper(color));
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dashstation");
-        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/openStation/{stationName}")
     public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) {
-        try {
             stationService.openStation(stationName);
             String color = stationService.findByName(stationName).getBranch().getColor();
             return new ModelAndView(controllerService.stationSwitchHelper(color));
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dashstation");
-        }
     }
 
     /** Block for
@@ -118,9 +105,9 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashtrain")
     public ModelAndView enteringIntoAdminTrain(HttpServletRequest req) {
-        Map<String, Object> pag = controllerService.trainpagination();
+        Map<String, Object> pag = controllerService.trainPagination();
         List<Train> trains = (List<Train>)pag.get("trains");
-        trains = trains.subList(0, 20);
+        trains = trains.subList(0, TRAIN_NUM_ON_PAGE);
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("trains", trains);
         modelMap.put("trainPages", pag.get("trainPages"));
@@ -142,12 +129,12 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashtrain/{count}")
     public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
-        Map<String, Object> pag = controllerService.trainpagination();
+        Map<String, Object> pag = controllerService.trainPagination();
         List<Train> trains = (List<Train>)pag.get("trains");
         if (pageNum != (int)pag.get("trainPages"))
-            trains = trains.subList((pageNum - 1) * 20, (pageNum - 1) * 20 + 20);
+            trains = trains.subList((pageNum - 1) * TRAIN_NUM_ON_PAGE, (pageNum - 1) * TRAIN_NUM_ON_PAGE + TRAIN_NUM_ON_PAGE);
         else
-            trains = trains.subList((pageNum - 1) * 20, trains.size());
+            trains = trains.subList((pageNum - 1) * TRAIN_NUM_ON_PAGE, trains.size());
 
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("trains", trains);
@@ -162,9 +149,8 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashstation")
     public ModelAndView enteringIntoAdminStation(HttpServletRequest req) {
-        Map<String, Object> pag = controllerService.stationpagination();
+        Map<String, Object> pag = controllerService.stationPagination(1);
         List<Station> stations = (List<Station>)pag.get("stations");
-        stations = stations.subList(0, 19);
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("stations", stations);
         modelMap.put("stationPages", pag.get("stationPages"));
@@ -177,27 +163,8 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/dashstation/{stcount}")
     public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
-        Map<String, Object> pag = controllerService.stationpagination();
+        Map<String, Object> pag = controllerService.stationPagination(stationNum);
         List<Station> stations = (List<Station>)pag.get("stations");
-        switch (stationNum) {
-            case 1:
-                stations = stations.subList(0, 19);
-                break;
-            case 2:
-                stations = stations.subList(19, 37);
-                break;
-            case 3:
-                stations = stations.subList(37, 49);
-                break;
-            case 4:
-                stations = stations.subList(49, 57);
-                break;
-            case 5:
-                stations = stations.subList(57, 69);
-                break;
-            default:
-                break;
-        }
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("stations", stations);
         modelMap.put("stationPages", pag.get("stationPages"));
@@ -210,9 +177,6 @@ public class AdminController {
         try {
             List<Ticket> tickets = ticketService.getByTrain(trainService.findById(id));
             return new ModelAndView("passengers", "ticketlist", tickets);
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            return new ModelAndView("redirect:/dashtrain", "systemError", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
             return new ModelAndView("redirect:/dashtrain", "systemError", true);

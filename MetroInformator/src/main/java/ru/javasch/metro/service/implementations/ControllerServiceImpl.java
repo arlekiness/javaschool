@@ -12,6 +12,7 @@ import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
+import ru.javasch.metro.utils.EndPointStations;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,8 @@ import java.util.Map;
 
 @Service
 public class ControllerServiceImpl implements ControllerService {
+    private static int STATION_PAGES = 5;
+
     @Autowired
     private TicketService ticketService;
 
@@ -55,35 +58,55 @@ public class ControllerServiceImpl implements ControllerService {
         return tickets;
     }
 
+//    @Override
+//    public Map<String, Object> pagination () {
+//        Map<String, Object> pag = new HashMap<>();
+//        List<Train> trains = trainService.getAllTrains();
+//        List<Station> stations = stationService.getAllStations();
+//        Integer trainPages = trains.size() / 20 + 1;
+//        Integer stationPages = STATION_PAGES;
+//        pag.put("trains", trains);
+//        pag.put("stations", stations);
+//        pag.put("trainPages", trainPages);
+//        pag.put("stationPages", stationPages);
+//        return pag;
+//    }
+
     @Override
-    public Map<String, Object> pagination () {
+    public Map<String, Object> trainPagination () {
         Map<String, Object> pag = new HashMap<>();
         List<Train> trains = trainService.getAllTrains();
-        List<Station> stations = stationService.getAllStations();
         Integer trainPages = trains.size() / 20 + 1;
-        Integer stationPages = 5;
         pag.put("trains", trains);
-        pag.put("stations", stations);
         pag.put("trainPages", trainPages);
-        pag.put("stationPages", stationPages);
         return pag;
     }
 
     @Override
-    public Map<String, Object> trainpagination () {
+    @Transactional
+    public Map<String, Object> stationPagination (int stationPageNum) {
         Map<String, Object> pag = new HashMap<>();
-        List<Train> trains = trainService.getAllTrains();
-        Integer trainPages = trains.size() / 20 + 1;
-        pag.put("trains", trains);
-        pag.put("trainPages", trainPages);
-        return pag;
-    }
-
-    @Override
-    public Map<String, Object> stationpagination () {
-        Map<String, Object> pag = new HashMap<>();
-        List<Station> stations = stationService.getAllStations();
-        Integer stationPages = 5;
+        List<Station> stations = null;
+        Integer stationPages = STATION_PAGES;
+        switch (stationPageNum) {
+            case 1:
+                stations = stationService.getStationsBetweenIDs(EndPointStations.DEVYATKINO, EndPointStations.PROSPEKT_VETERANOV);
+                break;
+            case 2:
+                stations = stationService.getStationsBetweenIDs(EndPointStations.PARNAS, EndPointStations.KUPCHINO);
+                break;
+            case 3:
+                stations = stationService.getStationsBetweenIDs(EndPointStations.BEGOVAYA, EndPointStations.RYBATSKOYE);
+                break;
+            case 4:
+                stations = stationService.getStationsBetweenIDs(EndPointStations.SPASSKAYA, EndPointStations.ULITSA_DYBENKO);
+                break;
+            case 5:
+                stations = stationService.getStationsBetweenIDs(EndPointStations.KOMENDANTSKY_PROSPEKT, EndPointStations.MEZHDUNARODNAYA);
+                break;
+            default:
+                break;
+        }
         pag.put("stations", stations);
         pag.put("stationPages", stationPages);
         return pag;

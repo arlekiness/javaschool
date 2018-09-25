@@ -51,18 +51,9 @@ public class ScheduleController {
             modelMap.put("showSchedule", "true");
             modelMap.put("scheduleList", sch);
             return new ModelAndView("scheduletable", "model", modelMap);
-        } catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            modelMap.put("closedStationStatus", "true");
-            return new ModelAndView("schedule", "model", modelMap);
         } catch (ParseException ex) {
             log.error("PARSE EXCEPTION", ex);
             modelMap.put("parseException", "true");
-            return new ModelAndView("schedule", "model", modelMap);
-        } catch (Exception ex) {
-            log.error("SYSTEM EXCEPTION", ex);
-            modelMap.put("systemError", "true");
-            return new ModelAndView("schedule", "model", modelMap);
-        }
+            return new ModelAndView("schedule", "model", modelMap); }
     }
 }

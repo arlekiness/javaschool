@@ -14,4 +14,5 @@ public interface StationService {
     void openStation (String stationName);
     void checkSegments(List<List<Station>> segments);
     List<List<Station>> findPathSegments(List<List<Station>> segments);
+    List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId);
 }

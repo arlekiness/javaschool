@@ -301,7 +301,7 @@
                     <script>
                         swal({
                             title: 'OOOOPS...',
-                            text: 'Something very bad happened. Try again',
+                            text: 'Something very bad happened. Try again. Maybe you used form instead of calendar?',
                             type: 'error'
                         });
                     </script>

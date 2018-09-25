@@ -18,6 +18,7 @@ public class SecureService {
     }
 
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("HERE");
         Authentication authentication = getAuthentication();
         log.info("USER LOGOUT: " + authentication.getName());
         if (authentication != null)

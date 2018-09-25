@@ -125,5 +125,10 @@ public class StationServiceImpl implements StationService {
         return pathStation;
     }
 
+    @Override
+    @Transactional
+    public List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId) {
+        return stationDAO.getStationsBetweenIDs(stationBeginId, stationEndId);
+    }
 
 }

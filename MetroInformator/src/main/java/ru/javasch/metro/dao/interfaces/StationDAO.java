@@ -7,10 +7,8 @@ import java.util.List;
 public interface StationDAO<E extends Station> extends GenericDAO<E> {
 
     Station findByName(String name);
-
-    public List<Station> getAllStationOnBranch(Station station);
-
-    public List<Station> findAllStationBetweenBeginAndEndPoint (Station begin, Station end);
-
-    public Station findStationById(Integer id);
+    List<Station> getAllStationOnBranch(Station station);
+    List<Station> findAllStationBetweenBeginAndEndPoint (Station begin, Station end);
+    Station findStationById(Integer id);
+    List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId);
 }

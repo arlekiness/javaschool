@@ -80,12 +80,12 @@ public class TicketServiceImpl implements TicketService {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateForm);
         Date now = new Date();
-        List<Station> stat = segments.get(0);
-        List<Schedule> schedules = scheduleService.getAllSchedulesByStationDateAndPath(stat.get(0), stat.get(1), date, now);
+        List<Station> stations = segments.get(0);
+        List<Schedule> schedules = scheduleService.getAllSchedulesByStationDateAndPath(stations.get(0), stations.get(1), date, now);
         Iterator it = schedules.iterator();
         while (it.hasNext()) {
             Schedule sch = (Schedule) it.next();
-            int occupied = this.occupiedSeats(sch, stat.get(1));
+            int occupied = this.occupiedSeats(sch, stations.get(1));
             if (occupied == sch.getTrain().getCapacity())
                 it.remove();
         }
@@ -107,7 +107,7 @@ public class TicketServiceImpl implements TicketService {
 
         schedulesChain.add(endsOfFirstSegmentSchedule);
         for (int i = 1; i < pathSegment.size(); i++) {
-            List<Station> stat = pathSegment.get(i);
+            List<Station> stations = pathSegment.get(i);
             List<Schedule> schedulesChainSeg = new ArrayList<>();
             for (Schedule sch : endsOfFirstSegmentSchedule) {
                 Date chainArrivalDate = sch.getDateArrival();
@@ -116,11 +116,11 @@ public class TicketServiceImpl implements TicketService {
                 cal.add(Calendar.MINUTE, 10);
                 chainArrivalDate = cal.getTime();
 
-                List<Schedule> schedules = scheduleService.getAllSchedulesByStationDateAndPath(stat.get(0), stat.get(1), chainArrivalDate, new Date());
+                List<Schedule> schedules = scheduleService.getAllSchedulesByStationDateAndPath(stations.get(0), stations.get(1), chainArrivalDate, new Date());
                 Iterator it = schedules.iterator();
                 while (it.hasNext()) {
                     Schedule sched = (Schedule) it.next();
-                    int occupied = this.occupiedSeats(sched, stat.get(1));
+                    int occupied = this.occupiedSeats(sched, stations.get(1));
                     if (occupied == sched.getTrain().getCapacity())
                         it.remove();
                 }
@@ -132,7 +132,7 @@ public class TicketServiceImpl implements TicketService {
             schedulesChain.add(schedulesChainSeg);
             List<Schedule> anotherOneList = new ArrayList<>();
             for (Schedule sch : schedulesChainSeg) {
-                Schedule end = scheduleService.findByTrainAndStation(stat.get(1), sch.getTrain(), date);
+                Schedule end = scheduleService.findByTrainAndStation(stations.get(1), sch.getTrain(), date);
                 anotherOneList.add(end);
             }
             schedulesChain.add(anotherOneList);

@@ -10,8 +10,8 @@ import java.util.Map;
 @Service
 public interface ControllerService {
     List<List<Ticket>> chainsOfTickets(String beginStation, String endStation, String date) throws ParseException;
-    Map<String, Object> pagination ();
-    Map<String, Object> trainpagination ();
-    Map<String, Object> stationpagination ();
+//    Map<String, Object> pagination ();
+    Map<String, Object> trainPagination ();
+    Map<String, Object> stationPagination (int stationPageNum);
     String stationSwitchHelper(String color);
 }

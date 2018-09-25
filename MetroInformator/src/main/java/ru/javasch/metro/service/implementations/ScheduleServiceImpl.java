@@ -61,7 +61,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public List<Station> addNewSchedules (String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
         if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "")
-            throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
+            throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
+        Integer hour = Integer.parseInt(new StringBuilder(firstTime).delete(2, 5).toString());
+        Integer minutes = Integer.parseInt(new StringBuilder(firstTime).delete(0, 3).toString());
+        if (hour == 13 && minutes > 15 || hour > 13)
+            throw new RuntimeBusinessLogicException(ErrorCode.TO_LATE_FOR_TRAIN);
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
         List<Station> stations = stationService.getAllStationOnBranch(stationName);

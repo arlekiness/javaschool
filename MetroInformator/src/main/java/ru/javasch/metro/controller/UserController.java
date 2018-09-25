@@ -10,8 +10,10 @@ import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.service.implementations.SecureService;
 import ru.javasch.metro.service.interfaces.UserService;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @Log4j
@@ -31,32 +33,9 @@ public class UserController {
     public ModelAndView registration(@RequestParam(value="firstName") String firstName,
                                @RequestParam(value="lastName") String lastName,
                                @RequestParam(value="login") String login,
-                               @RequestParam(value="password") String password) {
-        try {
+                               @RequestParam(value="password") String password) throws IOException, MessagingException {
             userService.registration(firstName, lastName, login, password);
             return new ModelAndView("login", "allgood", true);
-        }
-        catch (RuntimeBusinessLogicException ex) {
-            log.info("EXCEPTION: " + ex.getError());
-            ModelAndView model = new ModelAndView();
-            model.setViewName("registration");
-            if (ex.getError() == ErrorCode.EMPTY_FIELDS) {
-                model.addObject("emptyfields", ex);
-                return model;
-            } else if (ex.getError() == ErrorCode.UNCORRECT_PASSWORD) {
-                model.addObject("uncpass", ex);
-                return model;
-            } else if (ex.getError() == ErrorCode.UNCORRECT_EMAIL) {
-                model.addObject("uncem", ex);
-                return model;
-            } else {
-                model.addObject("exist", ex);
-                return model;
-            }
-        } catch (Exception ex) {
-            log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("registration", "systemError", true);
-        }
     }
 
 
