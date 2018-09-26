@@ -11,7 +11,7 @@ import java.util.Map;
 public interface ControllerService {
     List<List<Ticket>> chainsOfTickets(String beginStation, String endStation, String date) throws ParseException;
 
-    Map<String, Object> trainPagination();
+    Map<String, Object> trainPagination(int pageNum);
 
     Map<String, Object> stationPagination(int stationPageNum);
 

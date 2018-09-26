@@ -12,6 +12,7 @@ import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class AdminController {
 
     private static final int TRAIN_NUM_ON_PAGE = 20;
+    private static final int FIRST_PAGE = 1;
 
     @Autowired
     private TrainService trainService;
@@ -109,7 +111,10 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashtrain")
     public ModelAndView enteringIntoAdminTrain(HttpServletRequest req) {
-        Map<String, Object> pag = controllerService.trainPagination();
+        Map<String, Object> pag = controllerService.trainPagination(FIRST_PAGE);
+        int pagesCount = trainService.getAllTrains().size() / TRAIN_NUM_ON_PAGE + 1;
+        HttpSession session = req.getSession();
+        session.setAttribute("trainPages", pagesCount);
         List<Train> trains = (List<Train>) pag.get("trains");
         trains = trains.subList(0, TRAIN_NUM_ON_PAGE);
         Map<String, Object> modelMap = new HashMap<>();
@@ -133,29 +138,23 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashtrain/{count}")
     public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
-        Map<String, Object> pag = controllerService.trainPagination();
+        Map<String, Object> pag = controllerService.trainPagination(pageNum);
         List<Train> trains = (List<Train>) pag.get("trains");
-        if (pageNum != (int) pag.get("trainPages"))
-            trains = trains.subList((pageNum - 1) * TRAIN_NUM_ON_PAGE, (pageNum - 1) * TRAIN_NUM_ON_PAGE + TRAIN_NUM_ON_PAGE);
-        else
-            trains = trains.subList((pageNum - 1) * TRAIN_NUM_ON_PAGE, trains.size());
-
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("trains", trains);
-        modelMap.put("trainPages", pag.get("trainPages"));
         return new ModelAndView("dashtrain", "model", modelMap);
     }
 
     /**
      * Block for
-     * admin panel
-     * station pagination
-     */
+        * admin panel
+            * station pagination
+                                */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashstation")
     public ModelAndView enteringIntoAdminStation(HttpServletRequest req) {
-        Map<String, Object> pag = controllerService.stationPagination(1);
+        Map<String, Object> pag = controllerService.stationPagination(FIRST_PAGE);
         List<Station> stations = (List<Station>) pag.get("stations");
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("stations", stations);

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.model.Train;
 
+import java.util.List;
+
 @Repository
 public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements TrainDAO<E> {
 
@@ -17,6 +19,15 @@ public class TrainDAOImpl<E extends Train> extends GenericDAOImpl<E> implements 
         } catch (NullPointerException ex) {
             return null;
         }
+    }
+
+    @Override
+    public List<Train> getTrainByPage(int pageNum) {
+        return (List<Train>) sessionFactory.getCurrentSession()
+                .createQuery("from Train")
+                .setFirstResult((pageNum - 1) * 20)
+                .setMaxResults(20)
+                .getResultList();
     }
 
 }

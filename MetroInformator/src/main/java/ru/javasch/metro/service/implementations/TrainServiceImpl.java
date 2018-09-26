@@ -61,4 +61,8 @@ public class TrainServiceImpl implements TrainService {
     public List<Train> getAllTrains() {
         return (List<Train>) trainDAO.getAll();
     }
+
+    @Override
+    @Transactional
+    public List<Train> getTrainsByPage(int pageNum) { return (List<Train>) trainDAO.getTrainByPage(pageNum); }
 }

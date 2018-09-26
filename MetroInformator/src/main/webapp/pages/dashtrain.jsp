@@ -199,7 +199,7 @@
 
             <nav aria-label="Page navigation">
                 <ul class="pagination">
-                    <c:forEach begin="1" end="${model.trainPages}" step="1" varStatus="loop">
+                    <c:forEach begin="1" end="${trainPages}" step="1" varStatus="loop">
                         <li class="page-item"><a class="page-link" href="/dashtrain/${loop.count}">${loop.count}</a>
                         </li>
                     </c:forEach>

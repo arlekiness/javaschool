@@ -49,12 +49,10 @@ public class ControllerServiceImpl implements ControllerService {
     }
 
     @Override
-    public Map<String, Object> trainPagination() {
+    public Map<String, Object> trainPagination(int pageNum) {
         Map<String, Object> pag = new HashMap<>();
-        List<Train> trains = trainService.getAllTrains();
-        Integer trainPages = trains.size() / 20 + 1;
+        List<Train> trains = trainService.getTrainsByPage(pageNum);
         pag.put("trains", trains);
-        pag.put("trainPages", trainPages);
         return pag;
     }
 
