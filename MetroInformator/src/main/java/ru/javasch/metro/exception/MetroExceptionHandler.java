@@ -16,52 +16,61 @@ import java.util.Map;
 @Log4j
 public class MetroExceptionHandler {
 
+    private ErrorCodeEnum Error;
+
     @ExceptionHandler(RuntimeBusinessLogicException.class)
     public ModelAndView handleRuntimeBusinessLogicException(RuntimeBusinessLogicException ex, HttpServletRequest request) {
         log.error(ex.getError(), ex);
         Map<String, Object> modelMap = new HashMap<>();
         ModelAndView model = new ModelAndView();
         String error = ex.getError();
-        switch (error) {
-            case ErrorCode.BEGIN_STATION_CLOSED:
+        for (ErrorCodeEnum Err : ErrorCodeEnum.values()) {
+            if (ex.getError().equals(Err.getReason())) {
+                Error = Err;
+                break;
+            }
+        }
+
+        switch (Error) {
+            case BEGIN_STATION_CLOSED:
                 return new ModelAndView("tickets", "beginStationClosed", true);
-            case ErrorCode.ATS_ARE_CLOSED:
+            case ATS_ARE_CLOSED:
                 return new ModelAndView("tickets", "ATSClosed", true);
-            case ErrorCode.EMPTY_FIELDS:
+            case EMPTY_FIELDS:
                 model.setViewName("registration");
                 model.addObject("emptyfields", ex);
                 return model;
-            case ErrorCode.END_STATION_CLOSED:
+            case END_STATION_CLOSED:
                 return new ModelAndView("tickets", "endStationClosed", true);
-            case ErrorCode.NO_TRAIN_ON_DATE:
+            case NO_TRAIN_ON_DATE:
                 return new ModelAndView("tickets", "noTrainsOnDate", true);
-            case ErrorCode.NO_MORE_TICKETS:
+            case NO_MORE_TICKETS:
                 log.info("EXCEPTION: " + ex.getError());
                 HttpSession session = request.getSession();
                 session.removeAttribute("TicketList");
                 return new ModelAndView("redirect:/ticketsFail");
-            case ErrorCode.STATION_CLOSED:
+            case STATION_CLOSED:
                 modelMap.put("closedStationStatus", "true");
                 return new ModelAndView("schedule", "model", modelMap);
-            case ErrorCode.TO_LATE_FOR_TRAIN:
+            case TO_LATE_FOR_TRAIN:
                 log.info("EXCEPTION: " + ex.getError());
                 return new ModelAndView("redirect:/dashtrain", "train", true);
-            case ErrorCode.TRAIN_EXIST:
+            case TRAIN_EXIST:
                 log.info("EXCEPTION: " + ex.getError());
                 return new ModelAndView("redirect:/dashtrain", "train", true);
-            case ErrorCode.UNCORRECT_EMAIL:
+            case INCORRECT_EMAIL:
                 model.setViewName("registration");
                 model.addObject("uncpass", ex);
                 return model;
-            case ErrorCode.UNCORRECT_PASSWORD:
+            case INCORRECT_PASSWORD:
                 model.setViewName("registration");
                 model.addObject("uncpass", ex);
                 return model;
-            case ErrorCode.USER_EXIST:
+            case USER_EXIST:
                 model.setViewName("registration");
                 model.addObject("exist", ex);
                 return model;
-            case ErrorCode.EMPTY_FIELDS_TRAIN_FORM:
+            case EMPTY_FIELDS_TRAIN_FORM:
                 log.info("EXCEPTION: " + ex.getError());
                 return new ModelAndView("redirect:/dashtrain", "train", true);
             default:

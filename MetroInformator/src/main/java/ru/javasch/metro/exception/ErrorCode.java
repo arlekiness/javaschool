@@ -10,15 +10,8 @@ public class ErrorCode {
     public static final String NO_MORE_TICKETS = "All tickets was already booked. Please try new search";
     public static final String TRAIN_EXIST = "Such train already exist";
     public static final String NO_TRAIN_ON_DATE = "No trains on that date";
-    public static final String UNCORRECT_PASSWORD = "Password must contain not less 6 numbers or letters";
-    public static final String UNCORRECT_EMAIL = "Invalid email";
+    public static final String INCORRECT_PASSWORD = "Password must contain not less 6 numbers or letters";
+    public static final String INCORRECT_EMAIL = "Invalid email";
     public static final String TO_LATE_FOR_TRAIN = "To late for train";
     public static final String EMPTY_FIELDS_TRAIN_FORM = "One or two fields are empty in train form are empty";
-
-//    private int code;
-//    private String reason;
-//
-//    public String getMessage() {
-//        return String.format("[CODE]:[" + code + "], [MESSAGE]: " + reason);
-//    }
 }
