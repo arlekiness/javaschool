@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="status")
+@Table(name = "status")
 public class Status {
     private Long id;
     private String statusName;
@@ -12,12 +12,22 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Column(name = "statusName")
-    public String getStatusName() { return statusName; }
-    public void setStatusName(String statusName) { this.statusName = statusName; }
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
 
     @Override
     public boolean equals(Object o) {

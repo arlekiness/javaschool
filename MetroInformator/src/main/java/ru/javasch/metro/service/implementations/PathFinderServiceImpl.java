@@ -27,13 +27,13 @@ public class PathFinderServiceImpl implements PathFinderService {
     private static final int NUMBER_OF_STATION = 69;
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @Autowired
-    GraphDAO graphDAO;
+    private GraphDAO graphDAO;
 
     @Autowired
-    StationDAO stationDAO;
+    private StationDAO stationDAO;
 
 
     @Override
@@ -41,25 +41,10 @@ public class PathFinderServiceImpl implements PathFinderService {
     public List<Station> pathFinder(String stationBegin, String stationEnd) {
         Station stationBeg = stationDAO.findByName(stationBegin);
         Station stationEn = stationDAO.findByName(stationEnd);
-        List<Graph> nodesWithBeginStation = graphDAO.getAllFromNodes(stationBeg);
-        List<Graph> nodesWithEndStation = graphDAO.getAllFromNodes(stationEn);
-        int stationCountOnBeginBranch = stationDAO.getAllStationOnBranch(stationBeg).size();
-        int stationCountOnEndBranch = stationDAO.getAllStationOnBranch(stationEn).size();
 
-        int endlessWeightOnBeginStation = 0;
-        int endlessWeightOnEndStation = 0;
-
-        for (Graph r : nodesWithBeginStation)
-            if (r.getWeight() == NO_TRANSITION && r.getOldWeight() != NO_TRANSITION)
-                endlessWeightOnBeginStation++;
-
-        for (Graph r : nodesWithEndStation)
-            if (r.getWeight() == NO_TRANSITION && r.getOldWeight() != NO_TRANSITION)
-                endlessWeightOnEndStation++;
-
-        if (endlessWeightOnBeginStation > stationCountOnBeginBranch / 2)
+        if (stationBeg.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException(ErrorCode.BEGIN_STATION_CLOSED);
-        if (endlessWeightOnEndStation > stationCountOnEndBranch / 2)
+        if (stationEn.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException(ErrorCode.END_STATION_CLOSED);
 
         int beginStationIndex = stationService.findByName(stationBegin).getId() - 1;
@@ -111,7 +96,7 @@ public class PathFinderServiceImpl implements PathFinderService {
                         endDest = pair.getValue();
                     }
                 }
-                if(bestTransition == NO_TRANSITION)
+                if (bestTransition == NO_TRANSITION)
                     throw new RuntimeBusinessLogicException(ErrorCode.ATS_ARE_CLOSED);
                 path.add(endDest);
                 path.add(bestTransition);
@@ -132,7 +117,6 @@ public class PathFinderServiceImpl implements PathFinderService {
             Station st = stationDAO.findStationById(id + 1);
             stations.add(st);
         }
-
 
 
         return stations;

@@ -5,18 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.service.interfaces.ScheduleService;
-import ru.javasch.metro.service.interfaces.StationService;
-import ru.javasch.metro.service.interfaces.TicketService;
-import ru.javasch.metro.service.interfaces.UserService;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Log4j
@@ -24,23 +21,14 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @Autowired
-    private TicketService ticketService;
-
-    @Autowired
-    private StationService stationService;
-
-    @Autowired
-    private UserService userService;
-
     @GetMapping("/schedule")
     public String scheduleMap() {
         return "schedule";
     }
 
     @PostMapping("/schedule")
-    public ModelAndView stationSchedule(@RequestParam(value="start") String stationName,
-                                        @RequestParam(value="date") String date) {
+    public ModelAndView stationSchedule(@RequestParam(value = "start") String stationName,
+                                        @RequestParam(value = "date") String date) {
         Map<String, Object> modelMap = new HashMap<>();
         try {
             List<Schedule> sch = scheduleService.getAllTrainsOnStation(stationName, date);
@@ -54,6 +42,7 @@ public class ScheduleController {
         } catch (ParseException ex) {
             log.error("PARSE EXCEPTION", ex);
             modelMap.put("parseException", "true");
-            return new ModelAndView("schedule", "model", modelMap); }
+            return new ModelAndView("schedule", "model", modelMap);
+        }
     }
 }

@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page isELIgnored ="false" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>meTro-Systems - 404</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
     <!-- ==================================================
@@ -23,9 +23,9 @@
     <script src="/static/js/bootstrap.min.js"></script>
 
     <!-- css -->
-    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="/static/css/style-404.css" rel="stylesheet" />
-    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet"/>
+    <link href="/static/css/style-404.css" rel="stylesheet"/>
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -102,11 +102,11 @@
 
             <!-- конец слайдера -->
 
-        </div> </div>
+        </div>
+    </div>
 
     <div class="clearfix"></div>
 </div>
-
 
 
 </body>

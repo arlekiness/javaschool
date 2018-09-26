@@ -14,13 +14,21 @@ import java.util.List;
 @Service
 public interface TicketService {
     int occupiedSeats(Schedule schedule, Station endStation) throws ParseException;
+
     String formMessageAboutPath(List<List<Station>> segments);
-    List<Schedule>  formFirstTicket(List<List<Station>> segments, String date) throws ParseException;
+
+    List<Schedule> formFirstTicket(List<List<Station>> segments, String date) throws ParseException;
+
     List<List<Ticket>> formTicketChains(List<List<Station>> pathSegment, List<Schedule> schedule);
+
     void registrateTicketsInSystem(List<Ticket> ticket, String userName);
+
     List<Ticket> invalidateNonValidTickets();
+
     void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException;
+
     List<Ticket> findAllTicketsByUser();
+
     List<Ticket> getByTrain(Train train);
 }
 

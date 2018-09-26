@@ -2,9 +2,6 @@ package ru.javasch.metro.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
@@ -14,9 +11,6 @@ import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
 import ru.javasch.metro.utils.EndPointStations;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -34,9 +28,6 @@ public class ControllerServiceImpl implements ControllerService {
     private StationService stationService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PathFinderService pathFinderService;
 
     @Autowired
@@ -48,7 +39,6 @@ public class ControllerServiceImpl implements ControllerService {
         List<List<Station>> segments = stationService.formSegments(stations);
         stationService.checkSegments(segments);
         List<List<Station>> pathSegments = stationService.findPathSegments(segments);
-        String path = ticketService.formMessageAboutPath(segments);
         List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
         if (schedules.size() == 0)
             throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
@@ -58,22 +48,8 @@ public class ControllerServiceImpl implements ControllerService {
         return tickets;
     }
 
-//    @Override
-//    public Map<String, Object> pagination () {
-//        Map<String, Object> pag = new HashMap<>();
-//        List<Train> trains = trainService.getAllTrains();
-//        List<Station> stations = stationService.getAllStations();
-//        Integer trainPages = trains.size() / 20 + 1;
-//        Integer stationPages = STATION_PAGES;
-//        pag.put("trains", trains);
-//        pag.put("stations", stations);
-//        pag.put("trainPages", trainPages);
-//        pag.put("stationPages", stationPages);
-//        return pag;
-//    }
-
     @Override
-    public Map<String, Object> trainPagination () {
+    public Map<String, Object> trainPagination() {
         Map<String, Object> pag = new HashMap<>();
         List<Train> trains = trainService.getAllTrains();
         Integer trainPages = trains.size() / 20 + 1;
@@ -84,7 +60,7 @@ public class ControllerServiceImpl implements ControllerService {
 
     @Override
     @Transactional
-    public Map<String, Object> stationPagination (int stationPageNum) {
+    public Map<String, Object> stationPagination(int stationPageNum) {
         Map<String, Object> pag = new HashMap<>();
         List<Station> stations = null;
         Integer stationPages = STATION_PAGES;

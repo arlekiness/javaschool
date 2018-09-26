@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page isELIgnored ="false" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>meTro-Systems - Tickets</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="/static/css/style-shedule-table.css" rel="stylesheet" />
-    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet"/>
+    <link href="/static/css/style-shedule-table.css" rel="stylesheet"/>
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet"/>
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -29,8 +29,6 @@
     <script src="/static/js/velocity.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
-
-
 
 
 </head>
@@ -55,7 +53,7 @@
 
                     <!-- КНОПКИ -->
 
-                    <sec:authorize access = "isAnonymous()">
+                    <sec:authorize access="isAnonymous()">
                         <div class="register-signin-shedule pull-right main-nav1">
                             <ul>
                                 <li><span><a href="/login" class="cd-signup">SIGN IN</a></span></li>
@@ -64,13 +62,16 @@
                         </div>
                     </sec:authorize>
 
-                    <sec:authorize access = "isAuthenticated()">
+                    <sec:authorize access="isAuthenticated()">
 
                         <div class="register-signin-tickets pull-right main-nav1">
 
                             <ul>
                                 <li class="sign-out dropdown">
-                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
+                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
+                                            class="avatarka"><i
+                                            class="fa fa-user-circle-o"></i></span><sec:authentication
+                                            property="principal.username"/> <i class="fa fa-caret-down"></i></a>
                                     <ul class="dropdown-menu dash-user">
                                         <li><a href="/myTickets">My tickets</a></li>
                                         <br>
@@ -116,8 +117,10 @@
         <p class="hero-text text-center">Check train shedule</p>
 
         <div class="hero-underline">
-            <i class="fa fa-calendar date"></i><span class="hero-station">${model.scheduleList.get(0).getDateArrival().toString().substring(0, 11)}</span>
-            <i class="fa fa-circle station"></i><span class="hero-station">${model.scheduleList.get(0).getStation().getName()}</span>
+            <i class="fa fa-calendar date"></i><span
+                class="hero-station">${model.scheduleList.get(0).getDateArrival().toString().substring(0, 11)}</span>
+            <i class="fa fa-circle station"></i><span
+                class="hero-station">${model.scheduleList.get(0).getStation().getName()}</span>
 
         </div>
 
@@ -141,7 +144,8 @@
                     <tr class="table-first">
                         <td data-title='TRAIN'>${schedule.getTrain().getTrainName()}</td>
                         <td data-title='ARRIVAL'>${schedule.getDateArrival().toString().substring(11, 16)}</td>
-                        <td data-title='DIRECTION'><span><i class="fa fa-circle"></i>${schedule.getEndPointStation().getName()}</span></td>
+                        <td data-title='DIRECTION'><span><i
+                                class="fa fa-circle"></i>${schedule.getEndPointStation().getName()}</span></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -150,9 +154,7 @@
         </main>
 
 
-
     </div>
-
 
 
     <!-- конец контента -->
@@ -161,11 +163,7 @@
     <div class="clearfix"></div>
 
 
-
-
 </div>
-
-
 
 
 </body>

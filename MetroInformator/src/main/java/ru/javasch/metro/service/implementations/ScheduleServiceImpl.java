@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
 import ru.javasch.metro.exception.ErrorCode;
-import ru.javasch.metro.utils.Utils;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
@@ -12,11 +11,15 @@ import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TrainService;
+import ru.javasch.metro.utils.Utils;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -32,20 +35,25 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public Schedule findByTrainAndStation (Station station, Train train, Date date) {return scheduleDAO.findByTrainAndStation(train, station, date);}
+    public Schedule findByTrainAndStation(Station station, Train train, Date date) {
+        return scheduleDAO.findByTrainAndStation(train, station, date);
+    }
 
-    /**add one schedule */
+    /**
+     * add one schedule
+     */
     @Override
     @Transactional
-    public void addSchedule (Schedule schedule) {
+    public void addSchedule(Schedule schedule) {
         scheduleDAO.add(schedule);
     }
 
     /**
-     View Schedule List on station*/
+     * View Schedule List on station
+     */
     @Override
     @Transactional
-    public List<Schedule> getAllTrainsOnStation (String stationName, String dateString) throws ParseException {
+    public List<Schedule> getAllTrainsOnStation(String stationName, String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
         Station station = stationService.findByName(stationName);
@@ -55,11 +63,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<Schedule> schedule = scheduleDAO.getByStationAndDate(station, date);
         return schedule;
     }
+
     /**
-     Adding new Schedule List when ADMIN add new train*/
+     * Adding new Schedule List when ADMIN add new train
+     */
     @Override
     @Transactional
-    public List<Station> addNewSchedules (String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
+    public List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
         if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "")
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
         Integer hour = Integer.parseInt(new StringBuilder(firstTime).delete(2, 5).toString());
@@ -95,7 +105,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<Schedule> getAllSchedulesByStationDateAndPath (Station stationBegin, Station stationEnd, Date date, Date now) {
+    public List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now) {
         List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())

@@ -1,7 +1,5 @@
 package ru.javasch.metro.dao.implementations;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
@@ -43,14 +41,8 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                 .uniqueResult();
     }
 
-//    public Set<Station> getTransitionsOnName (String name) {
-//        return (Set<Station>) sessionFactory.getCurrentSession()
-//                .createQuery("from Station where name = :name")
-//                .setParameter("name", name)
-//                .uniqueResult();
-//    }
     @Override
-    public List<Station> findAllStationBetweenBeginAndEndPoint (Station begin, Station end) {
+    public List<Station> findAllStationBetweenBeginAndEndPoint(Station begin, Station end) {
         int beginId = begin.getNumberOnBranch();
         int endId = end.getNumberOnBranch();
         Branch branch = begin.getBranch();
@@ -62,26 +54,26 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                     .setParameter("endId", endId)
                     .setParameter("branch", branch)
                     .getResultList();
-        } else
+        } else {
             list = (List<Station>) sessionFactory.getCurrentSession()
                     .createQuery("from Station where branch=:branch and " + "numberOnBranch between :endId " + "and (:beginId - 1) " + "order by numberOnBranch desc")
                     .setParameter("beginId", beginId)
                     .setParameter("endId", endId)
                     .setParameter("branch", branch)
                     .getResultList();
+        }
         return list;
+
     }
 
     @Override
-    public List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId) {
+    public List<Station> getStationsBetweenIDs(Integer stationBeginId, Integer stationEndId) {
         return (List<Station>) sessionFactory.getCurrentSession()
                 .createQuery("from Station where id >= :stationBeginId " + "and id <= :stationEndId")
                 .setParameter("stationBeginId", stationBeginId)
                 .setParameter("stationEndId", stationEndId)
                 .getResultList();
     }
-
-
 
 
 }

@@ -1,11 +1,11 @@
 package ru.javasch.metro.service.implementations;
 
-import ru.javasch.metro.model.Message;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import ru.javasch.metro.model.Message;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

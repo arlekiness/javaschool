@@ -5,6 +5,5 @@ import ru.javasch.metro.model.Role;
 
 @Service
 public interface RoleService {
-
     Role getRole();
 }

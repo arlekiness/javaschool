@@ -13,15 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.javasch.metro.service.implementations.UserDetailsServiceImpl;
-
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/stationList",
                         "/static/**",
                         "/schedule"
-                        )
+                )
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

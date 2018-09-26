@@ -12,17 +12,37 @@ public class Message {
     private String subject;
     private String context;
 
-    public String getAddressee() { return addressee; }
-    public void setAddressee(String addressee) { this.addressee = addressee; }
+    public String getAddressee() {
+        return addressee;
+    }
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
+    public void setAddressee(String addressee) {
+        this.addressee = addressee;
+    }
 
-    public String getSubject() { return subject; }
-    public void setSubject(String subject) { this.subject = subject; }
+    public String getText() {
+        return text;
+    }
 
-    public String getContext() { return context; }
-    public void setContext(String context) { this.context = context; }
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
 
     public static Message createWelcomeMessage(String addressee) throws IOException {
         Message message = new Message();

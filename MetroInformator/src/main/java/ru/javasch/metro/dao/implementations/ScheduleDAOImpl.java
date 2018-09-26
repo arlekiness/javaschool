@@ -1,11 +1,12 @@
 package ru.javasch.metro.dao.implementations;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.*;
+import ru.javasch.metro.model.Schedule;
+import ru.javasch.metro.model.Station;
+import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.StationService;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
     public List<Schedule> getByStationAndDate(Station station, Date date) {
         Date now = new Date();
         try {
-            return (List<Schedule>)sessionFactory.getCurrentSession()
+            return (List<Schedule>) sessionFactory.getCurrentSession()
                     .createQuery("from Schedule " +
                             "where station = :station " + " and dateDeparture > :datenow and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
                             " and day(dateDeparture) = day(:date)" +
@@ -35,7 +36,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
         }
     }
 
-    public Schedule findByTrainAndStation (Train train, Station station, Date date) {
+    public Schedule findByTrainAndStation(Train train, Station station, Date date) {
         return (Schedule) sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where train = :train and station = :station" + " and dateDeparture > :date" +
                         " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +

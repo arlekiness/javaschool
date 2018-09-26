@@ -3,7 +3,7 @@ package ru.javasch.metro.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="role")
+@Table(name = "role")
 public class Role {
     private Long id;
     private String type;
@@ -14,6 +14,7 @@ public class Role {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -22,6 +23,7 @@ public class Role {
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }

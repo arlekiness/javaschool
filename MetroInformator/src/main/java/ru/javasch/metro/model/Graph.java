@@ -3,7 +3,7 @@ package ru.javasch.metro.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="graph")
+@Table(name = "graph")
 public class Graph {
     private Long id;
     private Station stationFrom;
@@ -14,22 +14,47 @@ public class Graph {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @OneToOne
-    public Station getStationFrom() { return stationFrom; }
-    public void setStationFrom(Station stationFrom) { this.stationFrom = stationFrom; }
+    public Station getStationFrom() {
+        return stationFrom;
+    }
+
+    public void setStationFrom(Station stationFrom) {
+        this.stationFrom = stationFrom;
+    }
 
     @OneToOne
-    public Station getStationTo() { return stationTo; }
-    public void setStationTo(Station stationTo) { this.stationTo = stationTo; }
+    public Station getStationTo() {
+        return stationTo;
+    }
 
-    @Column(name="weight")
-    public Integer getWeight() { return weight; }
-    public void setWeight(Integer weight) { this.weight = weight; }
+    public void setStationTo(Station stationTo) {
+        this.stationTo = stationTo;
+    }
 
-    @Column(name="oldWeight")
-    public Integer getOldWeight() { return oldWeight; }
-    public void setOldWeight(Integer oldWeight) { this.oldWeight = oldWeight; }
+    @Column(name = "weight")
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    @Column(name = "oldWeight")
+    public Integer getOldWeight() {
+        return oldWeight;
+    }
+
+    public void setOldWeight(Integer oldWeight) {
+        this.oldWeight = oldWeight;
+    }
 }

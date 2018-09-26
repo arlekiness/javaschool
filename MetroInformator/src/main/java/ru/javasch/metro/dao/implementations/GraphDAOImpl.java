@@ -15,7 +15,7 @@ public class GraphDAOImpl implements GraphDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Graph> getAllFromNodes (Station station) {
+    public List<Graph> getAllFromNodes(Station station) {
         return (List<Graph>) sessionFactory.getCurrentSession()
                 .createQuery("from Graph where stationFrom = :station")
                 .setParameter("station", station)
@@ -23,7 +23,7 @@ public class GraphDAOImpl implements GraphDAO {
     }
 
     @Override
-    public List<Graph> getAllToNodes (Station station) {
+    public List<Graph> getAllToNodes(Station station) {
         return (List<Graph>) sessionFactory.getCurrentSession()
                 .createQuery("from Graph where stationTo = :station")
                 .setParameter("station", station)
@@ -31,7 +31,7 @@ public class GraphDAOImpl implements GraphDAO {
     }
 
     @Override
-    public List<Graph> getAllNodes (Station station) {
+    public List<Graph> getAllNodes(Station station) {
         return (List<Graph>) sessionFactory.getCurrentSession()
                 .createQuery("from Graph where stationFrom = :station or stationTo = :station")
                 .setParameter("station", station)
@@ -39,9 +39,9 @@ public class GraphDAOImpl implements GraphDAO {
     }
 
     @Override
-    public List<Graph> getAll () {
+    public List<Graph> getAll() {
         return (List<Graph>) sessionFactory.getCurrentSession()
-                .createQuery("from Graph" )
+                .createQuery("from Graph")
                 .getResultList();
     }
 

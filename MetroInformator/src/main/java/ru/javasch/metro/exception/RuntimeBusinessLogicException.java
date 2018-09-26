@@ -1,9 +1,9 @@
 package ru.javasch.metro.exception;
 
-public class RuntimeBusinessLogicException extends RuntimeException{
+public class RuntimeBusinessLogicException extends RuntimeException {
     private String error;
 
-    public RuntimeBusinessLogicException(String error){
+    public RuntimeBusinessLogicException(String error) {
         this.error = error;
     }
 

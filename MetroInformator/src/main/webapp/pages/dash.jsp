@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page isELIgnored ="false" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>meTro-Systems - Admin panel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/bootstrap2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style-dash.css" type="text/css"/>
-    <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/static/css/vypad-spiski-dlya-form.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
@@ -31,7 +31,6 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
     <script src="/static/js/sweetalert2.js"></script>
-
 
 
 </head>
@@ -60,7 +59,9 @@
 
                         <ul>
                             <li class="sign-out dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
+                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
+                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -105,7 +106,13 @@
         <p class="hero-text text-center">Admin panel</p>
 
         <div class="korpus">
-            <input type="radio" name="odin" checked="checked" id="vkl1"/><label for="vkl1"><div class="train-icon"></div><div class="train-label">Trains</div></label><input type="radio" name="odin" id="vkl2"/><label for="vkl2"><div class="station-icon"></div><div class="station-label">Stations</div></label>
+            <input type="radio" name="odin" checked="checked" id="vkl1"/><label for="vkl1">
+            <div class="train-icon"></div>
+            <div class="train-label">Trains</div>
+        </label><input type="radio" name="odin" id="vkl2"/><label for="vkl2">
+            <div class="station-icon"></div>
+            <div class="station-label">Stations</div>
+        </label>
 
 
             <div class="tab">
@@ -138,8 +145,10 @@
                                 <td data-title='TRAIN-ID'>${train.getId()}</td>
                                 <td data-title='TRAIN-NO'>${train.getTrainName()}</td>
                                 <td data-title='CAPACITY'>${train.getCapacity()}</td>
-                                <td data-title='STATUS'><span><i class="fa fa-circle"></i> ${train.getStatus().getStatusName()}</span></td>
-                                <td data-title='DELETE'><a class='button' href="/deleteTrain/${train.getId()}" data-type="modal-trigger">DELETE</a></td>
+                                <td data-title='STATUS'><span><i
+                                        class="fa fa-circle"></i> ${train.getStatus().getStatusName()}</span></td>
+                                <td data-title='DELETE'><a class='button' href="/deleteTrain/${train.getId()}"
+                                                           data-type="modal-trigger">DELETE</a></td>
                             </tr>
                         </c:forEach>
 
@@ -188,14 +197,14 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <c:forEach begin="1" end="${model.trainPages}" step="1" varStatus="loop">
-                            <li class="page-item"><a class="page-link" href="/dashtrain/${loop.count}">${loop.count}</a></li>
+                            <li class="page-item"><a class="page-link" href="/dashtrain/${loop.count}">${loop.count}</a>
+                            </li>
                         </c:forEach>
                     </ul>
                 </nav>
 
 
             </div>
-
 
 
             <div class="tab">
@@ -218,12 +227,19 @@
                         <tbody>
                         <c:forEach items="${model.stations}" var="station">
                             <tr class="table-first">
-                                <td data-title='STATION'><span><i class="fa fa-circle"></i> ${station.getName()}</span></td>
+                                <td data-title='STATION'><span><i class="fa fa-circle"></i> ${station.getName()}</span>
+                                </td>
                                 <c:if test="${station.getStatus().getStatusName() eq 'WORKED'}">
-                                    <td data-title='STATUS'><a class='button open' href="/closeStation/${station.getName()}" data-type="modal-trigger">${station.getStatus().getStatusName()}</a></td>
+                                    <td data-title='STATUS'><a class='button open'
+                                                               href="/closeStation/${station.getName()}"
+                                                               data-type="modal-trigger">${station.getStatus().getStatusName()}</a>
+                                    </td>
                                 </c:if>
                                 <c:if test="${station.getStatus().getStatusName() eq 'CLOSED'}">
-                                    <td data-title='STATUS'><a class='button closed' href="/openStation/${station.getName()}" data-type="modal-trigger">${station.getStatus().getStatusName()}</a></td>
+                                    <td data-title='STATUS'><a class='button closed'
+                                                               href="/openStation/${station.getName()}"
+                                                               data-type="modal-trigger">${station.getStatus().getStatusName()}</a>
+                                    </td>
                                 </c:if>
                             </tr>
                         </c:forEach>
@@ -235,7 +251,8 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <c:forEach begin="1" end="${model.stationPages}" step="1" varStatus="loopSt">
-                            <li class="page-item"><a class="page-link" href="/dashstation/${loopSt.count}">${loopSt.count}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                                     href="/dashstation/${loopSt.count}">${loopSt.count}</a></li>
                         </c:forEach>
                     </ul>
                 </nav>
@@ -246,19 +263,13 @@
         </div>
 
 
-
-
-
     </div>
-
 
 
     <!-- конец контента -->
 
 
     <div class="clearfix"></div>
-
-
 
 
 </div>

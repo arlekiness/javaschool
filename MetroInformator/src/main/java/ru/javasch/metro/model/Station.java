@@ -1,11 +1,8 @@
 package ru.javasch.metro.model;
 
-import javax.validation.constraints.NotNull;
-
-import javax.persistence.Entity;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity
@@ -23,6 +20,7 @@ public class Station {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -31,6 +29,7 @@ public class Station {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -38,16 +37,31 @@ public class Station {
 
     @OneToOne
     @NotNull
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     @OneToOne
-    public Branch getBranch() { return branch; }
-    public void setBranch(Branch branch) { this.branch = branch; }
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
 
     @Column(name = "numberOnBranch")
-    public Integer getNumberOnBranch() { return numberOnBranch; }
-    public void setNumberOnBranch(Integer numberOnBranch) { this.numberOnBranch = numberOnBranch; }
+    public Integer getNumberOnBranch() {
+        return numberOnBranch;
+    }
+
+    public void setNumberOnBranch(Integer numberOnBranch) {
+        this.numberOnBranch = numberOnBranch;
+    }
 
     //============================
     @Override

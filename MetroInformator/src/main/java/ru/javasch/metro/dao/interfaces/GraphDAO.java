@@ -6,8 +6,11 @@ import ru.javasch.metro.model.Station;
 import java.util.List;
 
 public interface GraphDAO {
-    public List<Graph> getAllNodes (Station station);
-    public List<Graph> getAllFromNodes (Station station);
-    public List<Graph> getAllToNodes (Station station);
-    public List<Graph> getAll ();
+    List<Graph> getAllNodes(Station station);
+
+    List<Graph> getAllFromNodes(Station station);
+
+    List<Graph> getAllToNodes(Station station);
+
+    List<Graph> getAll();
 }

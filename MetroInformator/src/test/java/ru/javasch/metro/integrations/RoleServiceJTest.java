@@ -24,7 +24,7 @@ public class RoleServiceJTest {
     private RoleService roleService;
 
     @Test
-    public void getRole(){
+    public void getRole() {
         Assert.assertNotNull(roleService.getRole());
     }
 }

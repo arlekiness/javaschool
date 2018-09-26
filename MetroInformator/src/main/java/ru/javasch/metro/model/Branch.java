@@ -2,10 +2,9 @@ package ru.javasch.metro.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name="branch")
+@Table(name = "branch")
 public class Branch {
     private Long id;
     private String branchColor;
@@ -13,12 +12,22 @@ public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name="branchColor")
-    public String getColor() { return branchColor; }
-    public void setColor(String color) { this.branchColor = color; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "branchColor")
+    public String getColor() {
+        return branchColor;
+    }
+
+    public void setColor(String color) {
+        this.branchColor = color;
+    }
 
     @Override
     public boolean equals(Object o) {

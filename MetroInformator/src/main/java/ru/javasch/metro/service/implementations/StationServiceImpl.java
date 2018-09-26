@@ -3,7 +3,6 @@ package ru.javasch.metro.service.implementations;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.dao.interfaces.GraphDAO;
 import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.model.Station;
@@ -12,7 +11,6 @@ import ru.javasch.metro.service.interfaces.GraphService;
 import ru.javasch.metro.service.interfaces.StationService;
 
 import javax.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +30,9 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public Station findByName(String stationName) {return stationDAO.findByName(stationName);}
+    public Station findByName(String stationName) {
+        return stationDAO.findByName(stationName);
+    }
 
     @Override
     @Transactional
@@ -52,7 +52,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public List<Station> getAllStationOnBranch (String stationName) {
+    public List<Station> getAllStationOnBranch(String stationName) {
         Station station = stationDAO.findByName(stationName);
         List<Station> stations = stationDAO.getAllStationOnBranch(station);
         return stations;
@@ -60,7 +60,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public void closeStation (String stationName) {
+    public void closeStation(String stationName) {
         Station station = stationDAO.findByName(stationName);
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getCloseStatus();
@@ -76,7 +76,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public void openStation (String stationName) {
+    public void openStation(String stationName) {
         Station station = stationDAO.findByName(stationName);
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getWorkStatus();
@@ -94,12 +94,12 @@ public class StationServiceImpl implements StationService {
     @Transactional
     public List<List<Station>> formSegments(List<Station> stations) {
         List<List<Station>> segments = new ArrayList<>();
-            for (int i = 1; i < stations.size(); i++) {
-                List<Station> segment = new ArrayList<>();
-                segment.add(stations.get(i - 1));
-                segment.add(stations.get(i));
-                segments.add(segment);
-            }
+        for (int i = 1; i < stations.size(); i++) {
+            List<Station> segment = new ArrayList<>();
+            segment.add(stations.get(i - 1));
+            segment.add(stations.get(i));
+            segments.add(segment);
+        }
         return segments;
     }
 
@@ -108,7 +108,7 @@ public class StationServiceImpl implements StationService {
     public void checkSegments(List<List<Station>> segments) {
         Iterator it = segments.iterator();
         while (it.hasNext()) {
-            List<Station> st = (List<Station>)it.next();
+            List<Station> st = (List<Station>) it.next();
             if (st.get(0).equals(st.get(1)))
                 it.remove();
         }
@@ -127,7 +127,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public List<Station> getStationsBetweenIDs (Integer stationBeginId, Integer stationEndId) {
+    public List<Station> getStationsBetweenIDs(Integer stationBeginId, Integer stationEndId) {
         return stationDAO.getStationsBetweenIDs(stationBeginId, stationEndId);
     }
 

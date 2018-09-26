@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page isELIgnored ="false" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>meTro-Systems - Tickets</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="/static/css/style-my-tickets.css" rel="stylesheet" />
-    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet"/>
+    <link href="/static/css/style-my-tickets.css" rel="stylesheet"/>
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet"/>
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -29,8 +29,6 @@
     <script src="/static/js/velocity.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
-
-
 
 
 </head>
@@ -57,7 +55,9 @@
 
                         <ul>
                             <li class="sign-out dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
+                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
+                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -108,28 +108,30 @@
                 </div>
             </c:if>
             <c:if test="${not empty myTicketList}">
-            <table>
-                <thead>
-                <tr>
-                    <th>TRAIN №</th>
-                    <th>DEPARTURE</th>
-                    <th>ARRIVAL</th>
-                    <th>PRICE</th>
-                    <th>VALID</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${myTicketList}" var="list">
-                <tr class="table-first">
-                    <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
-                    <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
-                    <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
-                    <td data-title='PRICE'>500</td>
-                    <td data-title='VALID' class="valid">${list.getValid()}</td>
-                </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>TRAIN №</th>
+                        <th>DEPARTURE</th>
+                        <th>ARRIVAL</th>
+                        <th>PRICE</th>
+                        <th>VALID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${myTicketList}" var="list">
+                        <tr class="table-first">
+                            <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
+                            <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i
+                                    class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
+                            <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i
+                                    class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
+                            <td data-title='PRICE'>500</td>
+                            <td data-title='VALID' class="valid">${list.getValid()}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </c:if>
         </main>
     </div>

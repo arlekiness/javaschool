@@ -3,14 +3,12 @@ package ru.javasch.metro.service.implementations;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Status;
 import ru.javasch.metro.model.Train;
-import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
@@ -20,18 +18,20 @@ import java.util.List;
 @Log4j
 public class TrainServiceImpl implements TrainService {
     @Autowired
-    TrainDAO trainDAO;
+    private TrainDAO trainDAO;
 
     @Autowired
-    StatusDAO statusDAO;
+    private StatusDAO statusDAO;
 
     @Override
     @Transactional
-    public Train findById(Long Id) { return (Train)trainDAO.getById(Id); }
+    public Train findById(Long Id) {
+        return (Train) trainDAO.getById(Id);
+    }
 
     @Override
     @Transactional
-    public Long add (String trainName) {
+    public Long add(String trainName) {
         Train train = trainDAO.findByName(trainName);
         if (train == null) {
             train = new Train();
@@ -50,15 +50,15 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public void delete (Long Id) {
-        Train train = (Train)trainDAO.getById(Id);
+    public void delete(Long Id) {
+        Train train = (Train) trainDAO.getById(Id);
         log.info("TRAIN " + train.getTrainName() + " REMOVED");
         trainDAO.delete(train);
     }
 
     @Override
     @Transactional
-    public List<Train> getAllTrains () {
-        return (List<Train>)trainDAO.getAll();
+    public List<Train> getAllTrains() {
+        return (List<Train>) trainDAO.getAll();
     }
 }

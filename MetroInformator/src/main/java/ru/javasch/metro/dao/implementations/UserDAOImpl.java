@@ -1,7 +1,5 @@
 package ru.javasch.metro.dao.implementations;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.UserDAO;
 import ru.javasch.metro.model.User;

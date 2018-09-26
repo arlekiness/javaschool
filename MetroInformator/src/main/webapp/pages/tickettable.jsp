@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page isELIgnored ="false" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>meTro-Systems - Tickets</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="/static/images/sw.png" type="image/png">
 
 
     <!-- css -->
-    <link href="/static/css/bootstrap2.min.css" rel="stylesheet" />
-    <link href="/static/css/style-tickets-table.css" rel="stylesheet" />
-    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap2.min.css" rel="stylesheet"/>
+    <link href="/static/css/style-tickets-table.css" rel="stylesheet"/>
+    <link href="/static/css/vypad-spiski-dlya-form.css" rel="stylesheet"/>
     <!-- ==================================================
                    javascript
 ================================================== -->
@@ -29,8 +29,6 @@
     <script src="/static/js/velocity.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jcanvas.js"></script>
-
-
 
 
 </head>
@@ -59,7 +57,9 @@
 
                         <ul>
                             <li class="sign-out dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication property="principal.username" /> <i class="fa fa-caret-down"></i></a>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
+                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
+                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -74,23 +74,23 @@
                         </ul>
 
 
-                    <!-- гамбургерное меню  -->
+                        <!-- гамбургерное меню  -->
 
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li class="active"><a href="/tickets">Tickets</a></li>
-                                <li><a href="/schedule">Schedule</a></li>
-                            </ul>
+                        <div class="ham-menu">
+                            <input id="hamburger" class="hamburger" type="checkbox"/>
+                            <label class="hamburger" for="hamburger">
+                                <i></i>
+                            </label>
+                            <div class="drawer-list">
+                                <ul>
+                                    <li><a href="/">Home</a></li>
+                                    <li class="active"><a href="/tickets">Tickets</a></li>
+                                    <li><a href="/schedule">Schedule</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </header>
     </div>
     <!-- конец основного меню -->
@@ -112,15 +112,19 @@
             <div class="col-md-2">TRANSITIONS</div>
             <div class="col-md-2">TICKETS</div>
         </div>
-        <c:if test = "${not empty TicketList}">
+        <c:if test="${not empty TicketList}">
             <c:forEach items="${TicketList}" var="list">
                 <div class="row line" data-toggle="collapse" data-target="#${count}">
                     <div class="col-md-3 time">
-                            ${list.get(0).getTicketDateDeparture().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${list.get(0).getStationBegin().getName()}</span></div>
-                    <div class="col-md-3 time">${list.get(list.size() - 1).getTicketDateArrival().toString().substring(11, 16)}<span><i class="fa fa-circle"></i> ${list.get(list.size() - 1).getStationEnd().getName()}</span></div>
+                            ${list.get(0).getTicketDateDeparture().toString().substring(11, 16)} <span><i
+                            class="fa fa-circle"></i> ${list.get(0).getStationBegin().getName()}</span></div>
+                    <div class="col-md-3 time">${list.get(list.size() - 1).getTicketDateArrival().toString().substring(11, 16)}<span><i
+                            class="fa fa-circle"></i> ${list.get(list.size() - 1).getStationEnd().getName()}</span>
+                    </div>
                     <div class="col-md-2 time">${list.get(0).getTrain().getTrainName()}</div>
                     <div class="col-md-2"><span class="transitions">${list.size() - 1} TRANSITION</span></div>
-                    <div class="col-md-2 buy-ticket"><a class='button' href="/registerTickets/${count}" data-type="modal-trigger">BUY TICKETS</a></div>
+                    <div class="col-md-2 buy-ticket"><a class='button' href="/registerTickets/${count}"
+                                                        data-type="modal-trigger">BUY TICKETS</a></div>
 
 
                 </div>
@@ -129,8 +133,10 @@
                     <c:forEach items="${list}" var="ticket">
                         <div class="row line" style="background-color:#edeef2">
                             <div class="col-md-3 time">
-                                    ${ticket.getTicketDateDeparture().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${ticket.getStationBegin().getName()}</span></div>
-                            <div class="col-md-3 time">${ticket.getTicketDateArrival().toString().substring(11, 16)} <span><i class="fa fa-circle"></i> ${ticket.getStationEnd().getName()}</span></div>
+                                    ${ticket.getTicketDateDeparture().toString().substring(11, 16)} <span><i
+                                    class="fa fa-circle"></i> ${ticket.getStationBegin().getName()}</span></div>
+                            <div class="col-md-3 time">${ticket.getTicketDateArrival().toString().substring(11, 16)}
+                                <span><i class="fa fa-circle"></i> ${ticket.getStationEnd().getName()}</span></div>
                             <div class="col-md-2 time">${ticket.getTrain().getTrainName()}</div>
                             <div class="col-md-2"></div>
                             <div class="col-md-2 buy-ticket"></div>
@@ -146,17 +152,10 @@
 </div>
 
 
-
 <!-- конец контента -->
 
 
 <div class="clearfix"></div>
-
-
-
-
-
-
 
 
 </body>

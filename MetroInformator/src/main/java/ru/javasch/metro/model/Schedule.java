@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="schedule")
+@Table(name = "schedule")
 public class Schedule {
     private Long id;
     private Date dateDeparture;
@@ -19,6 +19,7 @@ public class Schedule {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -28,6 +29,7 @@ public class Schedule {
     public Date getDateArrival() {
         return dateArrival;
     }
+
     public void setDateArrival(Date dateArrival) {
         this.dateArrival = dateArrival;
     }
@@ -37,26 +39,38 @@ public class Schedule {
     public Date getDateDeparture() {
         return dateDeparture;
     }
+
     public void setDateDeparture(Date dateDeparture) {
         this.dateDeparture = dateDeparture;
     }
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "train_id", nullable = false)
-    public Train getTrain() { return train; }
-    public void setTrain(Train train) { this.train = train; }
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
 
     @OneToOne
     public Station getStation() {
         return station;
     }
+
     public void setStation(Station station) {
         this.station = station;
     }
 
     @OneToOne
-    public Station getEndPointStation() { return endPointStation; }
-    public void setEndPointStation(Station endPointStation) { this.endPointStation = endPointStation; }
+    public Station getEndPointStation() {
+        return endPointStation;
+    }
+
+    public void setEndPointStation(Station endPointStation) {
+        this.endPointStation = endPointStation;
+    }
 
     @Override
     public String toString() {

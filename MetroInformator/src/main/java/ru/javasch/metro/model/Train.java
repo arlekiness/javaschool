@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="train")
+@Table(name = "train")
 public class Train {
     private Long id;
     private String trainName;
@@ -20,6 +20,7 @@ public class Train {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -28,21 +29,37 @@ public class Train {
     public String getTrainName() {
         return trainName;
     }
+
     public void setTrainName(String trainName) {
         this.trainName = trainName;
     }
 
     @OneToOne
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     @Column(name = "capacity")
-    public Integer getCapacity() { return capacity; }
-    public void setCapacity(Integer capacity) { this.capacity = capacity; }
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
 
     @OneToMany(mappedBy = "train", cascade = CascadeType.ALL)
-    public Set<Schedule> getSchedule() { return schedule; }
-    public void setSchedule(Set<Schedule> schedule) { this.schedule = schedule; }
+    public Set<Schedule> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Set<Schedule> schedule) {
+        this.schedule = schedule;
+    }
 
     @Override
     public String toString() {

@@ -3,15 +3,11 @@ package ru.javasch.metro.service.implementations;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.TicketDAO;
-import ru.javasch.metro.dao.interfaces.TrainDAO;
-import ru.javasch.metro.dao.interfaces.UserDAO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.interfaces.ScheduleService;
-import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.UserService;
 
@@ -30,22 +26,16 @@ public class TicketServiceImpl implements TicketService {
     private static final int ENDLESS_WEIGHT = 100000;
 
     @Autowired
-    TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
 
     @Autowired
-    StationDAO stationDAO;
+    private ScheduleService scheduleService;
 
     @Autowired
-    StationService stationService;
+    private UserService userService;
 
     @Autowired
-    ScheduleService scheduleService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    MailService mailService;
+    private MailService mailService;
 
 
     @Override
@@ -204,7 +194,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException {
-        for (Ticket t: tickets) {
+        for (Ticket t : tickets) {
             User user = t.getUser();
             Message message = Message.createInvalidateMessage(user.getLogin());
             mailService.sendMimeMessage(message);
@@ -221,5 +211,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public List<Ticket> getByTrain(Train train) {return ticketDAO.getByTrain(train);}
+    public List<Ticket> getByTrain(Train train) {
+        return ticketDAO.getByTrain(train);
+    }
 }

@@ -8,9 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.javasch.metro.dao.interfaces.UserDAO;
 import ru.javasch.metro.model.User;
-
 import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.transaction.Transactional;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Log4j
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserService userService;
@@ -37,6 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
                     .collect(Collectors.toCollection(ArrayList::new));
             return new org.springframework.security.core.userdetails
                     .User(username, user.getPassword(), true, true, true, true, authorities);
-        } else throw new UsernameNotFoundException("User not found!");
+        } else
+            throw new UsernameNotFoundException("User not found!");
     }
 }
