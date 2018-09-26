@@ -56,6 +56,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getAllTrainsOnStation(String stationName, String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
+        Date now = new Date();
+        if (date.before(now))
+            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_SCHEDULE);
         Station station = stationService.findByName(stationName);
         if (station.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException(ErrorCode.STATION_CLOSED);
@@ -106,6 +109,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now) {
+        if (date.before(now))
+            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
         List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())

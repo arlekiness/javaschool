@@ -14,7 +14,9 @@ public enum ErrorCodeEnum {
     INCORRECT_PASSWORD (10, "Password must contain not less 6 numbers or letters"),
     INCORRECT_EMAIL (11, "Invalid email"),
     TO_LATE_FOR_TRAIN (12, "To late for train"),
-    EMPTY_FIELDS_TRAIN_FORM (13, "One or two fields are empty in train form are empty");
+    EMPTY_FIELDS_TRAIN_FORM (13, "One or two fields are empty in train form are empty"),
+    INCORRECT_DATE_SCHEDULE(14, "Your date is in past"),
+    INCORRECT_DATE_TICKETS(15, "You trying to get tickets in past");
 
     private int code;
     private String reason;

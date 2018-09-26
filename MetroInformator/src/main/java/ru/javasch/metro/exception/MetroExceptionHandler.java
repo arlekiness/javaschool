@@ -44,6 +44,8 @@ public class MetroExceptionHandler {
                 return new ModelAndView("tickets", "endStationClosed", true);
             case NO_TRAIN_ON_DATE:
                 return new ModelAndView("tickets", "noTrainsOnDate", true);
+            case INCORRECT_DATE_TICKETS:
+                return new ModelAndView("tickets", "pastDate", true);
             case NO_MORE_TICKETS:
                 log.info("EXCEPTION: " + ex.getError());
                 HttpSession session = request.getSession();
@@ -51,6 +53,9 @@ public class MetroExceptionHandler {
                 return new ModelAndView("redirect:/ticketsFail");
             case STATION_CLOSED:
                 modelMap.put("closedStationStatus", "true");
+                return new ModelAndView("schedule", "model", modelMap);
+            case INCORRECT_DATE_SCHEDULE:
+                modelMap.put("oldDate", "true");
                 return new ModelAndView("schedule", "model", modelMap);
             case TO_LATE_FOR_TRAIN:
                 log.info("EXCEPTION: " + ex.getError());

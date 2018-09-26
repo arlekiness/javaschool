@@ -283,6 +283,15 @@
                         });
                     </script>
                 </c:if>
+                <c:if test="${not empty model.oldDate}">
+                    <script>
+                        swal({
+                            title: 'DATE PROBLEM',
+                            text: 'You live in past?',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
                 <c:if test="${not empty model.noTrains}">
                     <script>
                         swal({

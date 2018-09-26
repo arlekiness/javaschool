@@ -301,6 +301,15 @@
                         });
                     </script>
                 </c:if>
+                <c:if test="${not empty pastDate}">
+                    <script>
+                        swal({
+                            title: 'DATE PROBLEM',
+                            text: 'You trying to get tickets in past.',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
                 <c:if test="${not empty systemError}">
                     <script>
                         swal({

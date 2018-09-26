@@ -14,4 +14,6 @@ public class ErrorCode {
     public static final String INCORRECT_EMAIL = "Invalid email";
     public static final String TO_LATE_FOR_TRAIN = "To late for train";
     public static final String EMPTY_FIELDS_TRAIN_FORM = "One or two fields are empty in train form are empty";
+    public static final String INCORRECT_DATE_SCHEDULE = "Your date is in past";
+    public static final String INCORRECT_DATE_TICKETS = "You trying to get tickets in past";
 }
