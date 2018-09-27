@@ -20,7 +20,7 @@ public class MetroExceptionHandler {
 
     @ExceptionHandler(RuntimeBusinessLogicException.class)
     public ModelAndView handleRuntimeBusinessLogicException(RuntimeBusinessLogicException ex, HttpServletRequest request) {
-        log.error(ex.getError(), ex);
+//        log.error(ex.getError(), ex);
         Map<String, Object> modelMap = new HashMap<>();
         ModelAndView model = new ModelAndView();
         String error = ex.getError();
@@ -65,7 +65,7 @@ public class MetroExceptionHandler {
                 return new ModelAndView("redirect:/dashtrain", "train", true);
             case INCORRECT_EMAIL:
                 model.setViewName("registration");
-                model.addObject("uncpass", ex);
+                model.addObject("uncem", ex);
                 return model;
             case INCORRECT_PASSWORD:
                 model.setViewName("registration");
@@ -78,6 +78,9 @@ public class MetroExceptionHandler {
             case EMPTY_FIELDS_TRAIN_FORM:
                 log.info("EXCEPTION: " + ex.getError());
                 return new ModelAndView("redirect:/dashtrain", "train", true);
+            case TRAIN_IN_PAST:
+                log.info("EXCEPTION: " + ex.getError());
+                return new ModelAndView("redirect:/dashtrain", "trainInPast", true);
             default:
                 return new ModelAndView("error");
         }

@@ -185,6 +185,15 @@
                         });
                     </script>
                 </c:if>
+                <c:if test="${not empty model.trainInPast}">
+                    <script>
+                        swal({
+                            title: 'Oh boy!',
+                            text: 'You trying to add train in past.',
+                            type: 'error'
+                        });
+                    </script>
+                </c:if>
                 <c:if test="${not empty model.systemError}">
                     <script>
                         swal({

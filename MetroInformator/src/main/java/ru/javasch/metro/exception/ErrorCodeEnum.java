@@ -16,7 +16,8 @@ public enum ErrorCodeEnum {
     TO_LATE_FOR_TRAIN (12, "To late for train"),
     EMPTY_FIELDS_TRAIN_FORM (13, "One or two fields are empty in train form are empty"),
     INCORRECT_DATE_SCHEDULE(14, "Your date is in past"),
-    INCORRECT_DATE_TICKETS(15, "You trying to get tickets in past");
+    INCORRECT_DATE_TICKETS(15, "You trying to get tickets in past"),
+    TRAIN_IN_PAST(16, "You trying to add train in past");
 
     private int code;
     private String reason;

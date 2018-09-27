@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Log4j
 public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
@@ -73,19 +75,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
-        if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "")
+        if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "") {
+            log.info("EXCEPTION: " + ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
+        }
         Integer hour = Integer.parseInt(new StringBuilder(firstTime).delete(2, 5).toString());
         Integer minutes = Integer.parseInt(new StringBuilder(firstTime).delete(0, 3).toString());
-        if (hour == 13 && minutes > 15 || hour > 13)
+        if (hour == 13 && minutes > 15 || hour > 13) {
+            log.info("EXCEPTION: " + ErrorCode.TO_LATE_FOR_TRAIN);
             throw new RuntimeBusinessLogicException(ErrorCode.TO_LATE_FOR_TRAIN);
+        }
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
         List<Station> stations = stationService.getAllStationOnBranch(stationName);
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);
         Station endPointStation = stations.get(stations.size() - 1);
+        Date now = new Date();
         Date date = Utils.parseToDateTime(firstDate, firstTime);
+        if (date.before(now)) {
+            log.info("EXCEPTION: " + ErrorCode.TRAIN_IN_PAST);
+            throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_IN_PAST);
+        }
         Calendar cal = Calendar.getInstance();
         for (Station st : stations) {
             Schedule schedule = new Schedule();
@@ -109,8 +120,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now) {
-        if (date.before(now))
+        if (date.before(now)) {
+            log.info("EXCEPTION: " + ErrorCode.INCORRECT_DATE_TICKETS);
             throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
+        }
         List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())

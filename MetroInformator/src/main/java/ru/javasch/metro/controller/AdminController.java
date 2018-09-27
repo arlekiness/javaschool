@@ -129,6 +129,9 @@ public class AdminController {
         if (req.getParameter("train") != null) {
             modelMap.put("trainexist", true);
         }
+        if (req.getParameter("trainInPast") != null) {
+            modelMap.put("trainInPast", true);
+        }
         if (req.getParameter("systemError") != null) {
             modelMap.put("systemError", true);
         }

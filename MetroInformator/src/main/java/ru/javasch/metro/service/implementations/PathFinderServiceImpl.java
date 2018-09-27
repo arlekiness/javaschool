@@ -23,7 +23,7 @@ public class PathFinderServiceImpl implements PathFinderService {
 
     private static final int NO_TRANSITION = 100000;
     private static final int TRANSITION = 50;
-    private static final int MAX_TRANSITION = 10;
+    private static final int MAX_TRANSITION = 20;
     private static final int NUMBER_OF_STATION = 69;
 
     @Autowired
@@ -84,6 +84,7 @@ public class PathFinderServiceImpl implements PathFinderService {
                     }
                 }
                 intermediateStations.removeAll(notIncludedTransitions);
+                System.out.println(intermediateStations);
                 int bestTransition = NO_TRANSITION;
                 int endDest = 0;
                 for (Pair<Integer, Integer> pair : intermediateStations) {
@@ -96,16 +97,20 @@ public class PathFinderServiceImpl implements PathFinderService {
                         endDest = pair.getValue();
                     }
                 }
-                if (bestTransition == NO_TRANSITION)
+                if (bestTransition == NO_TRANSITION) {
+                    log.info("EXCEPTION: " + ErrorCode.ATS_ARE_CLOSED);
                     throw new RuntimeBusinessLogicException(ErrorCode.ATS_ARE_CLOSED);
+                }
                 path.add(endDest);
                 path.add(bestTransition);
                 if (graphArray[bestTransition][endStationIndex] != NO_TRANSITION)
                     break;
                 intermediateIndex = bestTransition;
                 transitionCount++;
-                if (transitionCount > MAX_TRANSITION)
+                if (transitionCount > MAX_TRANSITION) {
+                    log.info("EXCEPTION: " + ErrorCode.ATS_ARE_CLOSED);
                     throw new RuntimeBusinessLogicException(ErrorCode.ATS_ARE_CLOSED);
+                }
             }
             path.add(endStationIndex);
             /**  */
@@ -118,6 +123,13 @@ public class PathFinderServiceImpl implements PathFinderService {
             stations.add(st);
         }
 
+        StringBuilder pathFormed = new StringBuilder();
+        pathFormed.append("PATH FORMED: " + stations.get(0).getName() + " -----> ");
+        for (int i = 1; i < stations.size() - 1; i++) {
+            pathFormed.append(stations.get(i).getName() + " -----> ");
+        }
+        pathFormed.append(stations.get(stations.size() - 1).getName());
+        log.info(pathFormed.toString());
 
         return stations;
     }

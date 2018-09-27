@@ -173,10 +173,12 @@ public class TicketServiceImpl implements TicketService {
             Train train = t.getTrain();
             List<Ticket> tickets = ticketDAO.getByStationDateTrain(beginStation, endStation, date, train);
             if (tickets.size() < TRAIN_CAPACITY) {
-                log.info("TICKET REGISTERED FOR " + user.getLogin() + ": FROM " + beginStation.getName() + " TO " + endStation.getName() + " ON TRAIN " + train.getTrainName());
+                log.info("TICKET REGISTERED FOR " + user.getLogin() + ": FROM " + beginStation.getName() + " TO " + endStation.getName() + " ON TRAIN " + train.getTrainName() +
+                        " ON DATE " + t.getTicketDateDeparture().toString().substring(0, 11));
                 t.setUser(user);
                 ticketDAO.add(t);
             } else {
+                log.info("EXCEPTION: " + ErrorCode.NO_MORE_TICKETS);
                 throw new RuntimeBusinessLogicException(ErrorCode.NO_MORE_TICKETS);
             }
         }
@@ -186,8 +188,11 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public List<Ticket> invalidateNonValidTickets() {
         List<Ticket> tickets = ticketDAO.findAllInvalidTickets();
-        for (Ticket t : tickets)
+        for (Ticket t : tickets) {
             t.setValid("INVALID");
+            log.info("TICKET FOR " + t.getUser().getFirstName() + " " + t.getUser().getLastName() + " FROM " + t.getStationBegin().getName() +
+                    " TO " + t.getStationEnd().getName() + " ON DATE " + t.getTicketDateDeparture().toString().substring(0, 11) + " WAS INVALIDATE");
+        }
         return tickets;
     }
 

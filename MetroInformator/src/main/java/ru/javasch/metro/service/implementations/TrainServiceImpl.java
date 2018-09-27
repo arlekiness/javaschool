@@ -44,6 +44,7 @@ public class TrainServiceImpl implements TrainService {
             log.info("TRAIN ADDED");
             return train.getId();
         } else {
+            log.info("EXCEPTION: " + ErrorCode.TRAIN_EXIST);
             throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_EXIST);
         }
     }

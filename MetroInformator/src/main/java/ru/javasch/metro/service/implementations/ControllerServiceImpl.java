@@ -1,5 +1,6 @@
 package ru.javasch.metro.service.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.exception.ErrorCode;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Log4j
 public class ControllerServiceImpl implements ControllerService {
     private static int STATION_PAGES = 5;
 
@@ -40,11 +42,15 @@ public class ControllerServiceImpl implements ControllerService {
         stationService.checkSegments(segments);
         List<List<Station>> pathSegments = stationService.findPathSegments(segments);
         List<Schedule> schedules = ticketService.formFirstTicket(pathSegments, date);
-        if (schedules.size() == 0)
+        if (schedules.size() == 0) {
+            log.info("EXCEPTION: " + ErrorCode.NO_TRAIN_ON_DATE);
             throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
+        }
         List<List<Ticket>> tickets = ticketService.formTicketChains(pathSegments, schedules);
-        if (tickets.size() == 0)
+        if (tickets.size() == 0) {
+            log.info("EXCEPTION: " + ErrorCode.NO_TRAIN_ON_DATE);
             throw new RuntimeBusinessLogicException(ErrorCode.NO_TRAIN_ON_DATE);
+        }
         return tickets;
     }
 
