@@ -69,22 +69,21 @@ public class PathFinderServiceImpl implements PathFinderService {
             /**               */
 
             while (true) {
-                List<Integer> availibleTrans = new ArrayList<>();
+                List<Integer> availableTrans = new ArrayList<>();
                 for (int i = 0; i < NUMBER_OF_STATION; i++) {
                     if (graphArray[intermediateIndex][i] != NO_TRANSITION)
-                        availibleTrans.add(i);
+                        availableTrans.add(i);
                 }
 
                 List<Pair<Integer, Integer>> intermediateStations = new ArrayList<>();
-                for (int j = 0; j < availibleTrans.size() - 1; j++) {
+                for (int j = 0; j < availableTrans.size() - 1; j++) {
                     for (int k = 0; k < NUMBER_OF_STATION; k++) {
-                        int l = availibleTrans.get(j);
+                        int l = availableTrans.get(j);
                         if (graphArray[k][l] == TRANSITION)
                             intermediateStations.add(new Pair<>(k, l));
                     }
                 }
                 intermediateStations.removeAll(notIncludedTransitions);
-                System.out.println(intermediateStations);
                 int bestTransition = NO_TRANSITION;
                 int endDest = 0;
                 for (Pair<Integer, Integer> pair : intermediateStations) {

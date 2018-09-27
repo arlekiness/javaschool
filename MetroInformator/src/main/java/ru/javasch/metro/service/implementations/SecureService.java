@@ -19,8 +19,6 @@ public class SecureService {
 
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = getAuthentication();
-        System.out.println("Here");
-        System.out.println("HERE " + authentication.getName());
         log.info("USER LOGOUT: " + authentication.getName());
         if (authentication != null)
             new SecurityContextLogoutHandler().logout(request, response, authentication);
