@@ -125,7 +125,7 @@ img.img-polaroid {
     left: 0;
     width: 100%;
     background-color: rgba(37, 36, 108, 0.9);
-    z-index: 10000;
+    z-index: 500;
     overflow-y: auto;
     cursor: pointer;
 }
@@ -358,7 +358,7 @@ img.img-polaroid {
 
 .xcalend {
     position: absolute;
-    z-index: 11999;
+    z-index: 600;
     width: 150px;
     line-height: 1.2em;
     font-size: 15px;
@@ -450,4 +450,8 @@ font-weight: bold;
     color: #ccc;
     display: block;
     padding: 5px 0;
+}
+
+.swal2-container {
+    z-index: 14000;
 }

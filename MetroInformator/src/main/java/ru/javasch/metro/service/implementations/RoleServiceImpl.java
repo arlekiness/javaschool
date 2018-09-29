@@ -6,7 +6,7 @@ import ru.javasch.metro.dao.interfaces.RoleDAO;
 import ru.javasch.metro.model.Role;
 import ru.javasch.metro.service.interfaces.RoleService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleServiceImpl implements RoleService {

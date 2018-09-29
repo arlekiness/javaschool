@@ -14,4 +14,6 @@ public interface StationDAO<E extends Station> extends GenericDAO<E> {
     Station findStationById(Integer id);
 
     List<Station> getStationsBetweenIDs(Integer stationBeginId, Integer stationEndId);
+
+    Station getById(Integer id);
 }

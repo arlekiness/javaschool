@@ -11,7 +11,7 @@ import ru.javasch.metro.model.Status;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.TrainService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -65,5 +65,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public List<Train> getTrainsByPage(int pageNum) { return (List<Train>) trainDAO.getTrainByPage(pageNum); }
+    public List<Train> getTrainsByPage(int pageNum) {
+        return (List<Train>) trainDAO.getTrainByPage(pageNum);
+    }
 }

@@ -12,7 +12,7 @@ import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
 import ru.javasch.metro.utils.EndPointStations;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;

@@ -1,12 +1,12 @@
 package ru.javasch.metro.controller;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import lombok.extern.log4j.Log4j;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.ControllerService;
@@ -31,7 +31,6 @@ public class BuyingTicketController {
 
     @Autowired
     private ControllerService controllerService;
-
 
     @GetMapping(value = "/tickets")
     public String findtickets() {

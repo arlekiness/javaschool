@@ -13,7 +13,7 @@ import ru.javasch.metro.service.interfaces.UserService;
 import ru.javasch.metro.utils.Utils;
 
 import javax.mail.MessagingException;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;

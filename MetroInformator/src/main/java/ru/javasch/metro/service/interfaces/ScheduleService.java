@@ -18,4 +18,8 @@ public interface ScheduleService {
     List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now);
 
     Schedule findByTrainAndStation(Station station, Train train, Date date);
+
+    List<Schedule> getPastSchedules();
+
+    void deletePastSchedules(Schedule sch);
 }

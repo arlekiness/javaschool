@@ -1,9 +1,9 @@
 package ru.javasch.metro.controller;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import lombok.extern.log4j.Log4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.model.Station;
@@ -61,8 +61,8 @@ public class AdminController {
             scheduleService.addNewSchedules(trainName, stationName, date, time);
             return new ModelAndView("redirect:/dashtrain", "success", true);
         } catch (ParseException ex) {
-            log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("redirect:/dashtrain", "systemError", true);
+            log.info("PARSEEXCEPTION: Inparseable date");
+            return new ModelAndView("createtrain", "systemError", true);
         }
     }
 
@@ -126,12 +126,6 @@ public class AdminController {
         if (req.getParameter("deleted") != null) {
             modelMap.put("successdelete", true);
         }
-        if (req.getParameter("train") != null) {
-            modelMap.put("trainexist", true);
-        }
-        if (req.getParameter("trainInPast") != null) {
-            modelMap.put("trainInPast", true);
-        }
         if (req.getParameter("systemError") != null) {
             modelMap.put("systemError", true);
         }
@@ -150,9 +144,9 @@ public class AdminController {
 
     /**
      * Block for
-        * admin panel
-            * station pagination
-                                */
+     * admin panel
+     * station pagination
+     */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashstation")

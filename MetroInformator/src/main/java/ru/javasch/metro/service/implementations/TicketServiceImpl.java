@@ -12,7 +12,7 @@ import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.UserService;
 
 import javax.mail.MessagingException;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

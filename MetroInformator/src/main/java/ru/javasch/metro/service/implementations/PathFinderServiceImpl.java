@@ -13,7 +13,7 @@ import ru.javasch.metro.model.Station;
 import ru.javasch.metro.service.interfaces.PathFinderService;
 import ru.javasch.metro.service.interfaces.StationService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,14 +121,6 @@ public class PathFinderServiceImpl implements PathFinderService {
             Station st = stationDAO.findStationById(id + 1);
             stations.add(st);
         }
-
-        StringBuilder pathFormed = new StringBuilder();
-        pathFormed.append("PATH FORMED: " + stations.get(0).getName() + " -----> ");
-        for (int i = 1; i < stations.size() - 1; i++) {
-            pathFormed.append(stations.get(i).getName() + " -----> ");
-        }
-        pathFormed.append(stations.get(stations.size() - 1).getName());
-        log.info(pathFormed.toString());
 
         return stations;
     }

@@ -66,4 +66,13 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
         }
     }
 
+    @Override
+    public List<Schedule> getPastSchedules() {
+        Date date = new Date();
+        return (List<Schedule>)sessionFactory.getCurrentSession()
+                .createQuery("from Schedule where dateArrival < :date")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
 }

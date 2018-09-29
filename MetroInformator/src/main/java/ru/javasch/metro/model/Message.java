@@ -12,6 +12,22 @@ public class Message {
     private String subject;
     private String context;
 
+    public static Message createWelcomeMessage(String addressee) throws IOException {
+        Message message = new Message();
+        message.setContext(Utils.getHelloContext());
+        message.setSubject("IT'S TIME TO GO DOWN");
+        message.setAddressee(addressee);
+        return message;
+    }
+
+    public static Message createInvalidateMessage(String addressee) throws IOException {
+        Message message = new Message();
+        message.setContext(Utils.getInvalidContext());
+        message.setSubject("YOUR TICKET WAS INVALIDATE");
+        message.setAddressee(addressee);
+        return message;
+    }
+
     public String getAddressee() {
         return addressee;
     }
@@ -42,22 +58,6 @@ public class Message {
 
     public void setContext(String context) {
         this.context = context;
-    }
-
-    public static Message createWelcomeMessage(String addressee) throws IOException {
-        Message message = new Message();
-        message.setContext(Utils.getHelloContext());
-        message.setSubject("IT'S TIME TO GO DOWN");
-        message.setAddressee(addressee);
-        return message;
-    }
-
-    public static Message createInvalidateMessage(String addressee) throws IOException {
-        Message message = new Message();
-        message.setContext(Utils.getInvalidContext());
-        message.setSubject("YOUR TICKET WAS INVALIDATE");
-        message.setAddressee(addressee);
-        return message;
     }
 
 

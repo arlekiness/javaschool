@@ -17,4 +17,6 @@ public class ErrorCode {
     public static final String INCORRECT_DATE_SCHEDULE = "Your date is in past";
     public static final String INCORRECT_DATE_TICKETS = "You trying to get tickets in past";
     public static final String TRAIN_IN_PAST = "You trying to add train in past";
+    public static final String DONT_KNOW_STATION = "No such station in that form";
+
 }

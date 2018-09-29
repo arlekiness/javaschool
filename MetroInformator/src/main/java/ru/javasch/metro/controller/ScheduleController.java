@@ -40,7 +40,7 @@ public class ScheduleController {
             modelMap.put("scheduleList", sch);
             return new ModelAndView("scheduletable", "model", modelMap);
         } catch (ParseException ex) {
-            log.error("PARSE EXCEPTION", ex);
+            log.info("PARSE EXCEPTION inside schedule form");
             modelMap.put("parseException", "true");
             return new ModelAndView("schedule", "model", modelMap);
         }

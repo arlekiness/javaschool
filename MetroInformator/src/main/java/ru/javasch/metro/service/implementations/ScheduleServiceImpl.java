@@ -14,13 +14,10 @@ import ru.javasch.metro.service.interfaces.StationService;
 import ru.javasch.metro.service.interfaces.TrainService;
 import ru.javasch.metro.utils.Utils;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Log4j
@@ -36,7 +33,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     private TrainService trainService;
 
     @Override
-    @Transactional
     public Schedule findByTrainAndStation(Station station, Train train, Date date) {
         return scheduleDAO.findByTrainAndStation(train, station, date);
     }
@@ -54,7 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * View Schedule List on station
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Schedule> getAllTrainsOnStation(String stationName, String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
@@ -79,6 +75,14 @@ public class ScheduleServiceImpl implements ScheduleService {
             log.info("EXCEPTION: " + ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
         }
+        if (!(stationName.equals("Devyatkino") || stationName.equals("Devyatkino") ||
+                stationName.equals("Parnas") || stationName.equals("Prospekt Veteranov") ||
+                stationName.equals("Begovaya") || stationName.equals("Rybatskoye") ||
+                stationName.equals("Spasskaya") || stationName.equals("Ulitsa Dybenko") ||
+                stationName.equals("Komendantsky Prospekt") || stationName.equals("Mezhdunarodnaya"))){
+            log.info("EXCEPTION: " + ErrorCode.DONT_KNOW_STATION);
+            throw new RuntimeBusinessLogicException(ErrorCode.DONT_KNOW_STATION);
+        }
         Integer hour = Integer.parseInt(new StringBuilder(firstTime).delete(2, 5).toString());
         Integer minutes = Integer.parseInt(new StringBuilder(firstTime).delete(0, 3).toString());
         if (hour == 13 && minutes > 15 || hour > 13) {
@@ -87,6 +91,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
+        System.out.println(train.getTrainName());
         List<Station> stations = stationService.getAllStationOnBranch(stationName);
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);
@@ -97,6 +102,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             log.info("EXCEPTION: " + ErrorCode.TRAIN_IN_PAST);
             throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_IN_PAST);
         }
+        Set<Schedule> scheduleSet = new HashSet<>();
+        train.setSchedule(scheduleSet);
         Calendar cal = Calendar.getInstance();
         for (Station st : stations) {
             Schedule schedule = new Schedule();
@@ -108,9 +115,9 @@ public class ScheduleServiceImpl implements ScheduleService {
             cal.setTime(date);
             cal.add(Calendar.MINUTE, 30);
             date = cal.getTime();
-            schedule.setTrain(train);
             schedule.setStation(st);
             schedule.setEndPointStation(endPointStation);
+            schedule.setTrain(train);
             addSchedule(schedule);
         }
 
@@ -132,4 +139,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             endPointStation = stations.get(0);
         return (List<Schedule>) scheduleDAO.getByStationsAndDate(stationBegin, endPointStation, date, now);
     }
+
+    @Override
+    public List<Schedule> getPastSchedules() {return scheduleDAO.getPastSchedules();}
+
+    @Override
+    @Transactional
+    public void deletePastSchedules(Schedule sch) {scheduleDAO.delete(sch);}
 }

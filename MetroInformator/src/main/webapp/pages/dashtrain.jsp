@@ -176,24 +176,6 @@
                         });
                     </script>
                 </c:if>
-                <c:if test="${not empty model.trainexist}">
-                    <script>
-                        swal({
-                            title: 'Oh boy!',
-                            text: 'Train exist. Or maybe it\'s to late for train. Check train list and time. After 13.15 there is no new trains',
-                            type: 'error'
-                        });
-                    </script>
-                </c:if>
-                <c:if test="${not empty model.trainInPast}">
-                    <script>
-                        swal({
-                            title: 'Oh boy!',
-                            text: 'You trying to add train in past.',
-                            type: 'error'
-                        });
-                    </script>
-                </c:if>
                 <c:if test="${not empty model.systemError}">
                     <script>
                         swal({

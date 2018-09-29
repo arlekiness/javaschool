@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.UserService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;

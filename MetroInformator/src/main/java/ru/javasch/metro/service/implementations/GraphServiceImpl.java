@@ -8,7 +8,7 @@ import ru.javasch.metro.model.Graph;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.service.interfaces.GraphService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 

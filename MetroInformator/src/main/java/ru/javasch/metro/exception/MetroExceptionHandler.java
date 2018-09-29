@@ -47,7 +47,6 @@ public class MetroExceptionHandler {
             case INCORRECT_DATE_TICKETS:
                 return new ModelAndView("tickets", "pastDate", true);
             case NO_MORE_TICKETS:
-                log.info("EXCEPTION: " + ex.getError());
                 HttpSession session = request.getSession();
                 session.removeAttribute("TicketList");
                 return new ModelAndView("redirect:/ticketsFail");
@@ -58,11 +57,9 @@ public class MetroExceptionHandler {
                 modelMap.put("oldDate", "true");
                 return new ModelAndView("schedule", "model", modelMap);
             case TO_LATE_FOR_TRAIN:
-                log.info("EXCEPTION: " + ex.getError());
-                return new ModelAndView("redirect:/dashtrain", "train", true);
+                return new ModelAndView("createtrain", "lateTrain", true);
             case TRAIN_EXIST:
-                log.info("EXCEPTION: " + ex.getError());
-                return new ModelAndView("redirect:/dashtrain", "train", true);
+                return new ModelAndView("createtrain", "trainExist", true);
             case INCORRECT_EMAIL:
                 model.setViewName("registration");
                 model.addObject("uncem", ex);
@@ -76,11 +73,11 @@ public class MetroExceptionHandler {
                 model.addObject("exist", ex);
                 return model;
             case EMPTY_FIELDS_TRAIN_FORM:
-                log.info("EXCEPTION: " + ex.getError());
-                return new ModelAndView("redirect:/dashtrain", "train", true);
+                return new ModelAndView("createtrain", "emptyFields", true);
             case TRAIN_IN_PAST:
-                log.info("EXCEPTION: " + ex.getError());
-                return new ModelAndView("redirect:/dashtrain", "trainInPast", true);
+                return new ModelAndView("createtrain", "trainInPast", true);
+            case DONT_KNOW_STATION:
+                return new ModelAndView("createtrain", "dontknowstation", true);
             default:
                 return new ModelAndView("error");
         }
@@ -102,5 +99,11 @@ public class MetroExceptionHandler {
         return new ModelAndView("schedule", "model", modelMap);
     }
 
+    @ExceptionHandler(Exception.class)
+    public String handleMessagingException(Exception ex) {
+        log.error(ex, ex);
+
+        return "error";
+    }
 
 }

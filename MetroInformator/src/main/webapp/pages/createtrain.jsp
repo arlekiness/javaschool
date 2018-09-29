@@ -15,11 +15,13 @@
     <!-- css -->
     <link href="/static/css/bootstrap2.min.css" rel="stylesheet"/>
     <link href="/static/css/style-add-train.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/css/sweetalert2.css">
     <!-- ==================================================
                    javascript
 ================================================== -->
     <script src="/static/js/jquery-3.2.1.js"></script>
     <script src="/static/js/jcanvas.js"></script>
+    <script src="/static/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -76,11 +78,69 @@
                     <p class="fieldset">
                         <input class="full-width has-padding" type="submit" value="ADD TRAIN">
                     </p>
+                    <p class="fieldset">
+                        <a href="/dashtrain">Return to admin panel</a>
+                    </p>
                 </form>
+
+
 
             </div>
 
-
+            <c:if test="${not empty dontknowstation}">
+                <script>
+                    swal({
+                        title: 'Oh boy!',
+                        text: 'Choose station, not type it!',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty trainExist}">
+                <script>
+                    swal({
+                        title: 'Oh boy!',
+                        text: 'Train already exist',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty trainInPast}">
+                <script>
+                    swal({
+                        title: 'Oh boy!',
+                        text: 'You trying to add train in past',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty lateTrain}">
+                <script>
+                    swal({
+                        title: 'Oh boy!',
+                        text: 'Too late for train',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty emptyFields}">
+                <script>
+                    swal({
+                        title: 'Oh boy!',
+                        text: 'Choose station, not type it!',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty systemError}">
+                <script>
+                    swal({
+                        title: 'OOOOOOPS...',
+                        text: 'Something really bad happened. Try again!',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
         </div>
     </div>
 

@@ -52,11 +52,15 @@ public class Train {
         this.capacity = capacity;
     }
 
-    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<Schedule> getSchedule() {
         return schedule;
     }
-
+    public void addSchedule(Schedule sch) { schedule.add(sch); }
+    public void deleteSchedule(Schedule sch) {
+        schedule.remove(sch);
+        sch.setTrain(null);
+    }
     public void setSchedule(Set<Schedule> schedule) {
         this.schedule = schedule;
     }

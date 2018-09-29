@@ -75,5 +75,11 @@ public class StationDAOImpl<E extends Station> extends GenericDAOImpl<E> impleme
                 .getResultList();
     }
 
+    @Override
+    public Station getById(Integer id) {
+        return sessionFactory.getCurrentSession()
+                .get(Station.class, id);
+    }
+
 
 }

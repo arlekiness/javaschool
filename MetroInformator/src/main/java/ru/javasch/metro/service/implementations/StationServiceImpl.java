@@ -10,7 +10,7 @@ import ru.javasch.metro.model.Status;
 import ru.javasch.metro.service.interfaces.GraphService;
 import ru.javasch.metro.service.interfaces.StationService;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

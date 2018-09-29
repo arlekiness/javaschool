@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TrainDAO<E extends Train> extends GenericDAO<E> {
     Train findByName(String trainName);
+
     List<Train> getTrainByPage(int pageNum);
 }

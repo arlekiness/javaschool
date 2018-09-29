@@ -8,8 +8,12 @@ import java.util.List;
 @Service
 public interface TrainService {
     Long add(String trainName);
+
     void delete(Long Id);
+
     Train findById(Long Id);
+
     List<Train> getAllTrains();
+
     List<Train> getTrainsByPage(int pageNum);
 }

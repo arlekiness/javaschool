@@ -47,7 +47,6 @@ public class Ticket {
         this.train = train;
     }
 
-    //(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OneToOne
     public Station getStationBegin() {
         return stationBegin;
