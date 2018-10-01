@@ -15,6 +15,7 @@ public class Utils {
 
     private static final int MILLIS_IN_SECONDS = 1000;
     private static final int SECONDS_IN_MINUTES = 60;
+    private static final int MINUTES_IN_24_HOUR = 1440;
 
 
     public static Date parseToDate(String date) throws ParseException {
@@ -37,6 +38,31 @@ public class Utils {
         Long time1 = calOne.getTimeInMillis();
         Long time2 = calTwo.getTimeInMillis();
         return (time2 - time1) / MILLIS_IN_SECONDS / SECONDS_IN_MINUTES;
+    }
+
+
+    public static void setHMSMfieldsInZero (Calendar calendar) {
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    /**METHOD FOR CHECKING DATE. USER CAN SEE TICKETS AND SCHEDULES FOR CURRENT DATE
+     * BUT CAN'T SEE THEM FOR YESTERDAY OR EARLIER DATE
+     */
+    public static boolean checkDatesOnCorrectness (Date date, Date now) {
+        Calendar calDate = Calendar.getInstance();
+        calDate.setTime(date);
+        Utils.setHMSMfieldsInZero(calDate);
+        Calendar calNow = Calendar.getInstance();
+        calNow.setTime(now);
+        Utils.setHMSMfieldsInZero(calNow);
+        if (Utils.twoDateSubstraction(calDate.getTime(), calNow.getTime()) >= MINUTES_IN_24_HOUR) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String getHelloContext() throws IOException {

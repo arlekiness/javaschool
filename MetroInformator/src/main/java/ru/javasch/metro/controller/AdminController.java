@@ -18,6 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * ************************************************
+ * CONTROLLER FOR ADMIN OPERATIONS FROM ADMIN PANEL
+ * ************************************************
+  */
 @Controller
 @Log4j
 public class AdminController {
@@ -41,15 +47,26 @@ public class AdminController {
     private ControllerService controllerService;
 
     /**
-     * Block for
-     * create-delete trains
+     * BLOCK FOR
+     * CREATE-DELETE TRAINS
      */
+
+    /**ENTERING INTO
+     * CREATING TRAIN FORM*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/createtrain")
     public String creatingTrainForm() {
         return "createtrain";
     }
+
+    /**EVALUATING CREATING TRAIN FORM
+     *
+     * @param trainName
+     * @param stationName
+     * @param date
+     * @param time
+     * ADDING TRAIN AND RETURN TO TRAIN LIST*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createtrain")
@@ -66,6 +83,11 @@ public class AdminController {
         }
     }
 
+    /** DELETING TRAIN BY ID
+     *
+     * @param id
+     * @return
+     */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/deleteTrain/{id}")
@@ -81,8 +103,16 @@ public class AdminController {
     }
 
     /**
+     * ***************************
      * Block for
      * open-close stations
+     * ***************************
+     */
+
+    /**CLOSE STATION BY STATION NAME
+     *
+     * @param stationName
+     * @return
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -93,6 +123,12 @@ public class AdminController {
         return new ModelAndView(controllerService.stationSwitchHelper(color));
     }
 
+    /**OPEN STATION BY STATION NAME
+     *
+     * @param stationName
+     * @return
+     */
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/openStation/{stationName}")
     public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) {
@@ -102,11 +138,18 @@ public class AdminController {
     }
 
     /**
-     * Block for
-     * admin panel
-     * train pagination
+     * ***************************
+     * BLOCK FOR
+     * ADMIN PANEL
+     * TRAIN PAGINATION
+     * ***************************
      */
 
+    /**FORM FIRST ENTERING TO ADMIN PANEL
+     *
+     * @param req
+     * @return
+     */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashtrain")
@@ -132,6 +175,12 @@ public class AdminController {
         return new ModelAndView("dashtrain", "model", modelMap);
     }
 
+    /**FORM PAGES PAGINATION FOR TRAINS
+     *
+     * @param pageNum
+     * @return
+     */
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashtrain/{count}")
     public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
@@ -143,9 +192,17 @@ public class AdminController {
     }
 
     /**
-     * Block for
-     * admin panel
-     * station pagination
+     * ***************************
+     * BLOCK FOR
+     * ADMIN PANEL
+     * STATION PAGINATION
+     * ***************************
+     */
+
+    /**FORM FIRST ENTERING INTO STATION ADMIN PANEL
+     *
+     * @param req
+     * @return
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -162,6 +219,12 @@ public class AdminController {
         return new ModelAndView("dashstation", "model", modelMap);
     }
 
+    /**FORM PAGES PAGINATION FOR STATIONS
+     *
+     * @param stationNum
+     * @return
+     */
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/dashstation/{stcount}")
     public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
@@ -172,6 +235,12 @@ public class AdminController {
         modelMap.put("stationPages", pag.get("stationPages"));
         return new ModelAndView("dashstation", "model", modelMap);
     }
+
+    /** CHECK ALL PASSENGERS ON TRAIN BY ID
+     *
+     * @param id
+     * @return
+     */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/passengers/{id}")

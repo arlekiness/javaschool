@@ -18,6 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ************************************************
+ * SERVICE FOR BOILER PLATE CONTROLLER CODE
+ * ************************************************
+ */
+
 @Service
 @Log4j
 public class ControllerServiceImpl implements ControllerService {
@@ -35,6 +41,8 @@ public class ControllerServiceImpl implements ControllerService {
     @Autowired
     private TrainService trainService;
 
+
+    /**FORM TICKET CHAINS FOR VIEWS*/
     @Override
     public List<List<Ticket>> chainsOfTickets(String beginStation, String endStation, String date) throws ParseException {
         List<Station> stations = pathFinderService.pathFinder(beginStation, endStation);
@@ -54,6 +62,7 @@ public class ControllerServiceImpl implements ControllerService {
         return tickets;
     }
 
+    /**CODE FOR TRAIN PAGINATION*/
     @Override
     public Map<String, Object> trainPagination(int pageNum) {
         Map<String, Object> pag = new HashMap<>();
@@ -62,6 +71,7 @@ public class ControllerServiceImpl implements ControllerService {
         return pag;
     }
 
+    /**CODE FOR STATION PAGINATION*/
     @Override
     @Transactional
     public Map<String, Object> stationPagination(int stationPageNum) {
@@ -92,6 +102,7 @@ public class ControllerServiceImpl implements ControllerService {
         return pag;
     }
 
+    /**CODE FOR PAGE STATION PAGINATION*/
     @Override
     public String stationSwitchHelper(String color) {
         if (color.equals("RED"))

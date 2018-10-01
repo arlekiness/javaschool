@@ -15,6 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * ************************************************
+ * CONTROLLER FOR STANDART USER OPERATIONS SUCH
+ * LOGIN, REGISTRATION, LOGOUT
+ * ************************************************
+ */
+
 @Controller
 @Log4j
 public class UserController {

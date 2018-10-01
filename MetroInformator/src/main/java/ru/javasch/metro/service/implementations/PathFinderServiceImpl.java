@@ -17,6 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ************************************************
+ * SERVICE FOR PATHFINDER
+ * ************************************************
+ */
 @Service
 @Log4j
 public class PathFinderServiceImpl implements PathFinderService {
@@ -35,7 +40,12 @@ public class PathFinderServiceImpl implements PathFinderService {
     @Autowired
     private StationDAO stationDAO;
 
-
+    /**FORM PATH FROM BEGIN STATION TO END STATION
+     *
+     * @param stationBegin
+     * @param stationEnd
+     * @return
+     */
     @Override
     @Transactional
     public List<Station> pathFinder(String stationBegin, String stationEnd) {
@@ -66,8 +76,6 @@ public class PathFinderServiceImpl implements PathFinderService {
         if (graphArray[endStationIndex][beginStationIndex] != NO_TRANSITION) {
             path.add(endStationIndex);
         } else {
-            /**               */
-
             while (true) {
                 List<Integer> availableTrans = new ArrayList<>();
                 for (int i = 0; i < NUMBER_OF_STATION; i++) {
@@ -112,8 +120,6 @@ public class PathFinderServiceImpl implements PathFinderService {
                 }
             }
             path.add(endStationIndex);
-            /**  */
-
         }
 
         List<Station> stations = new ArrayList<>();

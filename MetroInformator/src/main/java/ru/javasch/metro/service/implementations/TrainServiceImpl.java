@@ -63,6 +63,11 @@ public class TrainServiceImpl implements TrainService {
         return (List<Train>) trainDAO.getAll();
     }
 
+    /**HELPER METHOD FOR TRAIN PAGINATION
+     * @see ru.javasch.metro.service.implementations.ControllerServiceImpl#trainPagination(int)
+     * @param pageNum
+     * @return
+     */
     @Override
     @Transactional
     public List<Train> getTrainsByPage(int pageNum) {

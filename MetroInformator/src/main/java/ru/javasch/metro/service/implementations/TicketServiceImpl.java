@@ -7,6 +7,7 @@ import ru.javasch.metro.dao.interfaces.TicketDAO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.*;
+import ru.javasch.metro.scheduled.ScheduledTasks;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.UserService;
@@ -37,7 +38,12 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private MailService mailService;
 
-
+    /**CHECKING FOR FREE CAPACITY IN TRAIN
+     *
+     * @param schedule
+     * @param endStation
+     * @return
+     */
     @Override
     @Transactional
     public int occupiedSeats(Schedule schedule, Station endStation) {
@@ -49,6 +55,11 @@ public class TicketServiceImpl implements TicketService {
         return tickets.size();
     }
 
+    /**DEBUG METHOD NEEDED FOR CHECKING CORRECTNESS OF PATHFINDER WORK
+     *
+     * @param segments
+     * @return
+     */
     @Override
     @Transactional
     public String formMessageAboutPath(List<List<Station>> segments) {
@@ -64,6 +75,13 @@ public class TicketServiceImpl implements TicketService {
         return message;
     }
 
+    /**FORMING FIRST TICKET IN TICKET CHAIN WITH TRANSITIONS FOR USING IN TABLE
+     *
+     * @param segments
+     * @param dateForm
+     * @return
+     * @throws ParseException
+     */
     @Override
     @Transactional
     public List<Schedule> formFirstTicket(List<List<Station>> segments, String dateForm) throws ParseException {
@@ -82,6 +100,12 @@ public class TicketServiceImpl implements TicketService {
         return schedules;
     }
 
+    /**FORMING FULL TICKET CHAIN FOR BUYING
+     *
+     * @param pathSegment
+     * @param schedule
+     * @return
+     */
     @Override
     @Transactional
     public List<List<Ticket>> formTicketChains(List<List<Station>> pathSegment, List<Schedule> schedule) {
@@ -162,6 +186,11 @@ public class TicketServiceImpl implements TicketService {
         return tickets;
     }
 
+    /**REGISTRATION TICKET IN SYSTEM IN CASE USER CLICK ON "BUY TICKETS"
+     *
+     * @param ticket
+     * @param userName
+     */
     @Override
     @Transactional
     public void registrateTicketsInSystem(List<Ticket> ticket, String userName) {
@@ -184,6 +213,10 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    /**HELPER METHOD USED FOR INVALIDATING TICKETS IN CASE OF TRAIN DELETING
+     * @see ru.javasch.metro.controller.AdminController#deletingTrain(Long)
+     * @return
+     */
     @Override
     @Transactional
     public List<Ticket> invalidateNonValidTickets() {
@@ -196,6 +229,12 @@ public class TicketServiceImpl implements TicketService {
         return tickets;
     }
 
+    /**HELPER METHOD FOR SENDING MESSAGES TO USER WHO OWNING INVALID TICKETS
+     *
+     * @param tickets
+     * @throws IOException
+     * @throws MessagingException
+     */
     @Override
     @Transactional
     public void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException {
@@ -206,6 +245,10 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    /**FINDING ALL TICKETS BY USER
+     *
+     * @return
+     */
     @Override
     @Transactional
     public List<Ticket> findAllTicketsByUser() {
@@ -214,12 +257,22 @@ public class TicketServiceImpl implements TicketService {
         return tickets;
     }
 
+    /**FINDING ALL TICKETS BY TRAIN
+     *
+     * @param train
+     * @return
+     */
     @Override
     @Transactional
     public List<Ticket> getByTrain(Train train) {
         return ticketDAO.getByTrain(train);
     }
 
+    /**FINDING ALL TICKETS BY DATE.
+     * HELPER METHOD FOR
+     * @see ScheduledTasks#invalidateTicketForClosedStations()
+     * @return
+     */
     @Override
     public List<Ticket> getTicketsOnCurrentDate() { return ticketDAO.getTicketsOnCurrentDate(); }
 }

@@ -19,6 +19,12 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.List;
 
+/**
+ * ************************************************
+ * CONTROLLER FOR BUYING TICKET OPERATIONS
+ * ************************************************
+ */
+
 @Controller
 @Log4j
 public class BuyingTicketController {
@@ -43,6 +49,15 @@ public class BuyingTicketController {
     }
 
 
+    /**FORM TICKET CHAINS FOR USER BY TWO STATION AND DATE
+     *
+     * @param beginStation
+     * @param endStation
+     * @param date
+     * @param req
+     * @param resp
+     * @return
+     */
     @PostMapping("/tickets")
     public ModelAndView giveOptions(@RequestParam(value = "begin") String beginStation,
                                     @RequestParam(value = "end") String endStation,
@@ -59,6 +74,14 @@ public class BuyingTicketController {
         }
     }
 
+    /**REGISTERING TICKETS IN SYSTEM
+     *
+     * @param count
+     * @param req
+     * @param resp
+     * @return
+     */
+
     @RequestMapping(value = "/registerTickets/{count}")
     public ModelAndView ticketRegistration(@PathVariable(value = "count") int count,
                                            HttpServletRequest req,
@@ -73,6 +96,12 @@ public class BuyingTicketController {
         return new ModelAndView("redirect:/myTickets");
     }
 
+    /** USER TICKETS TABLE
+     *
+     * @param req
+     * @param resp
+     * @return
+     */
     @RequestMapping(value = "/myTickets")
     public ModelAndView myTickets(HttpServletRequest req,
                                   HttpServletResponse resp) {

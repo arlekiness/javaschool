@@ -28,6 +28,7 @@ public class StationServiceImpl implements StationService {
     @Autowired
     private GraphService graphService;
 
+    /**FINDING STATION BY NAME*/
     @Override
     @Transactional
     public Station findByName(String stationName) {
@@ -50,6 +51,7 @@ public class StationServiceImpl implements StationService {
         return stations;
     }
 
+    /**GETTING ALL STATION BY FIRST STATION BRANCH*/
     @Override
     @Transactional
     public List<Station> getAllStationOnBranch(String stationName) {
@@ -58,6 +60,10 @@ public class StationServiceImpl implements StationService {
         return stations;
     }
 
+    /**CLOSE STATION LOGIC FOR
+     * @see ru.javasch.metro.controller.AdminController#closeStation(String)
+     * @param stationName
+     */
     @Override
     @Transactional
     public void closeStation(String stationName) {
@@ -74,6 +80,10 @@ public class StationServiceImpl implements StationService {
         log.info("STATION " + stationName + " WAS CLOSED");
     }
 
+    /**OPEN STATION LOGIC FOR
+     * @see ru.javasch.metro.controller.AdminController#openStation(String)
+     * @param stationName
+     */
     @Override
     @Transactional
     public void openStation(String stationName) {
@@ -90,6 +100,7 @@ public class StationServiceImpl implements StationService {
         log.info("STATION " + stationName + " WAS OPENED");
     }
 
+    /**HELPER METHOD FOR FORMING PAIRS IN PATH*/
     @Override
     @Transactional
     public List<List<Station>> formSegments(List<Station> stations) {
@@ -103,6 +114,7 @@ public class StationServiceImpl implements StationService {
         return segments;
     }
 
+    /**HELPER METHOD FOR CHECKING PAIRS IN PATH AND DELETING REDUNDANT PAIRS*/
     @Override
     @Transactional
     public void checkSegments(List<List<Station>> segments) {
@@ -114,6 +126,7 @@ public class StationServiceImpl implements StationService {
         }
     }
 
+    /**HELPER METHOD FOR CHECKING PAIRS IN PATH AND DELETING TRANSITION PAIRS*/
     @Override
     @Transactional
     public List<List<Station>> findPathSegments(List<List<Station>> segments) {
@@ -125,6 +138,12 @@ public class StationServiceImpl implements StationService {
         return pathStation;
     }
 
+    /**HELPER METHOD FOR STATION PAGINATION
+     * @see ru.javasch.metro.service.implementations.ControllerServiceImpl#stationPagination(int)
+     * @param stationBeginId
+     * @param stationEndId
+     * @return
+     */
     @Override
     @Transactional
     public List<Station> getStationsBetweenIDs(Integer stationBeginId, Integer stationEndId) {

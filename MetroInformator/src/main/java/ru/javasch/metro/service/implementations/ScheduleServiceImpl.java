@@ -38,7 +38,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * add one schedule
+     * ADD ONE SCHEDULE RECORD
      */
     @Override
     @Transactional
@@ -47,7 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * View Schedule List on station
+     * VIEW SCHEDULE LIST ON STATION
      */
     @Override
     @Transactional(readOnly = true)
@@ -55,18 +55,17 @@ public class ScheduleServiceImpl implements ScheduleService {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
         Date now = new Date();
-        if (date.before(now))
+        if (Utils.checkDatesOnCorrectness(date, now))
             throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_SCHEDULE);
         Station station = stationService.findByName(stationName);
         if (station.getStatus().getStatusName().equals("CLOSED"))
             throw new RuntimeBusinessLogicException(ErrorCode.STATION_CLOSED);
-
         List<Schedule> schedule = scheduleDAO.getByStationAndDate(station, date);
         return schedule;
     }
 
     /**
-     * Adding new Schedule List when ADMIN add new train
+     * AUTOMATIC ADDING NEW SCHEDULE LIST WHEN ADMIN ADD NEW TRAIN
      */
     @Override
     @Transactional
@@ -124,13 +123,21 @@ public class ScheduleServiceImpl implements ScheduleService {
         return stations;
     }
 
+    /**METHOD RETURNING ALL SCHEDULES RECORDS THROUGH STATION ON DATE
+     * AND CHECKING DATE (YOU CAN'T SEE RECORDS IN PAST)
+     * @param stationBegin
+     * @param stationEnd
+     * @param date
+     * @param now
+     * @return
+     */
     @Override
     @Transactional
     public List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now) {
-//        if (date.before(now)) {
-//            log.info("EXCEPTION: " + ErrorCode.INCORRECT_DATE_TICKETS);
-//            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
-//        }
+        if (Utils.checkDatesOnCorrectness(date, now) == true) {
+            log.info("EXCEPTION: " + ErrorCode.INCORRECT_DATE_TICKETS);
+            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
+        }
         List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())
@@ -140,6 +147,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         return (List<Schedule>) scheduleDAO.getByStationsAndDate(stationBegin, endPointStation, date, now);
     }
 
+    /**HELPER METHOD FOR
+     * @see ru.javasch.metro.scheduled.ScheduledTasks#deletePastSchedules()
+     * @return
+     */
     @Override
     public List<Schedule> getPastSchedules() {return scheduleDAO.getPastSchedules();}
 

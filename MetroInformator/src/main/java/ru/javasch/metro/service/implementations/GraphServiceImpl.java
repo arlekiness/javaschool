@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ************************************************
+ * SERVICE FOR WORK WITH GRAPH
+ * ************************************************
+ */
 @Service
 public class GraphServiceImpl implements GraphService {
 
@@ -24,6 +29,12 @@ public class GraphServiceImpl implements GraphService {
     @Autowired
     private StationDAO stationDAO;
 
+    /**CHANGING WEIGHTS IN GRAPH THROUGH
+     * OPENING AND CLOSING STATIONS
+     *
+     * @param stationName
+     * @return
+     */
     @Override
     @Transactional
     public List<Station> changeWeight(String stationName) {
