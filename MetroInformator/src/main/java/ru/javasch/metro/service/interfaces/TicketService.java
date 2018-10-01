@@ -30,5 +30,7 @@ public interface TicketService {
     List<Ticket> findAllTicketsByUser();
 
     List<Ticket> getByTrain(Train train);
+
+    List<Ticket> getTicketsOnCurrentDate();
 }
 

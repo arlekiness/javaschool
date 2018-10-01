@@ -127,10 +127,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now) {
-        if (date.before(now)) {
-            log.info("EXCEPTION: " + ErrorCode.INCORRECT_DATE_TICKETS);
-            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
-        }
+//        if (date.before(now)) {
+//            log.info("EXCEPTION: " + ErrorCode.INCORRECT_DATE_TICKETS);
+//            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_DATE_TICKETS);
+//        }
         List<Station> stations = stationService.getAllStationOnBranch(stationBegin.getName());
         Station endPointStation;
         if (stationBegin.getNumberOnBranch() < stationEnd.getNumberOnBranch())

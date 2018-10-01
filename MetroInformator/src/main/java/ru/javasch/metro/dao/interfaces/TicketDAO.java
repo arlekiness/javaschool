@@ -15,4 +15,5 @@ public interface TicketDAO<E extends Ticket> extends GenericDAO<E> {
     List<Ticket> findAllInvalidTickets();
     List<Ticket> findAllUserTickets(User user);
     List<Ticket> getByTrain(Train train);
+    List<Ticket> getTicketsOnCurrentDate();
 }

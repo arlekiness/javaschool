@@ -29,13 +29,13 @@ public class Utils {
         return format.parse(str.toString());
     }
 
-    public static Long twoDateSubstraction(Date date1, Date date2) {
-        Calendar cal1 = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        cal1.setTime(date1);
-        cal2.setTime(date2);
-        Long time1 = cal1.getTimeInMillis();
-        Long time2 = cal2.getTimeInMillis();
+    public static Long twoDateSubstraction(Date dateOne, Date dateTwo) {
+        Calendar calOne = Calendar.getInstance();
+        Calendar calTwo = Calendar.getInstance();
+        calOne.setTime(dateOne);
+        calTwo.setTime(dateTwo);
+        Long time1 = calOne.getTimeInMillis();
+        Long time2 = calTwo.getTimeInMillis();
         return (time2 - time1) / MILLIS_IN_SECONDS / SECONDS_IN_MINUTES;
     }
 

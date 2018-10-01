@@ -95,4 +95,19 @@ public class TicketDAOImpl<E extends Ticket> extends GenericDAOImpl<E> implement
                 .setParameter("date", date)
                 .getResultList();
     }
+
+    @Override
+    public List<Ticket> getTicketsOnCurrentDate() {
+        Date date = new Date();
+        String validString = "VALID";
+        return (List<Ticket>) sessionFactory.getCurrentSession()
+                .createQuery("from Ticket where " +
+                        "year(ticketDateDeparture) = year(:date) and " +
+                        "month(ticketDateDeparture) = month(:date) and " +
+                        "day(ticketDateDeparture) = day(:date) and " +
+                        "valid = :validString")
+                .setParameter("date", date)
+                .setParameter("validString", validString)
+                .getResultList();
+    }
 }

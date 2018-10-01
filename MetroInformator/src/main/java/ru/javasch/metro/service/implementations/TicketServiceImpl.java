@@ -219,4 +219,7 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> getByTrain(Train train) {
         return ticketDAO.getByTrain(train);
     }
+
+    @Override
+    public List<Ticket> getTicketsOnCurrentDate() { return ticketDAO.getTicketsOnCurrentDate(); }
 }
