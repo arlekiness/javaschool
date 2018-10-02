@@ -1,9 +1,11 @@
 package ru.javasch.metro.service.implementations;
 
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
+import ru.javasch.metro.dto.ScheduleDTO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
 import ru.javasch.metro.model.Schedule;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j
@@ -31,6 +34,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private TrainService trainService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public Schedule findByTrainAndStation(Station station, Train train, Date date) {
@@ -157,4 +163,23 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void deletePastSchedules(Schedule sch) {scheduleDAO.delete(sch);}
+
+    /**DTO METHODS FOR BOARD*/
+    @Override
+    @Transactional
+    public List<ScheduleDTO> getAll() {
+        List<Schedule> schedules = scheduleDAO.getAll();
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<ScheduleDTO> getAllForToday() {
+        List<Schedule> schedules = scheduleDAO.getForToday();
+        return schedules.stream()
+                .map(x -> modelMapper.map(x, ScheduleDTO.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -75,4 +75,15 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
                 .getResultList();
     }
 
+    @Override
+    public List<Schedule> getForToday() {
+        Date date = new Date();
+        return (List<Schedule>)sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " + "where year(dateDeparture) = year(:date)" +
+                        " and month(dateDeparture) = month(:date)" +
+                        " and day(dateDeparture) = day(:date)")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
 }

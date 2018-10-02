@@ -16,4 +16,6 @@ public interface ScheduleDAO<E extends Schedule> extends GenericDAO<E> {
     Schedule findByTrainAndStation(Train train, Station station, Date date);
 
     List<Schedule> getPastSchedules();
+
+    List<Schedule> getForToday();
 }
