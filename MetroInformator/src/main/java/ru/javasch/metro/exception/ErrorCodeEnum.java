@@ -18,7 +18,9 @@ public enum ErrorCodeEnum {
     INCORRECT_DATE_SCHEDULE(14, "Your date is in past"),
     INCORRECT_DATE_TICKETS(15, "You trying to get tickets in past"),
     TRAIN_IN_PAST(16, "You trying to add train in past"),
-    DONT_KNOW_STATION (17, "No such station in that form");
+    DONT_KNOW_STATION (17, "No such station in that form"),
+    THAT_TIME_ALREADY_USED_BY_ANOTHER_TRAIN (18, "That time already used by another train"),
+    NOT_AUTHORIZED_ADDING (19, "You trying to add train past schedules time border");
 
     private int code;
     private String reason;

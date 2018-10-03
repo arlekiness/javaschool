@@ -307,5 +307,7 @@ INSERT INTO testbase.user_role (user_id, role_id) VALUES (4, 3);
 INSERT INTO testbase.user_role (user_id, role_id) VALUES (5, 3);
 INSERT INTO testbase.user_role (user_id, role_id) VALUES (6, 1);
 -- ===========================================
--- ============TICKETS========================
+-- ============LAST_DATE======================
 -- ===========================================
+INSERT INTO testbase.lastdate (id, date_need) VALUES (1, '2018-10-04 00:00:00');
+INSERT INTO testbase.lastdate (id, date_need) VALUES (2, '2018-10-11 00:00:00');

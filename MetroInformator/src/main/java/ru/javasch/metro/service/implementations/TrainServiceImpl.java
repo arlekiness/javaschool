@@ -7,8 +7,10 @@ import ru.javasch.metro.dao.interfaces.StatusDAO;
 import ru.javasch.metro.dao.interfaces.TrainDAO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Status;
 import ru.javasch.metro.model.Train;
+import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ public class TrainServiceImpl implements TrainService {
 
     @Autowired
     private StatusDAO statusDAO;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     @Override
     @Transactional
@@ -53,6 +58,10 @@ public class TrainServiceImpl implements TrainService {
     @Transactional
     public void delete(Long Id) {
         Train train = (Train) trainDAO.getById(Id);
+        List<Schedule> schedules = scheduleService.getByTrain(train);
+        for (Schedule sch : schedules) {
+            scheduleService.deletePastSchedules(sch);
+        }
         log.info("TRAIN " + train.getTrainName() + " REMOVED");
         trainDAO.delete(train);
     }

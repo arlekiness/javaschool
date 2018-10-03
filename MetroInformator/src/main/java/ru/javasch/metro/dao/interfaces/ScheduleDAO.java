@@ -10,12 +10,11 @@ import java.util.List;
 
 public interface ScheduleDAO<E extends Schedule> extends GenericDAO<E> {
     List<Schedule> getByStationAndDate(Station station, Date date);
-
     List getByStationsAndDate(Station stationBegin, Station endPointStation, Date date, Date now);
-
     Schedule findByTrainAndStation(Train train, Station station, Date date);
-
     List<Schedule> getPastSchedules();
-
     List<Schedule> getForToday();
+    List<Schedule> getForDate (Date date);
+    List<Schedule> findByTrain (Train train);
+    List<Schedule> getForCheckOnCreatingTrain(Date date, Station station, Station endPointStation);
 }

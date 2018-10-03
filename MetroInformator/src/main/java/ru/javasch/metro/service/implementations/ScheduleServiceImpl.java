@@ -8,6 +8,7 @@ import ru.javasch.metro.dao.interfaces.ScheduleDAO;
 import ru.javasch.metro.dto.ScheduleDTO;
 import ru.javasch.metro.exception.ErrorCode;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.LastDateSchedule;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
@@ -38,6 +39,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private LastDateService lastDateService;
+
     @Override
     public Schedule findByTrainAndStation(Station station, Train train, Date date) {
         return scheduleDAO.findByTrainAndStation(train, station, date);
@@ -56,7 +60,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * VIEW SCHEDULE LIST ON STATION
      */
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Schedule> getAllTrainsOnStation(String stationName, String dateString) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = format.parse(dateString);
@@ -80,8 +84,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             log.info("EXCEPTION: " + ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
         }
-        if (!(stationName.equals("Devyatkino") || stationName.equals("Devyatkino") ||
-                stationName.equals("Parnas") || stationName.equals("Prospekt Veteranov") ||
+        if (!(stationName.equals("Devyatkino") || stationName.equals("Prospekt Veteranov") ||
+                stationName.equals("Parnas") || stationName.equals("Kupchino") ||
                 stationName.equals("Begovaya") || stationName.equals("Rybatskoye") ||
                 stationName.equals("Spasskaya") || stationName.equals("Ulitsa Dybenko") ||
                 stationName.equals("Komendantsky Prospekt") || stationName.equals("Mezhdunarodnaya"))){
@@ -96,20 +100,42 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         Long Id = trainService.add(trainName);
         Train train = trainService.findById(Id);
-        System.out.println(train.getTrainName());
         List<Station> stations = stationService.getAllStationOnBranch(stationName);
         if (!stationName.equals(stations.get(0).getName()))
             Collections.reverse(stations);
         Station endPointStation = stations.get(stations.size() - 1);
         Date now = new Date();
         Date date = Utils.parseToDateTime(firstDate, firstTime);
+        LastDateSchedule lastDateSchedule = lastDateService.getLastDate();
+        Date lastDate = lastDateSchedule.getDateSchedule();
+        if (date.after(lastDate))
+            throw new RuntimeBusinessLogicException(ErrorCode.NOT_AUTHORIZED_ADDING);
+        Calendar calLastDate = Calendar.getInstance();
+        calLastDate.setTime(lastDate);
+        Calendar calScheduleDate = Calendar.getInstance();
+        calScheduleDate.setTime(date);
+        calScheduleDate.set(Calendar.YEAR, calLastDate.get(Calendar.YEAR));
+        calScheduleDate.set(Calendar.MONTH, calLastDate.get(Calendar.MONTH));
+        calScheduleDate.set(Calendar.DAY_OF_MONTH, calLastDate.get(Calendar.DAY_OF_MONTH));
+        Date checked = calScheduleDate.getTime();
+        System.out.println(checked);
+        List<Schedule> schedules = scheduleDAO.getForCheckOnCreatingTrain(lastDate, stations.get(0), endPointStation);
+        for (Schedule sch : schedules) {
+            Date departure = sch.getDateDeparture();
+            Date arrival = sch.getDateArrival();
+            Calendar arrivalDate = Calendar.getInstance();
+            arrivalDate.setTime(arrival);
+            arrivalDate.add(Calendar.MINUTE, -5);
+            arrival = arrivalDate.getTime();
+            if ((checked.after(arrival) || checked.equals(arrival)) && (checked.before(departure) || checked.equals(departure)))
+                throw new RuntimeBusinessLogicException(ErrorCode.THAT_TIME_ALREADY_USED_BY_ANOTHER_TRAIN);
+        }
         if (date.before(now)) {
             log.info("EXCEPTION: " + ErrorCode.TRAIN_IN_PAST);
             throw new RuntimeBusinessLogicException(ErrorCode.TRAIN_IN_PAST);
         }
-        Set<Schedule> scheduleSet = new HashSet<>();
-        train.setSchedule(scheduleSet);
         Calendar cal = Calendar.getInstance();
+        List<Schedule> schedulesForUpdating = new ArrayList<>();
         for (Station st : stations) {
             Schedule schedule = new Schedule();
             schedule.setDateArrival(date);
@@ -124,10 +150,66 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedule.setEndPointStation(endPointStation);
             schedule.setTrain(train);
             addSchedule(schedule);
+            schedulesForUpdating.add(schedule);
         }
-
+        updateSchedules(schedulesForUpdating);
         return stations;
     }
+
+    /**METHOD FOR AUTOMATIC UPDATING SCHEDULES
+     *
+     * @param schedules
+     */
+    @Override
+    public void updateSchedules(List<Schedule> schedules) {
+        log.info("UPDATER BEGIN WORK");
+        Date now = new Date();
+        LastDateSchedule last = lastDateService.getLastDate();
+        int dateCounter = 1;
+        Date lastDateSchedule = last.getDateSchedule();
+        Date from = schedules.get(0).getDateDeparture();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(from);
+        Utils.setHMSMfieldsInZero(calendar);
+        calendar.add(Calendar.HOUR, 24);
+        Date fromDateSchedule = calendar.getTime();
+        while (fromDateSchedule.before(lastDateSchedule)) {
+            System.out.println(fromDateSchedule);
+            for (Schedule sch : schedules) {
+                Schedule schedule = new Schedule();
+
+                Date dateDeparture = sch.getDateDeparture();
+                Date dateArrival = sch.getDateArrival();
+                Calendar calDep = Calendar.getInstance();
+                calDep.setTime(dateDeparture);
+                Calendar calArr = Calendar.getInstance();
+                calArr.setTime(dateArrival);
+                calArr.add(Calendar.HOUR, 24 * dateCounter);
+                calDep.add(Calendar.HOUR, 24 * dateCounter);
+                Date newDateArrival = calArr.getTime();
+                Date newDateDeparture = calDep.getTime();
+                schedule.setDateDeparture(newDateDeparture);
+                schedule.setDateArrival(newDateArrival);
+
+
+
+                schedule.setTrain(sch.getTrain());
+                schedule.setEndPointStation(sch.getEndPointStation());
+                schedule.setStation(sch.getStation());
+
+                addSchedule(schedule);
+
+            }
+            dateCounter++;
+            Calendar forFromDateSchedule = Calendar.getInstance();
+            forFromDateSchedule.setTime(fromDateSchedule);
+            forFromDateSchedule.add(Calendar.HOUR, 24);
+            fromDateSchedule = forFromDateSchedule.getTime();
+        }
+        log.info("UPDATER ENDED WORK");
+    }
+
+
 
     /**METHOD RETURNING ALL SCHEDULES RECORDS THROUGH STATION ON DATE
      * AND CHECKING DATE (YOU CAN'T SEE RECORDS IN PAST)
@@ -164,6 +246,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public void deletePastSchedules(Schedule sch) {scheduleDAO.delete(sch);}
 
+    @Override
+    public  List<Schedule> getForDate (Date date) {
+        return (List<Schedule>) scheduleDAO.getForDate(date);
+    }
+
+    @Override
+    public  List<Schedule> getByTrain (Train train) {return scheduleDAO.findByTrain(train);}
+
     /**DTO METHODS FOR BOARD*/
     @Override
     @Transactional
@@ -182,4 +272,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .map(x -> modelMapper.map(x, ScheduleDTO.class))
                 .collect(Collectors.toList());
     }
+
+
 }

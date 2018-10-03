@@ -39,20 +39,16 @@ public class Schedule {
     public Date getDateDeparture() {
         return dateDeparture;
     }
-
     public void setDateDeparture(Date dateDeparture) {
         this.dateDeparture = dateDeparture;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "train_id")
+    @OneToOne
     public Train getTrain() {
         return train;
     }
     public void setTrain(Train train) {
         this.train = train;
-        if (train != null)
-            train.addSchedule(this);
     }
 
     @OneToOne
@@ -67,7 +63,6 @@ public class Schedule {
     public Station getEndPointStation() {
         return endPointStation;
     }
-
     public void setEndPointStation(Station endPointStation) {
         this.endPointStation = endPointStation;
     }

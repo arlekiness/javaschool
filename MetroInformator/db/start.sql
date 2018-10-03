@@ -104,6 +104,22 @@ create table schedule
 )
 engine=InnoDB
 ;
+
+CREATE INDEX date_departure_id_fk
+  ON schedule (date_departure)
+;
+
+CREATE INDEX date_arrival_id_fk
+  ON schedule (date_arrival)
+;
+
+-- CREATE INDEX schedule_train_id_fk
+--   ON schedule (train_id)
+-- ;
+--
+-- CREATE INDEX schedule_station_id_fk
+--   ON schedule (station_id)
+-- ;
 -- =====================================
 -- =====================================
 create table user_role
@@ -188,3 +204,16 @@ create table graph
 )
 engine=InnoDB
 ;
+
+-- =====================================
+-- =====================================
+create table lastdate
+(
+	id int auto_increment
+		primary key,
+	date_need timestamp null
+)
+engine=InnoDB
+;
+-- =====================================
+-- =====================================

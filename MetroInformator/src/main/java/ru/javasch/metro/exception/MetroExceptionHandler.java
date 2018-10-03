@@ -60,6 +60,10 @@ public class MetroExceptionHandler {
                 return new ModelAndView("createtrain", "lateTrain", true);
             case TRAIN_EXIST:
                 return new ModelAndView("createtrain", "trainExist", true);
+            case THAT_TIME_ALREADY_USED_BY_ANOTHER_TRAIN:
+                return new ModelAndView("createtrain", "usedTime", true);
+            case NOT_AUTHORIZED_ADDING:
+                return new ModelAndView("createtrain", "notAuthorizedAdding", true);
             case INCORRECT_EMAIL:
                 model.setViewName("registration");
                 model.addObject("uncem", ex);

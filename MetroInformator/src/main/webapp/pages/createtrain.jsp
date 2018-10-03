@@ -141,6 +141,24 @@
                     });
                 </script>
             </c:if>
+            <c:if test="${not empty usedTime}">
+                <script>
+                    swal({
+                        title: 'OOOOOOPS...',
+                        text: 'That time already used',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
+            <c:if test="${not empty notAuthorizedAdding}">
+                <script>
+                    swal({
+                        title: 'OOOOOOPS...',
+                        text: 'You trying to add train past the schedule boards',
+                        type: 'error'
+                    });
+                </script>
+            </c:if>
         </div>
     </div>
 

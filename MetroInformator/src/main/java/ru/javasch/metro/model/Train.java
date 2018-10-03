@@ -1,5 +1,9 @@
 package ru.javasch.metro.model;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -11,7 +15,7 @@ public class Train {
     private String trainName;
     private Integer capacity;
     private Status status;
-    private Set<Schedule> schedule;
+//    private Set<Schedule> schedule;
 
 
     @Id
@@ -47,22 +51,8 @@ public class Train {
     public Integer getCapacity() {
         return capacity;
     }
-
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
-    }
-
-    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<Schedule> getSchedule() {
-        return schedule;
-    }
-    public void addSchedule(Schedule sch) { schedule.add(sch); }
-    public void deleteSchedule(Schedule sch) {
-        schedule.remove(sch);
-        sch.setTrain(null);
-    }
-    public void setSchedule(Set<Schedule> schedule) {
-        this.schedule = schedule;
     }
 
     @Override
@@ -77,10 +67,7 @@ public class Train {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Train train = (Train) o;
-        return Objects.equals(id, train.id) &&
-                Objects.equals(trainName, train.trainName) &&
-                Objects.equals(capacity, train.capacity) &&
-                Objects.equals(status, train.status);
+        return Objects.equals(id, train.id);
     }
 
     @Override

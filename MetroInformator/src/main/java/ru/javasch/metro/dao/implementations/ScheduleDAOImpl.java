@@ -1,5 +1,6 @@
 package ru.javasch.metro.dao.implementations;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.ScheduleDAO;
@@ -9,10 +10,10 @@ import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.StationService;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Repository
+@Log4j
 public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> implements ScheduleDAO<E> {
 
     @Autowired
@@ -40,7 +41,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
         return (Schedule) sessionFactory.getCurrentSession()
                 .createQuery("from Schedule where train = :train and station = :station" + " and dateDeparture > :date" +
                         " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
-                        " and day(dateDeparture) = day(:date)")
+                        " and day(dateDeparture) = day(:date) order by dateDeparture asc")
                 .setParameter("train", train)
                 .setParameter("station", station)
                 .setParameter("date", date)
@@ -55,7 +56,7 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
                             " and year(dateDeparture) = year(:date)" + " and month(dateDeparture) = month(:date)" +
                             " and day(dateDeparture) = day(:date)" +
                             " and dateDeparture > :date" +
-                            " and endPointStation = :endPointStation")
+                            " and endPointStation = :endPointStation order by dateDeparture asc")
                     .setParameter("stationBegin", stationBegin)
                     .setParameter("endPointStation", endPointStation)
                     .setParameter("date", date)
@@ -83,6 +84,37 @@ public class ScheduleDAOImpl<E extends Schedule> extends GenericDAOImpl<E> imple
                         " and month(dateDeparture) = month(:date)" +
                         " and day(dateDeparture) = day(:date)")
                 .setParameter("date", date)
+                .getResultList();
+    }
+
+    @Override
+    public  List<Schedule> getForDate (Date date) {
+        return (List<Schedule>)sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " + "where year(dateDeparture) = year(:date)" +
+                        " and month(dateDeparture) = month(:date)" +
+                        " and day(dateDeparture) = day(:date)")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    @Override
+    public List<Schedule> findByTrain (Train train) {
+        return (List<Schedule>)sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " + "where train = :train")
+                .setParameter("train", train)
+                .getResultList();
+    }
+
+    @Override
+    public List<Schedule> getForCheckOnCreatingTrain(Date date, Station station, Station endPointStation) {
+        return (List<Schedule>)sessionFactory.getCurrentSession()
+                .createQuery("from Schedule " + "where year(dateDeparture) = year(:date)" +
+                        " and month(dateDeparture) = month(:date)" +
+                        " and day(dateDeparture) = day(:date)" +
+                        " and station = :station and endPointStation = :endPointStation")
+                .setParameter("date", date)
+                .setParameter("station", station)
+                .setParameter("endPointStation", endPointStation)
                 .getResultList();
     }
 

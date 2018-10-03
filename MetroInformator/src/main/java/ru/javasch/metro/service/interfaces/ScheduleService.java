@@ -19,4 +19,7 @@ public interface ScheduleService {
     void deletePastSchedules(Schedule sch);
     List<ScheduleDTO> getAllForToday();
     List<ScheduleDTO> getAll();
+    List<Schedule> getForDate (Date date);
+    List<Schedule> getByTrain (Train train);
+    void updateSchedules(List<Schedule> schedules);
 }
