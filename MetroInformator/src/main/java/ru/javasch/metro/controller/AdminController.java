@@ -13,10 +13,12 @@ import ru.javasch.metro.service.interfaces.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -73,7 +75,7 @@ public class AdminController {
     public ModelAndView creatingTrainForm(@RequestParam(value = "trainname") String trainName,
                                           @RequestParam(value = "startstation") String stationName,
                                           @RequestParam(value = "date") String date,
-                                          @RequestParam(value = "time") String time) {
+                                          @RequestParam(value = "time") String time) throws IOException, TimeoutException {
         try {
             scheduleService.addNewSchedules(trainName, stationName, date, time);
             return new ModelAndView("redirect:/dashtrain", "success", true);
@@ -117,7 +119,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/closeStation/{stationName}")
-    public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) {
+    public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) throws IOException, TimeoutException{
         stationService.closeStation(stationName);
         String color = stationService.findByName(stationName).getBranch().getColor();
         return new ModelAndView(controllerService.stationSwitchHelper(color));
@@ -131,7 +133,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/openStation/{stationName}")
-    public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) {
+    public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) throws IOException, TimeoutException{
         stationService.openStation(stationName);
         String color = stationService.findByName(stationName).getBranch().getColor();
         return new ModelAndView(controllerService.stationSwitchHelper(color));

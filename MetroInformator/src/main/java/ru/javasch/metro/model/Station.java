@@ -58,17 +58,8 @@ public class Station {
     public Integer getNumberOnBranch() {
         return numberOnBranch;
     }
-
     public void setNumberOnBranch(Integer numberOnBranch) {
         this.numberOnBranch = numberOnBranch;
-    }
-
-    //============================
-    @Override
-    public String toString() {
-        return "Station{" +
-                "name='" + name + '\'' +
-                '}';
     }
 
     @Override
@@ -77,6 +68,11 @@ public class Station {
         if (o == null || getClass() != o.getClass()) return false;
         Station station = (Station) o;
         return Objects.equals(id, station.id);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @Override

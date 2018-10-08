@@ -14,7 +14,15 @@ import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import org.springframework.transaction.annotation.Transactional;
+import ru.javasch.metro.utils.Utils;
+
+import javax.rmi.CORBA.Util;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @Log4j
@@ -27,6 +35,9 @@ public class TrainServiceImpl implements TrainService {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private MessageQueueService messageQueueService;
 
     @Override
     @Transactional
@@ -56,14 +67,29 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public void delete(Long Id) {
+    public void delete(Long Id) throws IOException, TimeoutException {
+        Date now = new Date();
+        Calendar calNow = Calendar.getInstance();
+        calNow.setTime(now);
+        Utils.setHMSMfieldsInZero(calNow);
+        now = calNow.getTime();
         Train train = (Train) trainDAO.getById(Id);
         List<Schedule> schedules = scheduleService.getByTrain(train);
+        List<Long> deletedSchedulesIds = new ArrayList<>();
         for (Schedule sch : schedules) {
+            Date fromSch = sch.getDateDeparture();
+            Calendar calSch = Calendar.getInstance();
+            calSch.setTime(fromSch);
+            Utils.setHMSMfieldsInZero(calSch);
+            fromSch = calSch.getTime();
+            if (now.equals(fromSch))
+                deletedSchedulesIds.add(sch.getId());
             scheduleService.deletePastSchedules(sch);
         }
+
         log.info("TRAIN " + train.getTrainName() + " REMOVED");
         trainDAO.delete(train);
+        messageQueueService.produceMsg("deletedtrain schedules " + deletedSchedulesIds);
     }
 
     @Override

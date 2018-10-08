@@ -11,6 +11,8 @@ import ru.javasch.metro.configuration.*;
 import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
@@ -33,7 +35,7 @@ public class TrainServiceJTest {
 
     @Test
     @Transactional
-    public void add() {
+    public void add() throws IOException, TimeoutException {
         Long Id = trainService.add("T-999");
         Assert.assertTrue(trainService.findById(Id).getTrainName().equals("T-999"));
         trainService.delete(Id);

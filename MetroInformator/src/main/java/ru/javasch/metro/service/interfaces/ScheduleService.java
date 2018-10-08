@@ -5,14 +5,16 @@ import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public interface ScheduleService {
     void addSchedule(Schedule schedule);
     List<Schedule> getAllTrainsOnStation(String stationName, String dateString) throws ParseException;
-    List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException;
+    List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException, IOException, TimeoutException;
     List<Schedule> getAllSchedulesByStationDateAndPath(Station stationBegin, Station stationEnd, Date date, Date now);
     Schedule findByTrainAndStation(Station station, Train train, Date date);
     List<Schedule> getPastSchedules();
@@ -21,5 +23,5 @@ public interface ScheduleService {
     List<ScheduleDTO> getAll();
     List<Schedule> getForDate (Date date);
     List<Schedule> getByTrain (Train train);
-    void updateSchedules(List<Schedule> schedules);
+    void updateSchedules(List<Schedule> schedules) throws IOException, TimeoutException;
 }

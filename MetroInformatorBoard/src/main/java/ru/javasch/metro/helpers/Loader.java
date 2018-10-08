@@ -7,6 +7,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import lombok.extern.log4j.Log4j;
 import ru.javasch.metro.model.Schedule;
+import ru.javasch.metro.model.Station;
 import ru.javasch.metro.utils.Utils;
 
 import javax.ws.rs.core.MediaType;
@@ -36,6 +37,18 @@ public class Loader {
             log.error("ERROR, CAN'T LOAD SCHEDULES " + e.getMessage());
         }
         return schedules;
+    }
+
+    public List<Station> getStations() {
+        String response = getResultResponse(Utils.URL_STATIONS);
+        List<Station> stations = null;
+        try {
+            stations = objectMapper.readValue(response, new TypeReference<List<Station>>() {
+            });
+        } catch (IOException e) {
+            log.error("ERROR, CAN'T LOAD STATIONS " + e.getMessage());
+        }
+        return stations;
     }
 
     private String getResultResponse(String URL) {

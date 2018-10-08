@@ -8,13 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javasch.metro.dao.interfaces.LastDateDAO;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.implementations.LastDateService;
+import ru.javasch.metro.service.implementations.MessageQueueService;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.utils.Utils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**COMPONENT FOR SCHEDULED CHECKING WORKS*/
 @Component
@@ -29,18 +33,26 @@ public class ScheduledTasks {
     @Autowired
     private LastDateService lastDateService;
 
+    @Autowired
+    private MessageQueueService messageQueueService;
+
     /**SCHEDULE CLEANER.
      * DELETING OUTDATED SCHEDULES
      */
-    @Scheduled(initialDelay = 10000, fixedDelay = 180000)
+    @Scheduled(initialDelay = 10000, fixedDelay = 60000)
     @Transactional
-    public void deletePastSchedules() {
+    public void deletePastSchedules() throws IOException, TimeoutException {
         List<Schedule> schedules = scheduleService.getPastSchedules();
         int count = schedules.size();
+        List<Long> deletedScheduleIds = new ArrayList<>();
         log.info("TIME SCHEDULE CLEANER STARTED");
         for (Schedule sch : schedules) {
+            deletedScheduleIds.add(sch.getId());
             scheduleService.deletePastSchedules(sch);
         }
+        messageQueueService.produceMsg("deletedupdate schedules " + deletedScheduleIds);
+        log.info("deleted schedules" + deletedScheduleIds);
+        log.info("MESSAGE SENDED: deleted schedules");
         log.info("TIME SCHEDULE CLEANER END WORK. CLEANED " + count + " RECORDS");
     }
 
@@ -83,6 +95,7 @@ public class ScheduledTasks {
         Date fromDateSchedule = from.getDateSchedule();
         Date lastDateSchedule = last.getDateSchedule();
         while (fromDateSchedule.before(lastDateSchedule)) {
+            log.info("CREATE SCHEDULES FOR " + fromDateSchedule);
             List<Schedule> schedules = scheduleService.getForDate(fromDateSchedule);
             for (Schedule sch : schedules) {
                 Schedule schedule = new Schedule();

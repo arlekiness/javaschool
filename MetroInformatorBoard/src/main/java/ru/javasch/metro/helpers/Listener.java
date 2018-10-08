@@ -20,15 +20,13 @@ public class Listener {
         connection = connectionFactory.newConnection();
         channel = connection.createChannel();
         channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
-        System.out.println("Receive message");
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
                 String message = new String(body, "UTF-8");
                 log.info(" [x] Received '" + message + "'");
-                if (message.contains("create") || message.contains("delete") || message.contains("update")) {
-                    log.info(message);
+                if (message.contains("stationopen") || message.contains("stationclose") || message.contains("deletedtrain") || message.contains("deletedupdate")) {
                     dataManager.changeState(message);
                 }
             }

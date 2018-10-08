@@ -18,9 +18,12 @@ import ru.javasch.metro.service.interfaces.TrainService;
 import ru.javasch.metro.utils.Utils;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +44,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private LastDateService lastDateService;
+
+    @Autowired
+    private MessageQueueService messageQueueService;
 
     @Override
     public Schedule findByTrainAndStation(Station station, Train train, Date date) {
@@ -79,7 +85,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     @Transactional
-    public List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException {
+    public List<Station> addNewSchedules(String trainName, String stationName, String firstDate, String firstTime) throws ParseException, IOException, TimeoutException {
         if (trainName == "" || stationName == "" || firstDate == "" || firstTime == "") {
             log.info("EXCEPTION: " + ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS_TRAIN_FORM);
@@ -153,6 +159,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedulesForUpdating.add(schedule);
         }
         updateSchedules(schedulesForUpdating);
+        messageQueueService.produceMsg("created new schedules");
         return stations;
     }
 
@@ -161,7 +168,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @param schedules
      */
     @Override
-    public void updateSchedules(List<Schedule> schedules) {
+    public void updateSchedules(List<Schedule> schedules) throws IOException, TimeoutException {
         log.info("UPDATER BEGIN WORK");
         Date now = new Date();
         LastDateSchedule last = lastDateService.getLastDate();
@@ -206,6 +213,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             forFromDateSchedule.add(Calendar.HOUR, 24);
             fromDateSchedule = forFromDateSchedule.getTime();
         }
+        messageQueueService.produceMsg("updated schedules");
         log.info("UPDATER ENDED WORK");
     }
 

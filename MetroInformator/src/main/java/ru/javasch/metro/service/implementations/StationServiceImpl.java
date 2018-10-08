@@ -1,19 +1,27 @@
 package ru.javasch.metro.service.implementations;
 
 import lombok.extern.log4j.Log4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javasch.metro.dao.interfaces.StationDAO;
 import ru.javasch.metro.dao.interfaces.StatusDAO;
+import ru.javasch.metro.dto.ScheduleDTO;
+import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Status;
 import ru.javasch.metro.service.interfaces.GraphService;
 import ru.javasch.metro.service.interfaces.StationService;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j
@@ -27,6 +35,12 @@ public class StationServiceImpl implements StationService {
 
     @Autowired
     private GraphService graphService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private MessageQueueService messageQueueService;
 
     /**FINDING STATION BY NAME*/
     @Override
@@ -66,7 +80,7 @@ public class StationServiceImpl implements StationService {
      */
     @Override
     @Transactional
-    public void closeStation(String stationName) {
+    public void closeStation(String stationName) throws IOException, TimeoutException {
         Station station = stationDAO.findByName(stationName);
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getCloseStatus();
@@ -77,6 +91,7 @@ public class StationServiceImpl implements StationService {
             for (Station st : trSt)
                 st.setStatus(status);
         }
+        messageQueueService.produceMsg("stationclose " + stationName);
         log.info("STATION " + stationName + " WAS CLOSED");
     }
 
@@ -86,7 +101,7 @@ public class StationServiceImpl implements StationService {
      */
     @Override
     @Transactional
-    public void openStation(String stationName) {
+    public void openStation(String stationName) throws IOException, TimeoutException {
         Station station = stationDAO.findByName(stationName);
         Status previousStatus = station.getStatus();
         Status status = statusDAO.getWorkStatus();
@@ -97,6 +112,7 @@ public class StationServiceImpl implements StationService {
             for (Station st : trSt)
                 st.setStatus(status);
         }
+        messageQueueService.produceMsg("stationopen " + stationName);
         log.info("STATION " + stationName + " WAS OPENED");
     }
 
@@ -150,4 +166,21 @@ public class StationServiceImpl implements StationService {
         return stationDAO.getStationsBetweenIDs(stationBeginId, stationEndId);
     }
 
+    @Override
+    @Transactional
+    public List<StationDTO> getAll() {
+        List<Station> allStations = stationDAO.getAll();
+        ModelMapper model = new ModelMapper();
+        PropertyMap<Station, StationDTO> stationMap = new PropertyMap<Station, StationDTO>() {
+            protected void configure() {
+                map().setName(source.getName());
+                map().setBranchColor(source.getBranch().getColor());
+                map().setStatus(source.getStatus().getStatusName());
+            }
+        };
+        model.addMappings(stationMap);
+        return allStations.stream()
+                .map(x -> model.map(x, StationDTO.class))
+                .collect(Collectors.toList());
+    }
 }

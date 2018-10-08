@@ -2,9 +2,11 @@ package ru.javasch.metro.helpers;
 
 import lombok.extern.log4j.Log4j;
 import ru.javasch.metro.model.Schedule;
+import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.TimeSchedule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j
@@ -14,58 +16,125 @@ public class DataManager {
     private Loader loader = Loader.getInstance();
 
     public List<Schedule> schedules = loader.getSchedules();
+    public List<Station> stations = loader.getStations();
+
 
     private boolean CHANGE_VALUES_FLAG = false;
-
     private String LAST_CHANGE_MESSAGE = "";
+    private String MESSAGE_FOR_HEADER = "No changes...";
+    private boolean CHANGE_STATION_FLAG = false;
 
-
-    public List<TimeSchedule> loadScheduleDeparture(String selectedItem) {
-        return Converter.conventDeparture(selectedItem, schedules);
+    public List<Station> getStations() {
+        return stations;
     }
 
-    public List<TimeSchedule> loadScheduleArrival(String selectedItem) {
-        return Converter.convertArrival(selectedItem, schedules);
+    public List<TimeSchedule> loadSchedule(String selectedItem) {
+        log.info("INVOKED loadSchedule " + selectedItem);
+        return Converter.convertSchedules(selectedItem, schedules);
     }
 
-//    private void add(Long id) throws IOException {
-//        Schedule schedule = loader.getById(id);
-//        if (schedule != null) {
-//            schedules.add(schedule);
-//            LAST_CHANGE_MESSAGE = "Create new schedule between " + schedule.getStationDepartureName() + " - " + schedule.getStationArrivalName();
-//        }
-//        log.info(LAST_CHANGE_MESSAGE);
-//    }
-//
-//    private void update(Long id) throws IOException {
-//        Schedule newSchedule = loader.getById(id);
-//        Schedule oldSchedule = schedules.stream().filter(x -> x.getId().equals(id)).findAny().get();
-//        if (newSchedule != null) {
-//            schedules.remove(oldSchedule);
-//            schedules.add(newSchedule);
-//            LAST_CHANGE_MESSAGE = "Schedule between " + newSchedule.getStationDepartureName() + " - " + newSchedule.getStationArrivalName() + " was updated";
-//        }
-//        log.info(LAST_CHANGE_MESSAGE);
-//    }
+    public Station loadSelectedStation(String selectedItem) {
+        log.info("INVOKED loadSelectedStation " + selectedItem);
+//        upStationChanges();
+        return Converter.convertSelectedStation(selectedItem, stations);
+    }
 
-//    private void delete(Long id) {
-//        Schedule schedule = schedules.stream().filter(x -> x.getId().equals(id)).findAny().get();
-//        if (schedule != null) {
-//            schedules.remove(schedule);
-//            LAST_CHANGE_MESSAGE = "Schedule between " + schedule.getStationDepartureName() + " - " + schedule.getStationArrivalName() + " was deleted";
-//        }
-//        log.info(LAST_CHANGE_MESSAGE);
-//    }
+    public List<String> getStationList() {
+        return Converter.convertStationList(stations);
+    }
 
-//    public void changeState(String message) throws IOException {
-//        final Long id = Long.valueOf(message.substring(message.indexOf("id=")).replace("id=", ""));
-//        if (message.contains("create"))
-//            add(id);
-//        else if (message.contains("update"))
-//            update(id);
-//        else delete(id);
-//        upStatusChanges();
-//    }
+    private void delete(Long id, StringBuilder stateMessage) {
+        Schedule schedule = schedules.stream().filter(x -> x.getId().equals(id)).findAny().get();
+        if (schedule != null) {
+            schedules.remove(schedule);
+            stateMessage.append(schedule.getStation() + " ");
+        }
+    }
+
+    private void deleteSchedules (List<Long> iDs) {
+        Schedule schedule = schedules.stream().filter(x -> x.getId().equals(iDs.get(0))).findAny().get();
+        MESSAGE_FOR_HEADER = "Train " + schedule.getTrain() + " was removed for some reason";
+        StringBuilder stateMessage = new StringBuilder("Schedules on ");
+        for (Long id : iDs) {
+            delete(id, stateMessage);
+        }
+        stateMessage.append(" was removed");
+        LAST_CHANGE_MESSAGE = stateMessage.toString();
+        log.info(LAST_CHANGE_MESSAGE);
+
+    }
+
+    public Station getStationFromMessage (String stationName) {
+        Station needed = null;
+        for (Station st : stations) {
+            if (st.getName().equals(stationName)) {
+                needed = st;
+                break;
+            }
+        }
+        return needed;
+    }
+
+    public void updateOpenStationStatus(String stationName) {
+        Station needed = getStationFromMessage(stationName);
+        if (needed != null) {
+            needed.setStatus("WORKED");
+        }
+        log.info(needed.getStatus());
+        LAST_CHANGE_MESSAGE = stationName + " change status on " + needed.getStatus();
+        MESSAGE_FOR_HEADER = LAST_CHANGE_MESSAGE;
+    }
+
+    public void updateCloseStationStatus(String stationName) {
+        Station needed = getStationFromMessage(stationName);
+        if (needed != null) {
+            needed.setStatus("CLOSED");
+        }
+        LAST_CHANGE_MESSAGE = stationName + " change status on " + needed.getStatus();
+        MESSAGE_FOR_HEADER = LAST_CHANGE_MESSAGE;
+    }
+
+    public List<Long> getSchedulesIDsFromString (String iDs) {
+        String[] arr = iDs.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            String number = arr[i].trim();
+            arr[i] = number;
+        }
+        List<Long> scheduleIDs = new ArrayList<>();
+        for (String number : arr) {
+            scheduleIDs.add(Long.parseLong(number));
+        }
+        return scheduleIDs;
+    }
+
+////
+    public void changeState(String message) throws IOException {
+        if (message.contains("deletedtrain")) {
+            String iDs = message.substring(24, message.length() - 1);
+            if (!iDs.equals("")) {
+                List<Long> scheduleIDs = getSchedulesIDsFromString(iDs);
+                deleteSchedules(scheduleIDs);
+            }
+            upStatusChanges();
+        } else if (message.contains("deletedupdate")) {
+            String iDs = message.substring(25, message.length() - 1);
+            if (!iDs.equals("")) {
+                List<Long> scheduleIDs = getSchedulesIDsFromString(iDs);
+                deleteSchedules(scheduleIDs);
+            }
+            MESSAGE_FOR_HEADER = "Schedules was updated";
+            upStatusChanges();
+        } else if (message.contains("stationopen")) {
+            String stationName = message.substring(12);
+            updateOpenStationStatus(stationName);
+            upStationChanges();
+        } else if (message.contains("stationclose")) {
+            String stationName = message.substring(13);
+            updateCloseStationStatus(stationName);
+            upStationChanges();
+        }
+        else  schedules = loader.getSchedules();
+    }
 
     public static DataManager getInstance() {
         if (dataManager == null)
@@ -77,17 +146,33 @@ public class DataManager {
         return CHANGE_VALUES_FLAG;
     }
 
+    public  boolean getStationChanges() {
+        return CHANGE_STATION_FLAG;
+    }
+
     public void resetStatusChanges() {
         CHANGE_VALUES_FLAG = false;
         LAST_CHANGE_MESSAGE = "";
+    }
+
+    public void resetStationChanges() {
+        CHANGE_STATION_FLAG = false;
     }
 
     public void upStatusChanges() {
         CHANGE_VALUES_FLAG = true;
     }
 
+    public void upStationChanges() {
+        CHANGE_STATION_FLAG = true;
+    }
+
     public String getLastInfoChanges() {
         return LAST_CHANGE_MESSAGE;
+    }
+
+    public String getHeaderMessage() {
+        return MESSAGE_FOR_HEADER;
     }
 
     public boolean checkSelectedItem(String selectedItem) {

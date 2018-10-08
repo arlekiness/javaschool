@@ -54,7 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/stationList",
                         "/static/**",
-                        "/schedule"
+                        "/schedule",
+                        "/boardschedule/allstations",
+                        "/boardschedule/schedulestoday"
                 )
                 .permitAll()
                 .anyRequest().authenticated()
