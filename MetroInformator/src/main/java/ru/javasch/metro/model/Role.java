@@ -1,10 +1,11 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements Serializable {
     private Long id;
     private String type;
 

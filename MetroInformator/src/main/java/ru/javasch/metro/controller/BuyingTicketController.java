@@ -12,6 +12,8 @@ import ru.javasch.metro.model.User;
 import ru.javasch.metro.service.interfaces.ControllerService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.service.interfaces.UserService;
+import ru.javasch.metro.utils.URLs;
+import ru.javasch.metro.utils.VIEWs;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,14 +40,14 @@ public class BuyingTicketController {
     @Autowired
     private ControllerService controllerService;
 
-    @GetMapping(value = "/tickets")
+    @GetMapping(value = URLs.TICKETS)
     public String findtickets() {
-        return "tickets";
+        return VIEWs.TICKETS;
     }
 
-    @RequestMapping(value = "/ticketsFail")
+    @RequestMapping(value = URLs.TICKETS_FAIL)
     public ModelAndView ticketsFail() {
-        return new ModelAndView("tickets", "noTickets", true);
+        return new ModelAndView(VIEWs.TICKETS, "noTickets", true);
     }
 
 
@@ -58,7 +60,7 @@ public class BuyingTicketController {
      * @param resp
      * @return
      */
-    @PostMapping("/tickets")
+    @PostMapping(URLs.TICKETS)
     public ModelAndView giveOptions(@RequestParam(value = "begin") String beginStation,
                                     @RequestParam(value = "end") String endStation,
                                     @RequestParam(value = "date") String date,
@@ -67,10 +69,10 @@ public class BuyingTicketController {
             List<List<Ticket>> tickets = controllerService.chainsOfTickets(beginStation, endStation, date);
             HttpSession session = req.getSession();
             session.setAttribute("TicketList", tickets);
-            return new ModelAndView("tickettable");
+            return new ModelAndView(VIEWs.TICKETTABLE);
         } catch (ParseException ex) {
             log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("tickets", "systemError", true);
+            return new ModelAndView(VIEWs.TICKETS, "systemError", true);
         }
     }
 
@@ -82,7 +84,7 @@ public class BuyingTicketController {
      * @return
      */
 
-    @RequestMapping(value = "/registerTickets/{count}")
+    @RequestMapping(value = URLs.TICKET_BOOKING)
     public ModelAndView ticketRegistration(@PathVariable(value = "count") int count,
                                            HttpServletRequest req,
                                            HttpServletResponse resp) {
@@ -93,7 +95,7 @@ public class BuyingTicketController {
         String userName = authentication.getName();
         ticketService.registrateTicketsInSystem(chain, userName);
         session.removeAttribute("TicketList");
-        return new ModelAndView("redirect:/myTickets");
+        return new ModelAndView(URLs.REDIRECT_MY_TICKETS);
     }
 
     /** USER TICKETS TABLE
@@ -102,7 +104,7 @@ public class BuyingTicketController {
      * @param resp
      * @return
      */
-    @RequestMapping(value = "/myTickets")
+    @RequestMapping(value = URLs.MY_TICKETS)
     public ModelAndView myTickets(HttpServletRequest req,
                                   HttpServletResponse resp) {
         User user = userService.findAuthenticatedUser();
@@ -110,7 +112,7 @@ public class BuyingTicketController {
         HttpSession session = req.getSession();
         session.setAttribute("loggedUser", user);
         session.setAttribute("myTicketList", ticket);
-        return new ModelAndView("mytickets");
+        return new ModelAndView(VIEWs.MY_TICKETS);
     }
 
 }

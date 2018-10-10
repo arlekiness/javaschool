@@ -1,11 +1,12 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "status")
-public class Status {
+public class Status implements Serializable {
     private Long id;
     private String statusName;
 

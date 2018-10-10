@@ -1,11 +1,12 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "ticket")
-public class Ticket {
+public class Ticket implements Serializable {
     private Long id;
     private User user;
     private Train train;

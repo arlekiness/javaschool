@@ -18,14 +18,12 @@ public class MessageQueueService {
     public void produceMsg(String msg) throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("localhost");
+        try (Connection connection = connectionFactory.newConnection();
+             Channel channel = connection.createChannel()) {
 
-        Connection connection = connectionFactory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
-        channel.basicPublish("", EXCHANGE_NAME, null, msg.getBytes("UTF-8"));
-        log.info(" [x] Sent '" + msg + "'");
-
-        channel.close();
-        connection.close();
+            channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
+            channel.basicPublish("", EXCHANGE_NAME, null, msg.getBytes("UTF-8"));
+            log.info(" [x] Sent '" + msg + "'");
+        }
     }
 }

@@ -10,6 +10,8 @@ import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Ticket;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.*;
+import ru.javasch.metro.utils.URLs;
+import ru.javasch.metro.utils.VIEWs;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,9 +59,9 @@ public class AdminController {
      * CREATING TRAIN FORM*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/createtrain")
+    @GetMapping(URLs.CREATE_TRAIN)
     public String creatingTrainForm() {
-        return "createtrain";
+        return VIEWs.CREATE_TRAIN;
     }
 
     /**EVALUATING CREATING TRAIN FORM
@@ -71,17 +73,17 @@ public class AdminController {
      * ADDING TRAIN AND RETURN TO TRAIN LIST*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/createtrain")
+    @PostMapping(URLs.CREATE_TRAIN)
     public ModelAndView creatingTrainForm(@RequestParam(value = "trainname") String trainName,
                                           @RequestParam(value = "startstation") String stationName,
                                           @RequestParam(value = "date") String date,
                                           @RequestParam(value = "time") String time) throws IOException, TimeoutException {
         try {
             scheduleService.addNewSchedules(trainName, stationName, date, time);
-            return new ModelAndView("redirect:/dashtrain", "success", true);
+            return new ModelAndView(URLs.REDIRECT_DASHTRAIN, "success", true);
         } catch (ParseException ex) {
             log.info("PARSEEXCEPTION: Inparseable date");
-            return new ModelAndView("createtrain", "systemError", true);
+            return new ModelAndView(VIEWs.CREATE_TRAIN, "systemError", true);
         }
     }
 
@@ -92,15 +94,15 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/deleteTrain/{id}")
+    @GetMapping(URLs.DELETE_TRAIN_BY_ID)
     public ModelAndView deletingTrain(@PathVariable(value = "id") Long id) {
         try {
             trainService.delete(id);
             List<Ticket> tickets = ticketService.invalidateNonValidTickets();
-            return new ModelAndView("redirect:/dashtrain", "deleted", true);
+            return new ModelAndView(URLs.REDIRECT_DASHTRAIN, "deleted", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("redirect:/dashtrain", "systemError", true);
+            return new ModelAndView(URLs.REDIRECT_DASHTRAIN, "systemError", true);
         }
     }
 
@@ -118,7 +120,7 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/closeStation/{stationName}")
+    @GetMapping(URLs.CLOSE_STATION_BY_NAME)
     public ModelAndView closeStation(@PathVariable(value = "stationName") String stationName) throws IOException, TimeoutException{
         stationService.closeStation(stationName);
         String color = stationService.findByName(stationName).getBranch().getColor();
@@ -132,7 +134,7 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/openStation/{stationName}")
+    @GetMapping(URLs.OPEN_STATION_BY_NAME)
     public ModelAndView openStation(@PathVariable(value = "stationName") String stationName) throws IOException, TimeoutException{
         stationService.openStation(stationName);
         String color = stationService.findByName(stationName).getBranch().getColor();
@@ -154,7 +156,7 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/dashtrain")
+    @RequestMapping(value = URLs.DASHTRAIN)
     public ModelAndView enteringIntoAdminTrain(HttpServletRequest req) {
         Map<String, Object> pag = controllerService.trainPagination(FIRST_PAGE);
         int pagesCount = trainService.getAllTrains().size() / TRAIN_NUM_ON_PAGE + 1;
@@ -174,7 +176,7 @@ public class AdminController {
         if (req.getParameter("systemError") != null) {
             modelMap.put("systemError", true);
         }
-        return new ModelAndView("dashtrain", "model", modelMap);
+        return new ModelAndView(VIEWs.DASHTRAIN, "model", modelMap);
     }
 
     /**FORM PAGES PAGINATION FOR TRAINS
@@ -184,13 +186,13 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/dashtrain/{count}")
+    @RequestMapping(value = URLs.DASHTRAIN_COUNT)
     public ModelAndView trainPagination(@PathVariable(value = "count") int pageNum) {
         Map<String, Object> pag = controllerService.trainPagination(pageNum);
         List<Train> trains = (List<Train>) pag.get("trains");
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("trains", trains);
-        return new ModelAndView("dashtrain", "model", modelMap);
+        return new ModelAndView(VIEWs.DASHTRAIN, "model", modelMap);
     }
 
     /**
@@ -208,7 +210,7 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/dashstation")
+    @RequestMapping(value = URLs.DASHSTATION)
     public ModelAndView enteringIntoAdminStation(HttpServletRequest req) {
         Map<String, Object> pag = controllerService.stationPagination(FIRST_PAGE);
         List<Station> stations = (List<Station>) pag.get("stations");
@@ -218,7 +220,7 @@ public class AdminController {
         if (req.getParameter("systemError") != null) {
             modelMap.put("systemError", true);
         }
-        return new ModelAndView("dashstation", "model", modelMap);
+        return new ModelAndView(VIEWs.DASHSTATION, "model", modelMap);
     }
 
     /**FORM PAGES PAGINATION FOR STATIONS
@@ -228,14 +230,14 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/dashstation/{stcount}")
+    @RequestMapping(value = URLs.DASHSTATION_COUNT)
     public ModelAndView stationPagination(@PathVariable(value = "stcount") int stationNum) {
         Map<String, Object> pag = controllerService.stationPagination(stationNum);
         List<Station> stations = (List<Station>) pag.get("stations");
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("stations", stations);
         modelMap.put("stationPages", pag.get("stationPages"));
-        return new ModelAndView("dashstation", "model", modelMap);
+        return new ModelAndView(VIEWs.DASHSTATION, "model", modelMap);
     }
 
     /** CHECK ALL PASSENGERS ON TRAIN BY ID
@@ -245,14 +247,14 @@ public class AdminController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/passengers/{id}")
+    @RequestMapping(value = URLs.PASSENGERS_BY_TRAIN_ID)
     public ModelAndView passengers(@PathVariable(value = "id") Long id) {
         try {
             List<Ticket> tickets = ticketService.getByTrain(trainService.findById(id));
-            return new ModelAndView("passengers", "ticketlist", tickets);
+            return new ModelAndView(VIEWs.PASSENGERS, "ticketlist", tickets);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);
-            return new ModelAndView("redirect:/dashtrain", "systemError", true);
+            return new ModelAndView(URLs.REDIRECT_DASHTRAIN, "systemError", true);
         }
     }
 

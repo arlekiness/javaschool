@@ -43,7 +43,7 @@
         <header class="header-tickets">
             <div class="navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                    <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
@@ -60,8 +60,8 @@
                         <ul>
                             <li class="sign-out dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
-                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
-                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
+                                        class="avatarka"><em class="fa fa-user-circle-o"></em></span><sec:authentication
+                                        property="principal.username"/> <em class="fa fa-caret-down"></em></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -80,19 +80,7 @@
 
                     <!-- гамбургерное меню  -->
 
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/tickets">Tickets</a></li>
-                                <li><a href="/schedule">Schedule</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <%----%>
                 </div>
             </div>
         </header>
@@ -132,7 +120,7 @@
                     <tbody>
                     <c:forEach items="${model.stations}" var="station">
                         <tr class="table-first">
-                            <td data-title='STATION'><span><i class="fa fa-circle"></i> ${station.getName()}</span></td>
+                            <td data-title='STATION'><span><em class="fa fa-circle"></em> ${station.getName()}</span></td>
                             <c:if test="${station.getStatus().getStatusName() eq 'WORKED'}">
                                 <td data-title='STATUS'><a class='button open' href="/closeStation/${station.getName()}"
                                                            data-type="modal-trigger">${station.getStatus().getStatusName()}</a>

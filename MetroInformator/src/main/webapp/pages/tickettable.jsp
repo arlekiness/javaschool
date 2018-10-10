@@ -41,7 +41,7 @@
         <header class="header-tickets">
             <div class="navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                    <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
@@ -58,8 +58,8 @@
                         <ul>
                             <li class="sign-out dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
-                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
-                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
+                                        class="avatarka"><em class="fa fa-user-circle-o"></em></span><sec:authentication
+                                        property="principal.username"/> <em class="fa fa-caret-down"></em></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -76,19 +76,7 @@
 
                         <!-- гамбургерное меню  -->
 
-                        <div class="ham-menu">
-                            <input id="hamburger" class="hamburger" type="checkbox"/>
-                            <label class="hamburger" for="hamburger">
-                                <i></i>
-                            </label>
-                            <div class="drawer-list">
-                                <ul>
-                                    <li><a href="/">Home</a></li>
-                                    <li class="active"><a href="/tickets">Tickets</a></li>
-                                    <li><a href="/schedule">Schedule</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <%----%>
                     </div>
                 </div>
         </header>
@@ -116,10 +104,10 @@
             <c:forEach items="${TicketList}" var="list">
                 <div class="row line" data-toggle="collapse" data-target="#${count}">
                     <div class="col-md-3 time">
-                            ${list.get(0).getTicketDateDeparture().toString().substring(11, 16)} <span><i
-                            class="fa fa-circle"></i> ${list.get(0).getStationBegin().getName()}</span></div>
-                    <div class="col-md-3 time">${list.get(list.size() - 1).getTicketDateArrival().toString().substring(11, 16)}<span><i
-                            class="fa fa-circle"></i> ${list.get(list.size() - 1).getStationEnd().getName()}</span>
+                            ${list.get(0).getTicketDateDeparture().toString().substring(11, 16)} <span><em
+                            class="fa fa-circle"></em> ${list.get(0).getStationBegin().getName()}</span></div>
+                    <div class="col-md-3 time">${list.get(list.size() - 1).getTicketDateArrival().toString().substring(11, 16)}<span><em
+                            class="fa fa-circle"></em> ${list.get(list.size() - 1).getStationEnd().getName()}</span>
                     </div>
                     <div class="col-md-2 time">${list.get(0).getTrain().getTrainName()}</div>
                     <div class="col-md-2"><span class="transitions">${list.size() - 1} TRANSITION</span></div>
@@ -133,10 +121,10 @@
                     <c:forEach items="${list}" var="ticket">
                         <div class="row line" style="background-color:#edeef2">
                             <div class="col-md-3 time">
-                                    ${ticket.getTicketDateDeparture().toString().substring(11, 16)} <span><i
-                                    class="fa fa-circle"></i> ${ticket.getStationBegin().getName()}</span></div>
+                                    ${ticket.getTicketDateDeparture().toString().substring(11, 16)} <span><em
+                                    class="fa fa-circle"></em> ${ticket.getStationBegin().getName()}</span></div>
                             <div class="col-md-3 time">${ticket.getTicketDateArrival().toString().substring(11, 16)}
-                                <span><i class="fa fa-circle"></i> ${ticket.getStationEnd().getName()}</span></div>
+                                <span><em class="fa fa-circle"></em> ${ticket.getStationEnd().getName()}</span></div>
                             <div class="col-md-2 time">${ticket.getTrain().getTrainName()}</div>
                             <div class="col-md-2"></div>
                             <div class="col-md-2 buy-ticket"></div>

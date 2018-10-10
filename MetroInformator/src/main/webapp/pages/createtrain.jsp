@@ -66,13 +66,13 @@
                         <label for="signup-date">Start date</label>
                         <input class="full-width has-padding-icon has-border" id="date" type="text" name="date"
                                placeholder="Start date" onClick="xCal(this)" onKeyUp="xCal()" required>
-                        <a href="#0" class="date-icon"><i class="icon-calendar"></i></a>
+                        <a href="#0" class="date-icon"><em class="icon-calendar"></em></a>
                     </p>
 
                     <p class="fieldset">
                         <input class="full-width has-padding has-border" id="signup-lastname" name="time" type="time"
                                placeholder="Arrival time" style="padding-right: 90px;" required>
-                        <a href="#0" class="date-icon"><i class="icon-clock"></i></a>
+                        <a href="#0" class="date-icon"><em class="icon-clock"></em></a>
                     </p>
 
                     <p class="fieldset">

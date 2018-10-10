@@ -126,7 +126,7 @@
                 try {
                     if (!_n && _i["return"]) _i["return"]();
                 } finally {
-                    if (_d) throw _e;
+                    // if (_d) throw _e;
                 }
             }
 
@@ -309,7 +309,6 @@
         if (input.type !== 'file') {
             // http://stackoverflow.com/a/2345915/1331425
             var val = input.value;
-            input.value = '';
             input.value = val;
         }
     };
@@ -1923,7 +1922,7 @@
 
             // Focus handling
             var setFocus = function setFocus(index, increment) {
-                var focusableElements = getFocusableElements(innerParams.focusCancel);
+                var focusableElements = getFocusableElements();
                 // search for visible elements and select the next possible match
                 for (var _i = 0; _i < focusableElements.length; _i++) {
                     index = index + increment;
@@ -1969,7 +1968,7 @@
                 } else if (e.key === 'Tab') {
                     var targetElement = e.target || e.srcElement;
 
-                    var focusableElements = getFocusableElements(innerParams.focusCancel);
+                    var focusableElements = getFocusableElements();
                     var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
                     for (var _i2 = 0; _i2 < focusableElements.length; _i2++) {
                         if (targetElement === focusableElements[_i2]) {

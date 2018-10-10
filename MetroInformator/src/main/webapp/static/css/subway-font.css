@@ -1,11 +1,5 @@
 @font-face {
     font-family: 'subway-font';
-    src: url('../font/subway-font.eot?63522623');
-    src: url('../font/subway-font.eot?63522623#iefix') format('embedded-opentype'),
-    url('../font/subway-font.woff2?63522623') format('woff2'),
-    url('../font/subway-font.woff?63522623') format('woff'),
-    url('../font/subway-font.ttf?63522623') format('truetype'),
-    url('../font/subway-font.svg?63522623#subway-font') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -22,7 +16,7 @@
 */
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
-    font-family: "subway-font";
+    font-family: "subway-font", serif;
     font-style: normal;
     font-weight: normal;
     speak: none;

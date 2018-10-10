@@ -41,7 +41,7 @@
         <header class="header-tickets">
             <div class="navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                    <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
@@ -69,9 +69,9 @@
                             <ul>
                                 <li class="sign-out dropdown">
                                     <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
-                                            class="avatarka"><i
-                                            class="fa fa-user-circle-o"></i></span><sec:authentication
-                                            property="principal.username"/> <i class="fa fa-caret-down"></i></a>
+                                            class="avatarka"><em
+                                            class="fa fa-user-circle-o"></em></span><sec:authentication
+                                            property="principal.username"/> <em class="fa fa-caret-down"></em></a>
                                     <ul class="dropdown-menu dash-user">
                                         <li><a href="/myTickets">My tickets</a></li>
                                         <br>
@@ -91,19 +91,7 @@
 
                     <!-- гамбургерное меню  -->
 
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/tickets">Tickets</a></li>
-                                <li class="active"><a href="/schedule">Shedule</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <%----%>
                 </div>
             </div>
         </header>
@@ -117,9 +105,9 @@
         <p class="hero-text text-center">Check train shedule</p>
 
         <div class="hero-underline">
-            <i class="fa fa-calendar date"></i><span
+            <em class="fa fa-calendar date"></em><span
                 class="hero-station">${model.scheduleList.get(0).getDateArrival().toString().substring(0, 11)}</span>
-            <i class="fa fa-circle station"></i><span
+            <em class="fa fa-circle station"></em><span
                 class="hero-station">${model.scheduleList.get(0).getStation().getName()}</span>
 
         </div>
@@ -144,8 +132,8 @@
                     <tr class="table-first">
                         <td data-title='TRAIN'>${schedule.getTrain().getTrainName()}</td>
                         <td data-title='ARRIVAL'>${schedule.getDateArrival().toString().substring(11, 16)}</td>
-                        <td data-title='DIRECTION'><span><i
-                                class="fa fa-circle"></i>${schedule.getEndPointStation().getName()}</span></td>
+                        <td data-title='DIRECTION'><span><em
+                                class="fa fa-circle"></em>${schedule.getEndPointStation().getName()}</span></td>
                     </tr>
                 </c:forEach>
                 </tbody>

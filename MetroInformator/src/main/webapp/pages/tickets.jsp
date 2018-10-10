@@ -40,7 +40,7 @@
         <header class="header-tickets">
             <div class="navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                    <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
@@ -57,8 +57,8 @@
                         <ul>
                             <li class="sign-out dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
-                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
-                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
+                                        class="avatarka"><em class="fa fa-user-circle-o"></em></span><sec:authentication
+                                        property="principal.username"/> <em class="fa fa-caret-down"></em></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -76,19 +76,7 @@
 
                     <!-- гамбургерное меню  -->
 
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li class="active"><a href="tickets.html">Tickets</a></li>
-                                <li><a href="/schedule">Schedule</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <%----%>
                 </div>
             </div>
         </header>
@@ -255,7 +243,7 @@
                         <label class="image-replace cd-password" for="signup-date">Date</label>
                         <input class="full-width has-padding-icon has-border" name="date" id="date" type="text"
                                placeholder="Date" onClick="xCal(this)" onKeyUp="xCal()" required>
-                        <a href="#0" class="date-icon"><i class="fa fa-calendar"></i></a>
+                        <a href="#0" class="date-icon"><em class="fa fa-calendar"></em></a>
                     </p>
 
                     <input type='submit' value='SEARCH' id='submit'>
@@ -323,7 +311,7 @@
 
             </div>
             <div id='map'>
-                <span><img src="/static/images/map_clear.png" id='image'/></span>
+                <span><img src="/static/images/map_clear.png" alt="Metro map" id='image'/></span>
                 <div id='stat_1' class="violet">Komendantsky Prospekt</div>
                 <div id='stat_2' class="violet">Staraya Derevnya</div>
                 <div id='stat_3' class="violet">Krestovsky Ostrov</div>

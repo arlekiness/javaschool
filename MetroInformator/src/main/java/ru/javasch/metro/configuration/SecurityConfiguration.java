@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.javasch.metro.service.implementations.UserDetailsServiceImpl;
+import ru.javasch.metro.utils.URLs;
 
 @Configuration
 @EnableWebSecurity
@@ -50,22 +51,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/registration", "/",
-                        "/login",
+                .antMatchers(URLs.REGISTRATION, URLs.EMPTY_URL,
+                        URLs.LOGIN,
                         "/stationList",
                         "/static/**",
-                        "/schedule",
-                        "/boardschedule/allstations",
-                        "/boardschedule/schedulestoday"
+                        URLs.SCHEDULE,
+                        URLs.GET_ALL_STATIONS_FOR_BOARD,
+                        URLs.GET_SCHEDULE_FOR_BOARD
                 )
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage(URLs.LOGIN)
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/schedule")
+                .defaultSuccessUrl(URLs.SCHEDULE)
                 .failureUrl("/login?error=true")
                 .and()
                 .cors()

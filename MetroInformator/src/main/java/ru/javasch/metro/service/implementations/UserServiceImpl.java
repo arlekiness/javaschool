@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
         }
         if (password.length() < 6) {
-            log.info("EXCEPTION: " + ErrorCode.INCORRECT_PASSWORD);
-            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_PASSWORD);
+            log.info("EXCEPTION: " + ErrorCode.INCORRECT_CRED);
+            throw new RuntimeBusinessLogicException(ErrorCode.INCORRECT_CRED);
         }
         if (findUserByEmail(login) != null) {
             log.info("EXCEPTION: " + ErrorCode.USER_EXIST);

@@ -9,6 +9,7 @@ import ru.javasch.metro.dto.ScheduleDTO;
 import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.StationService;
+import ru.javasch.metro.utils.URLs;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class BoardScheduleController {
     @Autowired
     StationService stationService;
 
-    @GetMapping("/boardschedule/schedulestoday")
+    @GetMapping(URLs.GET_SCHEDULE_FOR_BOARD)
     public ResponseEntity<?> getSchedulesForToday() {
         log.info("BOARD INITIALIZER STARTED WORK");
         List<ScheduleDTO> schedules = scheduleService.getAllForToday();
@@ -29,7 +30,7 @@ public class BoardScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
-    @GetMapping("/boardschedule/allstations")
+    @GetMapping(URLs.GET_ALL_STATIONS_FOR_BOARD)
     public ResponseEntity<?> getStationList() {
         log.info("STATION BOARD INITIALIZER STARTED WORK");
         List<StationDTO> stations = stationService.getAll();

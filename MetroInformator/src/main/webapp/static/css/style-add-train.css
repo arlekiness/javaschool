@@ -1,15 +1,12 @@
 @charset "UTF-8";
 /* CSS Document */
-@import url("font-awesome.css");
 @import url("subway-font-embedded.css");
 @import url("subway-font-codes.css");
-@import url("animate.css");
+@import url("animation.css");
 @import url("subway-font.css");
 
 @font-face {
     font-family: 'robotoregular';
-    src: url("../fonts/Roboto-Regular-webfont.eot");
-    src: url("../fonts/Roboto-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Regular-webfont.woff2") format("woff2"), url("../fonts/Roboto-Regular-webfont.woff") format("woff"), url("../fonts/Roboto-Regular-webfont.ttf") format("truetype"), url("../fonts/Roboto-Regular-webfont.svg#robotoregular") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -21,7 +18,7 @@ html {
 
 body {
     /*  font-family: robotoregular,sans-serif;*/
-    font-family: Helvetica Neue, regular;
+    font-family: Helvetica Neue, regular, serif;
     font-weight: 100;
     line-height: 1.6em;
     font-size: 1.4em;
@@ -239,7 +236,6 @@ img.img-polaroid {
 
 .cd-form input {
     margin: 0;
-    padding: 0;
     border-radius: 0;
     width: 100%;
     padding: 12px 20px 12px 50px;
@@ -283,7 +279,6 @@ img.img-polaroid {
     display: inline-block;
     position: absolute;
     right: 0;
-    top: 0;
     padding: 6px 15px;
     border-left: 1px solid #93A6AF;
     top: 50%;

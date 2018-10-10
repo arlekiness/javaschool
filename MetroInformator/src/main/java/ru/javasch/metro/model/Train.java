@@ -5,12 +5,13 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "train")
-public class Train {
+public class Train implements Serializable {
     private Long id;
     private String trainName;
     private Integer capacity;

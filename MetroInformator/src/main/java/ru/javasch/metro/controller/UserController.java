@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.service.implementations.SecureService;
 import ru.javasch.metro.service.interfaces.UserService;
+import ru.javasch.metro.utils.URLs;
+import ru.javasch.metro.utils.VIEWs;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,40 +34,40 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/registration")
+    @RequestMapping(value = URLs.REGISTRATION)
     public String registration() {
-        return "registration";
+        return VIEWs.REGISTRATION;
     }
 
-    @PostMapping("/registration")
+    @PostMapping(URLs.REGISTRATION)
     public ModelAndView registration(@RequestParam(value = "firstName") String firstName,
                                      @RequestParam(value = "lastName") String lastName,
                                      @RequestParam(value = "login") String login,
                                      @RequestParam(value = "password") String password) throws IOException, MessagingException {
         userService.registration(firstName, lastName, login, password);
-        return new ModelAndView("login", "allgood", true);
+        return new ModelAndView(VIEWs.LOGIN, "allgood", true);
     }
 
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = URLs.LOGIN)
     public String login() {
-        return "login";
+        return VIEWs.LOGIN;
     }
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = URLs.EMPTY_URL)
     public String loginRedirect() {
-        return "schedule";
+        return VIEWs.SCHEDULE;
     }
 
-    @RequestMapping(value = "/home")
+    @RequestMapping(value = URLs.HOME)
     public String home() {
-        return "schedule";
+        return VIEWs.SCHEDULE;
     }
 
-    @RequestMapping(value = "/logout")
+    @RequestMapping(value = URLs.LOGOUT)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         secureService.logOut(request, response);
-        return "login";
+        return VIEWs.LOGIN;
     }
 
 

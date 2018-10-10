@@ -11,7 +11,7 @@ public enum ErrorCodeEnum {
     NO_MORE_TICKETS(7, "All tickets was already booked. Please try new search"),
     TRAIN_EXIST(8, "Such train already exist"),
     NO_TRAIN_ON_DATE(9, "No trains on that date"),
-    INCORRECT_PASSWORD(10, "Password must contain not less 6 numbers or letters"),
+    INCORRECT_CRED(10, "Password must contain not less 6 numbers or letters"),
     INCORRECT_EMAIL(11, "Invalid email"),
     TO_LATE_FOR_TRAIN(12, "To late for train"),
     EMPTY_FIELDS_TRAIN_FORM(13, "One or two fields are empty in train form are empty"),

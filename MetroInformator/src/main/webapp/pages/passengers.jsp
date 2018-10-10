@@ -41,7 +41,7 @@
         <header class="header-tickets">
             <div class="navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                    <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="/">Home</a></li>
@@ -56,8 +56,8 @@
                         <ul>
                             <li class="sign-out dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle user-avatar"><span
-                                        class="avatarka"><i class="fa fa-user-circle-o"></i></span><sec:authentication
-                                        property="principal.username"/> <i class="fa fa-caret-down"></i></a>
+                                        class="avatarka"><em class="fa fa-user-circle-o"></em></span><sec:authentication
+                                        property="principal.username"/> <em class="fa fa-caret-down"></em></a>
                                 <ul class="dropdown-menu dash-user">
                                     <li><a href="/myTickets">My tickets</a></li>
                                     <br>
@@ -75,19 +75,7 @@
 
                     <!-- гамбургерное меню  -->
 
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/tickets">Tickets</a></li>
-                                <li><a href="/schedule">Schedule</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <%----%>
                 </div>
             </div>
         </header>
@@ -122,10 +110,10 @@
                     <c:forEach items="${ticketlist}" var="list">
                         <tr class="table-first">
                             <td data-title='TRAIN'>${list.getTrain().getTrainName()}</td>
-                            <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><i
-                                    class="fa fa-circle"></i> ${list.getStationBegin().getName()} </span></td>
-                            <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><i
-                                    class="fa fa-circle"></i> ${list.getStationEnd().getName()}</span></td>
+                            <td data-title='DEPARTURE'>${list.getTicketDateDeparture().toString().substring(0, 16)}<span><em
+                                    class="fa fa-circle"></em> ${list.getStationBegin().getName()} </span></td>
+                            <td data-title='ARRIVAL'>${list.getTicketDateArrival().toString().substring(0, 16)}<span><em
+                                    class="fa fa-circle"></em> ${list.getStationEnd().getName()}</span></td>
                             <td data-title='PRICE'>500</td>
                             <td data-title='PASSENGER'
                                 class="valid">${list.getUser().getFirstName()} ${list.getUser().getLastName()}</td>

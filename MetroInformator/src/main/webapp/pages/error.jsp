@@ -38,7 +38,7 @@
             <div class="navbar">
                 <div class="container eshe-container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="/"><i class="icon-logo"></i></a>
+                        <a class="navbar-brand" href="/"><em class="icon-logo"></em></a>
                     </div>
 
 
@@ -52,19 +52,6 @@
                     </div>
 
                     <!--                гамбургерное меню    -->
-                    <div class="ham-menu">
-                        <input id="hamburger" class="hamburger" type="checkbox"/>
-                        <label class="hamburger" for="hamburger">
-                            <i></i>
-                        </label>
-                        <div class="drawer-list">
-                            <ul>
-                                <li class="active"><a href="/">Home</a></li>
-                                <li><a href="/tickets">Tickets</a></li>
-                                <li><a href="/schedule">Schedule</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </header>

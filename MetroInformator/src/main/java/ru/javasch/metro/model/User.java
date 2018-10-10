@@ -2,11 +2,12 @@ package ru.javasch.metro.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;

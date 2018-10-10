@@ -57,7 +57,6 @@ public class ScheduleServiceImpl implements ScheduleService {
      * ADD ONE SCHEDULE RECORD
      */
     @Override
-    @Transactional
     public void addSchedule(Schedule schedule) {
         scheduleDAO.add(schedule);
     }

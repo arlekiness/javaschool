@@ -1,11 +1,12 @@
 package ru.javasch.metro.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "branch")
-public class Branch {
+public class Branch implements Serializable {
     private Long id;
     private String branchColor;
 

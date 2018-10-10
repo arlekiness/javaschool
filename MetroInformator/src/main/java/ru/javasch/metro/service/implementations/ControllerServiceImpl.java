@@ -13,6 +13,8 @@ import ru.javasch.metro.service.interfaces.*;
 import ru.javasch.metro.utils.EndPointStations;
 
 import org.springframework.transaction.annotation.Transactional;
+import ru.javasch.metro.utils.URLs;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -106,14 +108,14 @@ public class ControllerServiceImpl implements ControllerService {
     @Override
     public String stationSwitchHelper(String color) {
         if (color.equals("RED"))
-            return "redirect:/dashstation";
+            return URLs.REDIRECT_DASHSTATION;
         else if (color.equals("BLUE"))
-            return "redirect:/dashstation/2";
+            return URLs.REDIRECT_DASHSTATION + "/2";
         else if (color.equals("GREEN"))
-            return "redirect:/dashstation/3";
+            return URLs.REDIRECT_DASHSTATION + "/3";
         else if (color.equals("ORANGE"))
-            return "redirect:/dashstation/4";
+            return URLs.REDIRECT_DASHSTATION + "/4";
         else
-            return "redirect:/dashstation/5";
+            return URLs.REDIRECT_DASHSTATION + "/5";
     }
 }

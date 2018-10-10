@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javasch.metro.model.Schedule;
 import ru.javasch.metro.service.interfaces.ScheduleService;
+import ru.javasch.metro.utils.URLs;
+import ru.javasch.metro.utils.VIEWs;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -27,9 +29,9 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @GetMapping("/schedule")
+    @GetMapping(URLs.SCHEDULE)
     public String scheduleMap() {
-        return "schedule";
+        return VIEWs.SCHEDULE;
     }
 
     /**FORM SCHEDULE TABLE FOR USER BY STATION AND DATE
@@ -39,7 +41,7 @@ public class ScheduleController {
      * @return
      */
 
-    @PostMapping("/schedule")
+    @PostMapping(URLs.SCHEDULE)
     public ModelAndView stationSchedule(@RequestParam(value = "start") String stationName,
                                         @RequestParam(value = "date") String date) {
         Map<String, Object> modelMap = new HashMap<>();
@@ -47,15 +49,15 @@ public class ScheduleController {
             List<Schedule> sch = scheduleService.getAllTrainsOnStation(stationName, date);
             if (sch.size() == 0) {
                 modelMap.put("noTrains", "true");
-                return new ModelAndView("schedule", "model", modelMap);
+                return new ModelAndView(VIEWs.SCHEDULE, "model", modelMap);
             }
             modelMap.put("showSchedule", "true");
             modelMap.put("scheduleList", sch);
-            return new ModelAndView("scheduletable", "model", modelMap);
+            return new ModelAndView(VIEWs.SCHEDULE_TABLE, "model", modelMap);
         } catch (ParseException ex) {
             log.info("PARSE EXCEPTION inside schedule form");
             modelMap.put("parseException", "true");
-            return new ModelAndView("schedule", "model", modelMap);
+            return new ModelAndView(VIEWs.SCHEDULE, "model", modelMap);
         }
     }
 }

@@ -1,8 +1,5 @@
 @font-face {
     font-family: 'subway-font';
-    src: url('../font/subway-font.eot?36864627');
-    src: url('../font/subway-font.eot?36864627#iefix') format('embedded-opentype'),
-    url('../font/subway-font.svg?36864627#subway-font') format('svg');
     font-weight: normal;
     font-style: normal;
 }

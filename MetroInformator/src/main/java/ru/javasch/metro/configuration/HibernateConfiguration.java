@@ -26,7 +26,7 @@ public class HibernateConfiguration {
     private static final String JDBC_DRIVER_CLASS_NAME_PROPERTY = "jdbc.driverClassName";
     private static final String JDBC_URL_PROPERTY = "jdbc.url";
     private static final String JDBC_USERNAME = "jdbc.username";
-    private static final String JDBC_PASSWORD = "jdbc.password";
+    private static final String JDBC_CRED = "jdbc.cred";
     private static final String HIBERNATE_DIALECT_PROPERTY = "hibernate.dialect";
     private static final String HIBERNATE_SHOW_SQL_PROPERTY = "hibernate.show_sql";
     private static final String HIBERNATE_FORMAT_SQL_PROPERTY = "hibernate.format_sql";
@@ -52,7 +52,7 @@ public class HibernateConfiguration {
         dataSource.setDriverClassName(environment.getRequiredProperty(JDBC_DRIVER_CLASS_NAME_PROPERTY));
         dataSource.setUrl(environment.getRequiredProperty(JDBC_URL_PROPERTY));
         dataSource.setUsername(environment.getProperty(JDBC_USERNAME));
-        dataSource.setPassword(environment.getProperty(JDBC_PASSWORD));
+        dataSource.setPassword(environment.getProperty(JDBC_CRED));
         return dataSource;
     }
 

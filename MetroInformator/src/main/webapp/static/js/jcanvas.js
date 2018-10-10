@@ -4058,7 +4058,7 @@
                 if (img.complete || imgCtx) {
                     onload();
                 } else {
-                    img.onload = onload();
+                    // img.onload = onload();
                     // Fix onload() bug in IE9
                     img.src = img.src;
                 }
