@@ -9,7 +9,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.javasch.metro.configuration.*;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
+import ru.javasch.metro.model.Station;
 import ru.javasch.metro.service.interfaces.StationService;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
@@ -23,11 +27,6 @@ public class StationServiceJTest {
 
     @Autowired
     StationService stationService;
-
-    @Test
-    public void getAllStationOnBranch() {
-        Assert.assertTrue(stationService.getAllStationOnBranch("Devyatkino").size() == 19);
-    }
 
     @Test
     public void findByName() {
@@ -46,7 +45,44 @@ public class StationServiceJTest {
     }
 
     @Test
+    public void getAllStations() {
+        Assert.assertTrue(stationService.getAllStations().size() == 69);
+    }
+
+    @Test
     public void getAllStationsBeetweenTwoPoints() {
         Assert.assertTrue(stationService.getAllStationsBeetweenTwoPoints("Chkalovskaya", "Admiralteyskaya").size() == 2);
     }
+
+    @Test
+    public void getAllStationOnBranch() {
+        Assert.assertTrue(stationService.getAllStationOnBranch("Devyatkino").size() == 19);
+    }
+
+    @Test
+    public void closeStation() throws IOException, TimeoutException {
+        stationService.closeStation("Devyatkino");
+        Station station = stationService.findByName("Devyatkino");
+        Assert.assertTrue(stationService.findByName("Devyatkino").getStatus().getStatusName().equals("CLOSED"));
+        stationService.openStation("Devyatkino");
+    }
+
+    @Test
+    public void openStation() throws IOException, TimeoutException {
+        stationService.closeStation("Kupchino");
+        stationService.openStation("Kupchino");
+        Assert.assertTrue(stationService.findByName("Kupchino").getStatus().getStatusName().equals("WORKED"));
+    }
+
+    @Test
+    public void getStationsBetweenIDs() {
+        Assert.assertTrue(stationService.getStationsBetweenIDs(1, 19).size() == 19);
+    }
+
+    @Test
+    public void getAllDTOs() {
+        Assert.assertTrue(stationService.getAll().size() == 69);
+    }
+
+
 }

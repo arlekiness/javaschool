@@ -2,6 +2,7 @@ package ru.javasch.metro.dao.implementations;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Repository;
 import ru.javasch.metro.dao.interfaces.GenericDAO;
@@ -12,6 +13,7 @@ import java.util.List;
 public abstract class GenericDAOImpl<E> implements GenericDAO<E> {
     @Autowired
     SessionFactory sessionFactory;
+
 
     private Class<E> entityClass;
 

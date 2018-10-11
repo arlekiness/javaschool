@@ -183,4 +183,10 @@ public class StationServiceImpl implements StationService {
                 .map(x -> model.map(x, StationDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public Station getById(Integer Id) {
+        return stationDAO.findStationById(Id);
+    }
 }

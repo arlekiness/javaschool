@@ -95,7 +95,6 @@ public class ScheduledTasks {
         Date fromDateSchedule = from.getDateSchedule();
         Date lastDateSchedule = last.getDateSchedule();
         while (fromDateSchedule.before(lastDateSchedule)) {
-            log.info("CREATE SCHEDULES FOR " + fromDateSchedule);
             List<Schedule> schedules = scheduleService.getForDate(fromDateSchedule);
             for (Schedule sch : schedules) {
                 Schedule schedule = new Schedule();

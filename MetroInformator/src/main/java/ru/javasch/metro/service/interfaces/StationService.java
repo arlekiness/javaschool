@@ -19,4 +19,5 @@ public interface StationService {
     List<List<Station>> findPathSegments(List<List<Station>> segments);
     List<Station> getStationsBetweenIDs(Integer stationBeginId, Integer stationEndId);
     public List<StationDTO> getAll();
+    Station getById(Integer Id);
 }
