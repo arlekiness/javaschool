@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -20,8 +22,9 @@ public class MessageQueueService {
         connectionFactory.setHost("localhost");
         try (Connection connection = connectionFactory.newConnection();
              Channel channel = connection.createChannel()) {
-
-            channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
+            Map<String, Object> args = new HashMap<String, Object>();
+            args.put("x-max-length", 10);
+            channel.queueDeclare(EXCHANGE_NAME, false, false, false, args);
             channel.basicPublish("", EXCHANGE_NAME, null, msg.getBytes("UTF-8"));
             log.info(" [x] Sent '" + msg + "'");
         }

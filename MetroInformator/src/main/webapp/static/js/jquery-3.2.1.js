@@ -7279,9 +7279,9 @@
                 clearQueue = type;
                 type = undefined;
             }
-            if (clearQueue && type !== false) {
-                this.queue(type || "fx", []);
-            }
+            // if (clearQueue && type !== false) {
+            //     this.queue(type || "fx", []);
+            // }
 
             return this.each(function () {
                 var dequeue = true,

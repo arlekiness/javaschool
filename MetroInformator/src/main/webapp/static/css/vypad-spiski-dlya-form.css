@@ -115,7 +115,7 @@
 
 .field .psuedo_select::after {
     content: "\f0d7";
-    font-family: fontawesome !important;
+    font-family: fontawesome, serif;
     color: #2f4c8a;
     position: absolute;
     top: 0;
@@ -155,7 +155,6 @@
 
 .field .psuedo_select ul li {
     height: 32px;
-    font-size: 0.97vw;
     padding: 8px 4px;
     font-size: 14px;
     color: #8FA4AF;
@@ -180,7 +179,7 @@
 
 .field.focused .psuedo_select::after {
     content: "\f0d7";
-    font-family: fontawesome !important;
+    font-family: fontawesome, serif;
     color: #2f4c8a;
 }
 

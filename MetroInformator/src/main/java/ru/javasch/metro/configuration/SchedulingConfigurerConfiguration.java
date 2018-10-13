@@ -1,20 +1,34 @@
 package ru.javasch.metro.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 @Configuration
 @EnableScheduling
 public class SchedulingConfigurerConfiguration implements SchedulingConfigurer {
 
+//    @Override
+//    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+//        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+//        taskScheduler.setPoolSize(15);
+//        taskScheduler.initialize();
+//        taskRegistrar.setTaskScheduler(taskScheduler);
+//    }
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(100);
-        taskScheduler.initialize();
-        taskRegistrar.setTaskScheduler(taskScheduler);
+        taskRegistrar.setScheduler(taskExecutor());
+    }
+
+    @Bean(destroyMethod="shutdown")
+    public Executor taskExecutor() {
+        return Executors.newScheduledThreadPool(10);
     }
 }

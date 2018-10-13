@@ -4,6 +4,8 @@ import com.rabbitmq.client.*;
 import lombok.extern.log4j.Log4j;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Log4j
@@ -19,7 +21,9 @@ public class Listener {
         connectionFactory.setHost("localhost");
         connection = connectionFactory.newConnection();
         channel = connection.createChannel();
-        channel.queueDeclare(EXCHANGE_NAME, false, false, false, null);
+        Map<String, Object> args = new HashMap<String, Object>();
+        args.put("x-max-length", 10);
+        channel.queueDeclare(EXCHANGE_NAME, false, false, false, args);
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
