@@ -109,6 +109,12 @@
                                     <span class="cd-error-message">Неверный логин или пароль</span>
                                 </p>
 
+                                <p class="fieldset">
+                                    <label class="image-replace cd-password" for="signup-password">PASSWORD</label>
+                                    <input class="full-width has-padding has-border" id="signup-password"
+                                           name="phone" type="text" placeholder="Phone in format '+7XXXXXXXXXX'" required>
+                                </p>
+
                                 <p class="fieldset" id="login-form1">
                                     <input type="checkbox" id="accept-terms">
                                     <label for="accept-terms">I agree with <a href="#0"> all terms</a></label>

@@ -23,7 +23,7 @@ public interface TicketService {
 
     void registrateTicketsInSystem(List<Ticket> ticket, String userName);
 
-    List<Ticket> invalidateNonValidTickets();
+    List<Ticket> invalidateNonValidTickets(String trainName);
 
     void sendInvalidateMessages(List<Ticket> tickets) throws IOException, MessagingException;
 

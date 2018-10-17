@@ -43,6 +43,7 @@ create table user
 	birthDay varchar(100) null,
 	login varchar(100) not null,
 	password varchar(100) not null,
+	phone varchar(100) not null,
 	constraint user_id_uindex
 		unique (id)
 )

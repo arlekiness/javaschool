@@ -4,17 +4,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:color="http://java.sun.com/jsf/composite">
 
 <h:head>
     <title>MetroInformatorBOARD</title>
     <h:outputStylesheet name="/css/bootstrap.min.css"/>
-    <h:outputStylesheet name="/css/style.css"/>
 </h:head>
 <h:body>
+    <h:outputStylesheet library="css" name="style.css"/>
     <h:form styleClass="text-warning info">
         <h:graphicImage library="images" name="warning.png"/>
-        <h:outputText id="last" value="#{scheduleBean.lastChangedInfo}" style="margin-left: 30px"/>
+        <h:outputText id="last" value="#{scheduleBean.lastChangedInfo}" style="margin-left: 30px" />
         <p:poll interval="2" listener="#{scheduleBean.update}" update="last"/>
         <p:poll interval="3" listener="#{scheduleBean.update}" update="result"/>
         <p:poll interval="2" listener="#{scheduleBean.update}" update=":form_2:nowstation"/>
@@ -24,60 +24,54 @@
     <h:form id="form_2">
         <div class="row main">
             <div class="col-1">
-                <h:outputLabel styleClass="text-warning font-weight-bold text-xl-left">MAIN STATION: </h:outputLabel>
+                <h:outputLabel styleClass="text-warning font-weight-bold text-xl-left"
+                               style="font-size: 30px; margin-left: 30px; color: #000000">STATION: </h:outputLabel>
             </div>
             <div class="col">
-                <p:selectOneMenu id="menu" value="#{scheduleBean.selectedItem}" style="width: 300px" filter="true" filterMatchMode="startsWith">
+                <p:selectOneMenu id="menu" value="#{scheduleBean.selectedItem}" style="width: 480px; margin-left: 65px" filter="true" filterMatchMode="startsWith" >
                     <f:selectItems value="#{scheduleBean.stations}"/>
                     <p:ajax update="result"/>
                     <p:ajax update="nowstation"/>
                 </p:selectOneMenu>
             </div>
             <div class = "col-2">
-                <h:outputText id="nowstation" value="#{scheduleBean.selectedStation} is now #{scheduleBean.selectedStationStatus}"/>
+                <h:outputText id="nowstation" value="#{scheduleBean.selectedStationStatus == 'WORKED' ? 'WORK' : 'CLOSED'}"
+                              style="margin-left: -400px; font-size: 30px; font-weight: 700; color: #ffc107 "/>
             </div>
         </div>
     </h:form>
     <br/>
     <div class="row main">
         <div class="col">
-            <h4 class="text-warning text-center">DEPARTURE</h4>
             <h:dataTable id="result" value="#{scheduleBean.schedule}" var="schedule"
                          styleClass="table table-dark text-warning"
                          style="margin-left: 2%">
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Train"/>
+                        <h:outputText value="Train" style="font-family: TripleDotDigital"/>
                     </f:facet>
-                    <h:outputText value="#{schedule.train}"/>
+                    <h:outputText value="#{schedule.train}" style="color:#b6fc7a; font-family: TripleDotDigital"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Arrival Time"/>
+                        <h:outputText value="Arrival Time" style="font-family: TripleDotDigital"/>
                     </f:facet>
-                    <h:outputText value="#{schedule.arrivalTime}"/>
+                    <h:outputText value="#{schedule.arrivalTime}" style="color:#b6fc7a; font-family: TripleDotDigital" />
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Departure Time"/>
+                        <h:outputText value="Departure Time" style="font-family: TripleDotDigital"/>
                     </f:facet>
-                    <h:outputText value="#{schedule.departureTime}"/>
+                    <h:outputText value="#{schedule.departureTime}" style="color:#b6fc7a; font-family: TripleDotDigital"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Station"/>
+                        <h:outputText value="Direction" style="font-family: TripleDotDigital"/>
                     </f:facet>
-                    <h:outputText value="#{schedule.station}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Direction"/>
-                    </f:facet>
-                    <h:outputText value="#{schedule.endPointStation}"/>
+                    <h:outputText value="#{schedule.endPointStation}" style="color:#b6fc7a; font-family: TripleDotDigital"/>
                 </h:column>
 
             </h:dataTable>

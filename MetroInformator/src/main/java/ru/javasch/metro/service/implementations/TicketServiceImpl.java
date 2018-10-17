@@ -38,6 +38,9 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private SMSSenderService smsSenderService;
+
     /**CHECKING FOR FREE CAPACITY IN TRAIN
      *
      * @param schedule
@@ -219,10 +222,12 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     @Transactional
-    public List<Ticket> invalidateNonValidTickets() {
+    public List<Ticket> invalidateNonValidTickets(String trainName) {
         List<Ticket> tickets = ticketDAO.findAllInvalidTickets();
         for (Ticket t : tickets) {
             t.setValid("INVALID");
+            String message = "Your ticket on train " + trainName + " was invalidated. REASON: Train was deleted";
+            smsSenderService.sendSMS(message, t.getUser().getPhone());
             log.info("TICKET FOR " + t.getUser().getFirstName() + " " + t.getUser().getLastName() + " FROM " + t.getStationBegin().getName() +
                     " TO " + t.getStationEnd().getName() + " ON DATE " + t.getTicketDateDeparture().toString().substring(0, 11) + " WAS INVALIDATE");
         }

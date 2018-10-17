@@ -1,5 +1,18 @@
 body {
-    background: url(bg.png);
+    background-image:url("#{resource['images:ForScience.png']}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: BPdots, sans-serif;
+}
+
+@font-face {
+    font-family: "BPdots";
+    src: url("#{resource['fonts:BPdots.otf']}");
+}
+
+@font-face {
+    font-family: "TripleDotDigital";
+    src: url("#{resource['fonts:TripleDotDigital.ttf']}");
 }
 
 .main {
@@ -8,9 +21,40 @@ body {
 }
 
 .info {
-    border: 2px orange;
+    border: 2px #b6fc7a;
     background: #1b1e21;
     font-size: x-large;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    font-family: BPdots, sans-serif;
+    font-weight: normal;
 }
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    cursor: pointer;
+    width: 55px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 7px;
+
+}
+
+.ui-widget {
+    font-family: BPdots,sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    color: #000;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    background: #fff;
+    -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+    -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+    box-shadow: inset 0 2px 2px #8f8f8f;
+    color: #000;
+}
+
+

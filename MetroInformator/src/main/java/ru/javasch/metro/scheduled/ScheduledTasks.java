@@ -1,14 +1,17 @@
 package ru.javasch.metro.scheduled;
 
 import lombok.extern.log4j.Log4j;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javasch.metro.configuration.SmsSender;
 import ru.javasch.metro.dao.interfaces.LastDateDAO;
 import ru.javasch.metro.model.*;
 import ru.javasch.metro.service.implementations.LastDateService;
 import ru.javasch.metro.service.implementations.MessageQueueService;
+import ru.javasch.metro.service.implementations.SMSSenderService;
 import ru.javasch.metro.service.interfaces.ScheduleService;
 import ru.javasch.metro.service.interfaces.TicketService;
 import ru.javasch.metro.utils.Utils;
@@ -35,6 +38,9 @@ public class ScheduledTasks {
 
     @Autowired
     private MessageQueueService messageQueueService;
+
+    @Autowired
+    private SMSSenderService smsSenderService;
 
     /**SCHEDULE CLEANER.
      * DELETING OUTDATED SCHEDULES
@@ -75,11 +81,17 @@ public class ScheduledTasks {
             if (Utils.twoDateSubstraction(now, ticketDeparture) > 0 && Utils.twoDateSubstraction(now, ticketDeparture) < 10
                                                                     && begin.getStatusName().equals("CLOSED")) {
                 t.setValid("INVALID");
+                String message = "Your ticket from " + t.getStationBegin() + " to " + t.getStationEnd() + " on date " + t.getTicketDateDeparture() +
+                            " was invalidate. Reason: BEGIN STATION CLOSED";
+                smsSenderService.sendSMS(message, t.getUser().getPhone());
                 ticketCount++;
             }
             if (Utils.twoDateSubstraction(now, ticketArrival) > 0 && Utils.twoDateSubstraction(now, ticketArrival) < 10
-                    && begin.getStatusName().equals("CLOSED")) {
+                    && end.getStatusName().equals("CLOSED")) {
                 t.setValid("INVALID");
+                String message = "Your ticket from " + t.getStationBegin() + " to " + t.getStationEnd() + " on date " + t.getTicketDateDeparture() +
+                        " was invalidate. Reason: END STATION CLOSED";
+                smsSenderService.sendSMS(message, t.getUser().getPhone());
                 ticketCount++;
             }
         }

@@ -46,6 +46,6 @@ public class UserServiceJTest {
     @Test
     public void registration() throws IOException, MessagingException {
         thrown.expect(RuntimeBusinessLogicException.class);
-        userService.registration("", "", "", "");
+        userService.registration("", "", "", "", "");
     }
 }

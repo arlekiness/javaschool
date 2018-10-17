@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String birthDay;
     private String login;
     private String password;
+    private String phone;
     private Set<Role> roles;
 
     @Id
@@ -68,10 +69,13 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Column(name = "phone")
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
     @NotNull
     @ManyToMany(fetch = FetchType.LAZY)

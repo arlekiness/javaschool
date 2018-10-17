@@ -32,7 +32,7 @@ public class Utils {
         try {
             return format.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("ParseException", e);
         }
         return new Date();
     }
@@ -50,7 +50,7 @@ public class Utils {
             log.info("arrival" + dateArrival + " today" + dateToday + " status " + dateArrival.equals(dateToday));
             return dateArrival.equals(dateToday);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("ParseException", e);
         }
         return false;
     }

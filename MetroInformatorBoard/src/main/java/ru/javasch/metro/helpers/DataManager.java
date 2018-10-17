@@ -80,8 +80,12 @@ public class DataManager {
         if (needed != null) {
             needed.setStatus("WORKED");
         }
-        log.info(needed.getStatus());
-        LAST_CHANGE_MESSAGE = stationName + " change status on " + needed.getStatus();
+        try {
+            LAST_CHANGE_MESSAGE = stationName + " change status on " + needed.getStatus();
+        } catch (NullPointerException ex){
+            log.error("updateOpenStationStatus() throw NullPointerException", ex);
+            LAST_CHANGE_MESSAGE = "";
+        }
         MESSAGE_FOR_HEADER = LAST_CHANGE_MESSAGE;
     }
 

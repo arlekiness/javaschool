@@ -43,8 +43,9 @@ public class UserController {
     public ModelAndView registration(@RequestParam(value = "firstName") String firstName,
                                      @RequestParam(value = "lastName") String lastName,
                                      @RequestParam(value = "login") String login,
-                                     @RequestParam(value = "password") String password) throws IOException, MessagingException {
-        userService.registration(firstName, lastName, login, password);
+                                     @RequestParam(value = "password") String password,
+                                     @RequestParam(value = "phone") String phone) throws IOException, MessagingException {
+        userService.registration(firstName, lastName, login, password, phone);
         return new ModelAndView(VIEWs.LOGIN, "allgood", true);
     }
 

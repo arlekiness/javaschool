@@ -1,8 +1,10 @@
 package ru.javasch.metro.service.implementations;
 
 import lombok.extern.log4j.Log4j;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javasch.metro.configuration.SmsSender;
 import ru.javasch.metro.dao.interfaces.RoleDAO;
 import ru.javasch.metro.dao.interfaces.UserDAO;
 import ru.javasch.metro.exception.ErrorCode;
@@ -32,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SecureService secureService;
+
+    @Autowired
+    private SMSSenderService smsSenderService;
 
     @Override
     @Transactional
@@ -80,8 +85,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void registration(String firstName, String lastName, String login, String password) throws IOException, MessagingException {
-        if (firstName == "" || lastName == "" || login == "" || password == "") {
+    public void registration(String firstName, String lastName, String login, String password, String phone) throws IOException, MessagingException {
+        if (firstName == "" || lastName == "" || login == "" || password == "" || phone == "") {
             log.info("EXCEPTION: " + ErrorCode.EMPTY_FIELDS);
             throw new RuntimeBusinessLogicException(ErrorCode.EMPTY_FIELDS);
         }
@@ -108,6 +113,10 @@ public class UserServiceImpl implements UserService {
         user.setLastName(lastName);
         user.setPassword(Utils.encodePassword(password));
         user.setRoles(roleSet);
+        String phoneNumber = phone.substring(1);
+        user.setPhone(phoneNumber);
         add(user);
+        String message = "You was succesfully registered. \n Your login : " + login + "\nYour password: " + password;
+        smsSenderService.sendSMS(message, phoneNumber);
     }
 }

@@ -97,8 +97,9 @@ public class AdminController {
     @GetMapping(URLs.DELETE_TRAIN_BY_ID)
     public ModelAndView deletingTrain(@PathVariable(value = "id") Long id) {
         try {
+            String trainName = trainService.findById(id).getTrainName();
             trainService.delete(id);
-            List<Ticket> tickets = ticketService.invalidateNonValidTickets();
+            List<Ticket> tickets = ticketService.invalidateNonValidTickets(trainName);
             return new ModelAndView(URLs.REDIRECT_DASHTRAIN, "deleted", true);
         } catch (Exception ex) {
             log.error("SYSTEM EXCEPTION", ex);

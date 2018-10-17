@@ -21,7 +21,7 @@ public interface UserService {
 
     void update(User user);
 
-    void registration(String firstName, String lastName, String login, String password) throws IOException, MessagingException;
+    void registration(String firstName, String lastName, String login, String password, String phone) throws IOException, MessagingException;
 
     String getUserId();
 }

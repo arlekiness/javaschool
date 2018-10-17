@@ -14,14 +14,6 @@ import java.util.concurrent.Executors;
 @EnableScheduling
 public class SchedulingConfigurerConfiguration implements SchedulingConfigurer {
 
-//    @Override
-//    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-//        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-//        taskScheduler.setPoolSize(15);
-//        taskScheduler.initialize();
-//        taskRegistrar.setTaskScheduler(taskScheduler);
-//    }
-
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(taskExecutor());
