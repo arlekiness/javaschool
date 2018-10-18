@@ -260,6 +260,8 @@
                         <testFailureIgnore>true</testFailureIgnore>
                     </configuration>
                 </plugin>
+
+
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.2.0</version>
@@ -299,7 +301,6 @@
                         <password>admin</password>
                         <update>true</update>
                     </configuration>
-
                 </plugin>
 
                 <plugin>
