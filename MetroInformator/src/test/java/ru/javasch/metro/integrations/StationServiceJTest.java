@@ -60,21 +60,6 @@ public class StationServiceJTest {
     }
 
     @Test
-    public void closeStation() throws IOException, TimeoutException {
-        stationService.closeStation("Devyatkino");
-        Station station = stationService.findByName("Devyatkino");
-        Assert.assertTrue(stationService.findByName("Devyatkino").getStatus().getStatusName().equals("CLOSED"));
-        stationService.openStation("Devyatkino");
-    }
-
-    @Test
-    public void openStation() throws IOException, TimeoutException {
-        stationService.closeStation("Kupchino");
-        stationService.openStation("Kupchino");
-        Assert.assertTrue(stationService.findByName("Kupchino").getStatus().getStatusName().equals("WORKED"));
-    }
-
-    @Test
     public void getStationsBetweenIDs() {
         Assert.assertTrue(stationService.getStationsBetweenIDs(1, 19).size() == 19);
     }

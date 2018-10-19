@@ -45,14 +45,26 @@ public class SmsSender {
 
     public JSONObject MessageSend(String message,String recipients,String sender) throws IOException, NoSuchAlgorithmException, URISyntaxException, ParseException {
         Map<String, String> data = new HashMap<String, String>();
+        String domain = "message/send/";
         data.put("test" , _isTest==true ? "1" : "0");
+        return MessageSendPrice(message, recipients, sender, domain, data);
+    }
+
+    public JSONObject MessagePrice(String message,String recipients,String sender) throws IOException, NoSuchAlgorithmException, URISyntaxException, ParseException {
+        Map<String, String> data = new HashMap<String, String>();
+        String domain = "message/price/";
+        return MessageSendPrice(message, recipients, sender, domain, data);
+    }
+
+    public JSONObject MessageSendPrice (String message,String recipients,String sender, String domain, Map<String, String> data)
+            throws IOException, NoSuchAlgorithmException, URISyntaxException, ParseException {
         data.put("project", _project);
         data.put("recipients", recipients);
         data.put("sender", sender);
         data.put("message", message);
         String sign = GetSign(data);
         data.put("sign", sign);
-        String result =  SendPost(_baseDomain + "message/send/", data);
+        String result =  SendPost(_baseDomain + domain, data);
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(result);
         JSONObject jsonObj = (JSONObject) obj;
@@ -67,23 +79,6 @@ public class SmsSender {
         String sign = GetSign(data);
         data.put("sign", sign);
         String result =  SendPost(_baseDomain + "message/status/", data);
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(result);
-        JSONObject jsonObj = (JSONObject) obj;
-        return jsonObj;
-    }
-
-
-
-    public JSONObject MessagePrice(String message,String recipients,String sender) throws IOException, NoSuchAlgorithmException, URISyntaxException, ParseException {
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("project", _project);
-        data.put("recipients", recipients);
-        data.put("sender", sender);
-        data.put("message", message);
-        String sign = GetSign(data);
-        data.put("sign", sign);
-        String result =  SendPost(_baseDomain + "message/price/", data);
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(result);
         JSONObject jsonObj = (JSONObject) obj;
