@@ -161,9 +161,7 @@ public class SmsSender {
 
             return "";
         } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+            log.error("Client Protocol exception", e);
         }
         return null;
 
