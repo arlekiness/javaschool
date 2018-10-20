@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 @Log4j
-public class AdminTest {
+public class AdminIT {
 
     private String hostUrl;
     WebDriver driver;
@@ -39,10 +39,8 @@ public class AdminTest {
         driver.findElement(By.cssSelector(".sign-out")).click();
         driver.findElement(By.linkText("ADMIN PANEL")).click();
         driver.findElement(By.xpath("//a[@href='/dashstation']")).click();
-        driver.findElement(By.xpath("//a[@href='/closeStation/Devyatkino']")).click();
         String nextUrl = driver.getCurrentUrl();
         Assert.assertTrue(nextUrl.equals(hostUrl+"dashstation"));
-        driver.findElement(By.xpath("//a[@href='/openStation/Devyatkino']")).click();
     }
 
     @Test
