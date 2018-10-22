@@ -115,7 +115,7 @@ public class DataManager {
         return scheduleIDs;
     }
 
-////
+    /**DELETING TRAIN ON MESSAGE*/
     public void changeState(String message) throws IOException {
         if (message.contains("deletedtrain")) {
             String iDs = message.substring(24, message.length() - 1);
