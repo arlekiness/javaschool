@@ -92,7 +92,7 @@ public class DataManager {
         MESSAGE_FOR_HEADER = LAST_CHANGE_MESSAGE;
     }
 
-    /**UPDATE STATION STATUS*/
+    /**UPDATE STATION STATUS (CLOSING)*/
     public void updateCloseStationStatus(String stationName) {
         Station needed = getStationFromMessage(stationName);
         if (needed != null) {
