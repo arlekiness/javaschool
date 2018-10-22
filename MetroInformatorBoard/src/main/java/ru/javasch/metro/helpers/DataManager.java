@@ -65,6 +65,7 @@ public class DataManager {
 
     }
 
+    /** GET STATION LIST */
     public Station getStationFromMessage (String stationName) {
         Station needed = null;
         for (Station st : stations) {
