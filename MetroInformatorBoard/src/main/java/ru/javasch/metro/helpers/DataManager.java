@@ -77,6 +77,7 @@ public class DataManager {
         return needed;
     }
 
+    /**UPDATE STATION STATUS*/
     public void updateOpenStationStatus(String stationName) {
         Station needed = getStationFromMessage(stationName);
         if (needed != null) {
