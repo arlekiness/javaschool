@@ -51,6 +51,7 @@ public class DataManager {
         }
     }
 
+    /** DELETE SCHEDULES ON MESSAGE */
     private void deleteSchedules (List<Long> iDs) {
         Schedule schedule = schedules.stream().filter(x -> x.getId().equals(iDs.get(0))).findAny().get();
         MESSAGE_FOR_HEADER = "Train " + schedule.getTrain() + " was removed for some reason";
