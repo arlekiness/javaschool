@@ -1,4 +1,4 @@
-package ru.javasch.metro.integrations;
+package ru.javasch.metro.junit;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,11 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.javasch.metro.configuration.*;
 import ru.javasch.metro.exception.RuntimeBusinessLogicException;
-import ru.javasch.metro.model.Station;
 import ru.javasch.metro.service.interfaces.StationService;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {

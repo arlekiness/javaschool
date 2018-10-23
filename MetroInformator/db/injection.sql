@@ -96,25 +96,6 @@ INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VA
 INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (68, 'Bukharestskaya', 5, 11, 1);
 INSERT INTO testbase.station (id, name, branch_id, numberOnBranch, status_id) VALUES (69, 'Mezhdunarodnaya', 5, 12, 1);
 -- ===========================================
--- ============TRANSITIONS====================
--- ===========================================
--- Nevskii-Gostinii
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (1, 28, 42, 1);
--- Vosstaniya-Mayakovskaya
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (2, 10, 43, 1);
--- Sennaya-Sadovaya-Spasskaya
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (3, 29, 64, 1);
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (4, 29, 50, 1);
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (5, 50, 64, 1);
--- Vladimirskaya-Dostoyevskaya
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (6, 11, 51, 1);
--- Alexandra Nevskogo 1/2
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (7, 44, 53, 1);
--- Pushkinskaya-Zvenigorodskaya
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (8, 12, 65, 1);
--- Technologka 1/2
-INSERT INTO testbase.transition (id, station_1_id, station_2_id, status_id) VALUES (9, 13, 30, 1);
--- ===========================================
 -- ============TRAINS=========================
 -- ===========================================
 INSERT into testbase.train (id, trainName, capacity, status_id) VALUES (1, 'T-1', 6, 1);
@@ -309,6 +290,6 @@ INSERT INTO testbase.user_role (user_id, role_id) VALUES (6, 1);
 -- ===========================================
 -- ============LAST_DATE======================
 -- ===========================================
-INSERT INTO testbase.lastdate (id, date_need) VALUES (1, '2018-10-23 00:00:00');
-INSERT INTO testbase.lastdate (id, date_need) VALUES (2, '2018-10-30 00:00:00');
+INSERT INTO testbase.lastdate (id, date_need) VALUES (1, '2018-10-24 00:00:00');
+INSERT INTO testbase.lastdate (id, date_need) VALUES (2, '2018-10-31 00:00:00');
 

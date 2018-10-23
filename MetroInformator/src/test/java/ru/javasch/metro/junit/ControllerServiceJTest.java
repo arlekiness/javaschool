@@ -1,4 +1,4 @@
-package ru.javasch.metro.integrations;
+package ru.javasch.metro.junit;
 
 import org.junit.Assert;
 import org.junit.Test;

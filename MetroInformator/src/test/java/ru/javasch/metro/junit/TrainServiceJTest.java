@@ -1,4 +1,4 @@
-package ru.javasch.metro.integrations;
+package ru.javasch.metro.junit;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -14,7 +14,6 @@ import ru.javasch.metro.service.interfaces.TrainService;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeoutException;
 
 @RunWith(SpringJUnit4ClassRunner.class)

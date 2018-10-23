@@ -168,24 +168,6 @@ engine=InnoDB
 ;
 -- =====================================
 -- =====================================
-create table transition
-(
-  id int auto_increment
-		primary key,
-  station_1_id int null,
-  station_2_id int null,
-  status_id int null,
-  constraint ticket_id_uindex
-		unique (id),
-  constraint station_from_id_fk
-		foreign key (station_1_id) references station(id),
-	constraint station_to_id_fk
-		foreign key (station_2_id) references station(id),
-	constraint status_transition_to_id_fk
-		foreign key (status_id) references status(id)
-)
-engine=InnoDB
-;
 -- =====================================
 -- =====================================
 create table graph

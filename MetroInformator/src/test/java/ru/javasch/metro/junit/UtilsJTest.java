@@ -1,4 +1,4 @@
-package ru.javasch.metro.integrations;
+package ru.javasch.metro.junit;
 
 import lombok.extern.log4j.Log4j;
 import org.junit.Assert;
