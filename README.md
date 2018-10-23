@@ -1,5 +1,1 @@
-SQL-scripts order: create.sql, start.sql, injection.sql
-
-Login and password for Admin login: "volpert13@gmail.com" "password"
-
-User-password in MySQL: root-admin\n
+![alt text](https://github.com/volpert13/javaschool/blob/master/MetroInformator/src/main/webapp/static/images/logo.svg)
