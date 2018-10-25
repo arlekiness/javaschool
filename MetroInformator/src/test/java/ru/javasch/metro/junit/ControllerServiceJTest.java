@@ -1,8 +1,9 @@
 package ru.javasch.metro.junit;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.*;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,7 +13,6 @@ import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.Train;
 import ru.javasch.metro.service.interfaces.ControllerService;
 import ru.javasch.metro.utils.URLs;
-
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +24,12 @@ import java.util.Map;
         ViewConfiguration.class,
         ViewInitializer.class})
 @WebAppConfiguration
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerServiceJTest {
+
     @Autowired
     ControllerService controllerService;
+
 
     @Test
     public void stationPagination() {
