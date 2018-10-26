@@ -144,6 +144,7 @@ public class DataManager {
         else  schedules = loader.getSchedules();
     }
 
+    /**GET INSTANCE*/
     public static DataManager getInstance() {
         if (dataManager == null)
             dataManager = new DataManager();

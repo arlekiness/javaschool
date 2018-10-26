@@ -24,7 +24,6 @@ import java.util.Map;
         ViewConfiguration.class,
         ViewInitializer.class})
 @WebAppConfiguration
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerServiceJTest {
 
     @Autowired
