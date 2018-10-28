@@ -1,7 +1,7 @@
 package ru.javasch.metro.helpers;
 
-import ru.javasch.metro.model.Schedule;
-import ru.javasch.metro.model.Station;
+import ru.javasch.metro.dto.ScheduleDTO;
+import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.model.TimeSchedule;
 import ru.javasch.metro.utils.Utils;
 
@@ -15,7 +15,7 @@ public class Converter {
      * @param schedules
      * @return
      */
-    public static List<TimeSchedule> convertSchedules(String stationMain, List<Schedule> schedules) {
+    public static List<TimeSchedule> convertSchedules(String stationMain, List<ScheduleDTO> schedules) {
         return schedules.stream()
                 .filter(schedule -> schedule.getStation().equals(stationMain) && Utils.checkScheduleForToday(schedule))
                 .map(x -> {
@@ -29,17 +29,17 @@ public class Converter {
                 }).collect(Collectors.toList());
     }
 
-    public static List<String> convertStationList(List<Station> stations) {
+    public static List<String> convertStationList(List<StationDTO> stations) {
         List<String> stationList = new ArrayList<>();
-        for (Station st : stations) {
+        for (StationDTO st : stations) {
             stationList.add(st.getName());
         }
         return stationList;
     }
 
-    public static Station convertSelectedStation(String neededStation, List<Station> stations) {
-        Station needed = null;
-        for (Station st : stations) {
+    public static StationDTO convertSelectedStation(String neededStation, List<StationDTO> stations) {
+        StationDTO needed = null;
+        for (StationDTO st : stations) {
             if (st.getName().equals(neededStation)) {
                 needed = st;
                 break;

@@ -62,6 +62,7 @@ public class TicketServiceImpl implements TicketService {
      *
      * @param segments
      * @return
+     * was used for debug purpose
      */
     @Override
     @Transactional
@@ -80,8 +81,8 @@ public class TicketServiceImpl implements TicketService {
 
     /**FORMING FIRST TICKET IN TICKET CHAIN WITH TRANSITIONS FOR USING IN TABLE
      *
-     * @param segments
-     * @param dateForm
+     * @param segments first transition in chain
+     * @param dateForm date
      * @return
      * @throws ParseException
      */
@@ -105,7 +106,7 @@ public class TicketServiceImpl implements TicketService {
 
     /**FORMING FULL TICKET CHAIN FOR BUYING
      *
-     * @param pathSegment
+     * @param pathSegment trip segments in chain
      * @param schedule
      * @return
      */

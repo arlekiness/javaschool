@@ -68,8 +68,8 @@ public class AdminController {
      *
      * @param trainName
      * @param stationName
-     * @param date
-     * @param time
+     * @param date first date of train
+     * @param time first time of train
      * ADDING TRAIN AND RETURN TO TRAIN LIST*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -152,7 +152,7 @@ public class AdminController {
 
     /**FORM FIRST ENTERING TO ADMIN PANEL
      *
-     * @param req
+     * @param req request
      * @return
      */
 
@@ -182,7 +182,7 @@ public class AdminController {
 
     /**FORM PAGES PAGINATION FOR TRAINS
      *
-     * @param pageNum
+     * @param pageNum number of page
      * @return
      */
 
@@ -206,7 +206,7 @@ public class AdminController {
 
     /**FORM FIRST ENTERING INTO STATION ADMIN PANEL
      *
-     * @param req
+     * @param req request
      * @return
      */
 
@@ -226,7 +226,7 @@ public class AdminController {
 
     /**FORM PAGES PAGINATION FOR STATIONS
      *
-     * @param stationNum
+     * @param stationNum number of page for station pagination
      * @return
      */
 
@@ -243,7 +243,7 @@ public class AdminController {
 
     /** CHECK ALL PASSENGERS ON TRAIN BY ID
      *
-     * @param id
+     * @param id train id
      * @return
      */
 

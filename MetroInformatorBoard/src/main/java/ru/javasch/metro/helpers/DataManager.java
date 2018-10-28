@@ -1,8 +1,8 @@
 package ru.javasch.metro.helpers;
 
 import lombok.extern.log4j.Log4j;
-import ru.javasch.metro.model.Schedule;
-import ru.javasch.metro.model.Station;
+import ru.javasch.metro.dto.ScheduleDTO;
+import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.model.TimeSchedule;
 
 import java.io.IOException;
@@ -15,8 +15,8 @@ public class DataManager {
     private static DataManager dataManager;
     private Loader loader = Loader.getInstance();
 
-    public List<Schedule> schedules = loader.getSchedules();
-    public List<Station> stations = loader.getStations();
+    public List<ScheduleDTO> schedules = loader.getSchedules();
+    public List<StationDTO> stations = loader.getStations();
 
 
     private boolean CHANGE_VALUES_FLAG = false;
@@ -24,7 +24,7 @@ public class DataManager {
     private String MESSAGE_FOR_HEADER = "No changes...";
     private boolean CHANGE_STATION_FLAG = false;
 
-    public List<Station> getStations() {
+    public List<StationDTO> getStations() {
         return stations;
     }
 
@@ -33,7 +33,7 @@ public class DataManager {
         return Converter.convertSchedules(selectedItem, schedules);
     }
 
-    public Station loadSelectedStation(String selectedItem) {
+    public StationDTO loadSelectedStation(String selectedItem) {
         log.info("INVOKED loadSelectedStation " + selectedItem);
 //        upStationChanges();
         return Converter.convertSelectedStation(selectedItem, stations);
@@ -44,7 +44,7 @@ public class DataManager {
     }
 
     private void delete(Long id, StringBuilder stateMessage) {
-        Schedule schedule = schedules.stream().filter(x -> x.getId().equals(id)).findAny().get();
+        ScheduleDTO schedule = schedules.stream().filter(x -> x.getId().equals(id)).findAny().get();
         if (schedule != null) {
             schedules.remove(schedule);
             stateMessage.append(schedule.getStation() + " ");
@@ -53,7 +53,7 @@ public class DataManager {
 
     /** DELETE SCHEDULES ON MESSAGE */
     private void deleteSchedules (List<Long> iDs) {
-        Schedule schedule = schedules.stream().filter(x -> x.getId().equals(iDs.get(0))).findAny().get();
+        ScheduleDTO schedule = schedules.stream().filter(x -> x.getId().equals(iDs.get(0))).findAny().get();
         MESSAGE_FOR_HEADER = "Train " + schedule.getTrain() + " was removed for some reason";
         StringBuilder stateMessage = new StringBuilder("Schedules on ");
         for (Long id : iDs) {
@@ -66,9 +66,9 @@ public class DataManager {
     }
 
     /** GET STATION LIST */
-    public Station getStationFromMessage (String stationName) {
-        Station needed = null;
-        for (Station st : stations) {
+    public StationDTO getStationFromMessage (String stationName) {
+        StationDTO needed = null;
+        for (StationDTO st : stations) {
             if (st.getName().equals(stationName)) {
                 needed = st;
                 break;
@@ -79,7 +79,7 @@ public class DataManager {
 
     /**UPDATE STATION STATUS (OPENING)*/
     public void updateOpenStationStatus(String stationName) {
-        Station needed = getStationFromMessage(stationName);
+        StationDTO needed = getStationFromMessage(stationName);
         if (needed != null) {
             needed.setStatus("WORKED");
         }
@@ -94,7 +94,7 @@ public class DataManager {
 
     /**UPDATE STATION STATUS (CLOSING)*/
     public void updateCloseStationStatus(String stationName) {
-        Station needed = getStationFromMessage(stationName);
+        StationDTO needed = getStationFromMessage(stationName);
         if (needed != null) {
             needed.setStatus("CLOSED");
         }

@@ -17,10 +17,10 @@ import java.util.List;
 @Log4j
 public class BoardScheduleController {
     @Autowired
-    ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @GetMapping(URLs.GET_SCHEDULE_FOR_BOARD)
     public ResponseEntity<?> getSchedulesForToday() {

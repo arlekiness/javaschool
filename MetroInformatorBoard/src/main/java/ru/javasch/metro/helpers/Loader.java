@@ -6,8 +6,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import lombok.extern.log4j.Log4j;
-import ru.javasch.metro.model.Schedule;
-import ru.javasch.metro.model.Station;
+import ru.javasch.metro.dto.ScheduleDTO;
+import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.utils.Utils;
 
 import javax.ws.rs.core.MediaType;
@@ -27,11 +27,11 @@ public class Loader {
         return loader;
     }
 
-    public List<Schedule> getSchedules() {
+    public List<ScheduleDTO> getSchedules() {
         String response = getResultResponse(Utils.URL_SCHEDULES);
-        List<Schedule> schedules = null;
+        List<ScheduleDTO> schedules = null;
         try {
-            schedules = objectMapper.readValue(response, new TypeReference<List<Schedule>>() {
+            schedules = objectMapper.readValue(response, new TypeReference<List<ScheduleDTO>>() {
             });
         } catch (IOException e) {
             log.error("ERROR, CAN'T LOAD SCHEDULES " + e.getMessage());
@@ -39,11 +39,11 @@ public class Loader {
         return schedules;
     }
 
-    public List<Station> getStations() {
+    public List<StationDTO> getStations() {
         String response = getResultResponse(Utils.URL_STATIONS);
-        List<Station> stations = null;
+        List<StationDTO> stations = null;
         try {
-            stations = objectMapper.readValue(response, new TypeReference<List<Station>>() {
+            stations = objectMapper.readValue(response, new TypeReference<List<StationDTO>>() {
             });
         } catch (IOException e) {
             log.error("ERROR, CAN'T LOAD STATIONS " + e.getMessage());

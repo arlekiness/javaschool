@@ -36,8 +36,8 @@ public class ScheduleController {
 
     /**FORM SCHEDULE TABLE FOR USER BY STATION AND DATE
      *
-     * @param stationName
-     * @param date
+     * @param stationName station for schedules
+     * @param date date for schedule
      * @return
      */
 

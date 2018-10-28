@@ -1,7 +1,7 @@
 package ru.javasch.metro.utils;
 
 import lombok.extern.log4j.Log4j;
-import ru.javasch.metro.model.Schedule;
+import ru.javasch.metro.dto.ScheduleDTO;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,7 +42,7 @@ public class Utils {
         return format.parse(date);
     }
 
-    public static boolean checkScheduleForToday(Schedule schedule) {
+    public static boolean checkScheduleForToday(ScheduleDTO schedule) {
         try {
 //            log.info("schedule " + schedule.getStationDepartureName() + " - " + schedule.getStationArrivalName() + " " + schedule.getDateDeparture() + " " + schedule.getDateArrival());
             Date dateArrival = parseToDate(schedule.getDateArrival());

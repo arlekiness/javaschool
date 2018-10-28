@@ -53,11 +53,11 @@ public class BuyingTicketController {
 
     /**FORM TICKET CHAINS FOR USER BY TWO STATION AND DATE
      *
-     * @param beginStation
-     * @param endStation
-     * @param date
-     * @param req
-     * @param resp
+     * @param beginStation begin station
+     * @param endStation end station
+     * @param date date of trip
+     * @param req request
+     * @param resp response
      * @return
      */
     @PostMapping(URLs.TICKETS)
@@ -78,9 +78,9 @@ public class BuyingTicketController {
 
     /**REGISTERING TICKETS IN SYSTEM
      *
-     * @param count
-     * @param req
-     * @param resp
+     * @param count count of tickets
+     * @param req request
+     * @param resp response
      * @return
      */
 
@@ -100,8 +100,8 @@ public class BuyingTicketController {
 
     /** USER TICKETS TABLE
      *
-     * @param req
-     * @param resp
+     * @param req request
+     * @param resp response
      * @return
      */
     @RequestMapping(value = URLs.MY_TICKETS)

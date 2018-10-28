@@ -2,7 +2,6 @@ package ru.javasch.metro.ejb.controller;
 
 import lombok.extern.log4j.Log4j;
 import ru.javasch.metro.ejb.service.TimeScheduleBean;
-import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.TimeSchedule;
 
 import javax.ejb.EJB;

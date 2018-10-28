@@ -1,10 +1,10 @@
 package ru.javasch.metro.ejb.service;
 
 import lombok.extern.log4j.Log4j;
+import ru.javasch.metro.dto.StationDTO;
 import ru.javasch.metro.helpers.DataManager;
 import ru.javasch.metro.helpers.Listener;
 import ru.javasch.metro.helpers.Loader;
-import ru.javasch.metro.model.Station;
 import ru.javasch.metro.model.TimeSchedule;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +26,7 @@ public class TimeScheduleBean {
     private List<String> stations = dataManager.getStationList();
     private String selectedItem = "Devyatkino";
     private String lastChangesInfo = "No changes ... ";
-    private Station selectedItemStation = dataManager.getStations().get(0);
+    private StationDTO selectedItemStation = dataManager.getStations().get(0);
 
     public List<TimeSchedule> getSchedules() { return schedules; }
     public void setSchedules(List<TimeSchedule> schedules) { this.schedules = schedules; }
@@ -41,8 +41,8 @@ public class TimeScheduleBean {
         updateSelectedItemStation(selectedItem);
     }
 
-    public Station getSelectedItemStation() { return selectedItemStation; }
-    public void setSelectedItemStation(Station selectedItemStation) { this.selectedItemStation = selectedItemStation; }
+    public StationDTO getSelectedItemStation() { return selectedItemStation; }
+    public void setSelectedItemStation(StationDTO selectedItemStation) { this.selectedItemStation = selectedItemStation; }
 
     public String getLastChangesInfo() { return lastChangesInfo; }
     public void setLastChangesInfo(String lastChangesInfo) { this.lastChangesInfo = lastChangesInfo; }
